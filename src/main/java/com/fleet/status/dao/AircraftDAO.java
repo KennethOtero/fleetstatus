@@ -2,9 +2,9 @@ package com.fleet.status.dao;
 
 import com.fleet.status.dto.Aircraft;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository("AircraftDAO")
 public class AircraftDAO {
 
     @Autowired

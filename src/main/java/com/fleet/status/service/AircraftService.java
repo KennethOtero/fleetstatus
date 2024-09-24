@@ -48,7 +48,7 @@ public class AircraftService implements IAircraftService {
 
     @Override
     public Aircraft fetchById(int id) {
-        return outOfServiceAircraft.get(0);
+        return outOfServiceAircraft.get(id);
     }
 
     @Override
