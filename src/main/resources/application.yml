@@ -1,7 +1,7 @@
 spring:
     application:
         name: Fleet Status
-    profile:
+    profiles:
         active: dev
     jpa:
         hibernate:
