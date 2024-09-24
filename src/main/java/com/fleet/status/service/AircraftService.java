@@ -3,12 +3,14 @@ package com.fleet.status.service;
 import com.fleet.status.dao.AircraftDAO;
 import com.fleet.status.dto.Aircraft;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Profile("dev")
 public class AircraftService implements IAircraftService {
 
     @Autowired
@@ -48,7 +50,7 @@ public class AircraftService implements IAircraftService {
 
     @Override
     public Aircraft fetchById(int id) {
-        return outOfServiceAircraft.get(0);
+        return outOfServiceAircraft.get(id);
     }
 
     @Override

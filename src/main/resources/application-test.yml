@@ -1,0 +1,9 @@
+# Test environment specific properties if needed:
+# ===============================================
+
+spring:
+  autoconfigure:
+    exclude:
+      # Disable database connectivity
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

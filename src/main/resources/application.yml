@@ -1,10 +1,15 @@
 spring:
     application:
         name: Fleet Status
+    profiles:
+        active: dev
     jpa:
         hibernate:
             ddl-auto: create
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQLDialect
     datasource:
         url: jdbc:mysql://localhost:3306/dhl_fleetstatus
-        username: root
+        username: admin
         password: P@$$w0rd2!

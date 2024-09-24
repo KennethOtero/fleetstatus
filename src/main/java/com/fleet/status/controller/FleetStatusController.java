@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fleet.status.service.AircraftService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fleet.status.dto.Aircraft;
 
 @Controller
+@Profile("dev")
 public class FleetStatusController {
 
     @Autowired
