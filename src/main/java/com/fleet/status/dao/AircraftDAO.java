@@ -2,16 +2,18 @@ package com.fleet.status.dao;
 
 import com.fleet.status.dto.Aircraft;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-@Repository("AircraftDAO")
-public class AircraftDAO {
+@Repository
+@Profile("dev")
+public class AircraftDAO implements IAircraftDAO {
 
     @Autowired
-    private FleetStatusRepository fleetStatusRepository;
+    private AircraftRepository aircraftRepository;
 
     public boolean save(Aircraft aircraft) throws Exception {
-        fleetStatusRepository.save(aircraft);
+        aircraftRepository.save(aircraft);
         return false;
     }
 
