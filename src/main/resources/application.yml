@@ -1,0 +1,10 @@
+spring:
+    application:
+        name: Fleet Status
+    jpa:
+        hibernate:
+            ddl-auto: create
+    datasource:
+        url: jdbc:mysql://localhost:3306/dhl_fleetstatus
+        username: root
+        password: P@$$w0rd2!
