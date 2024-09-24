@@ -1,3 +1,6 @@
-spring:
-  profiles:
-    active: test
+# Test environment specific properties if needed:
+# ===============================================
+
+#spring:
+#  profiles:
+#    active: test
