@@ -2,7 +2,7 @@ package com.fleet.status.controller;
 
 import java.util.List;
 
-import com.fleet.status.service.AircraftService;
+import com.fleet.status.service.impl.AircraftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -49,6 +49,17 @@ public class FleetStatusController {
         List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
         model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
         return "AircraftStatus";
+    }
+
+    @PostMapping(value = "/test", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public String testSubmit(@RequestBody Aircraft aircraft) {
+        try {
+            aircraftService.save(aircraft);
+        } catch (Exception e) {
+            return "Error: " + e;
+        }
+        return "Aircraft saved.";
     }
 
 }

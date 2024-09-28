@@ -1,4 +1,4 @@
-package com.fleet.status.dao;
+package com.fleet.status.dao.repository;
 
 import com.fleet.status.dto.Aircraft;
 import org.springframework.context.annotation.Profile;
