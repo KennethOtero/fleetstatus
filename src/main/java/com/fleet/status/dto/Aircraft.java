@@ -8,7 +8,7 @@ import lombok.Data;
 public class Aircraft {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "intAircraftId")
     private long aircraftId;
 
@@ -28,6 +28,6 @@ public class Aircraft {
     private int downTime;
 
     @ManyToOne
-    @JoinColumn(name = "carrierId", referencedColumnName = "intCarrierId")
+    @JoinColumn(name = "intCarrierId", referencedColumnName = "intCarrierId")
     private Carrier carrier;
 }

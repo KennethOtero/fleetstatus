@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name = "TCarriers")
 public class Carrier {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "intCarrierId")
     private long carrierId;
 

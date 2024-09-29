@@ -19,4 +19,9 @@ public class AircraftDAOStub implements IAircraftDAO {
     public void save(Aircraft aircraft) {
         aircraftRepository.put(aircraft.getAircraftId(), aircraft);
     }
+
+    @Override
+    public Aircraft findById(int id) {
+        return aircraftRepository.get((long) id);
+    }
 }

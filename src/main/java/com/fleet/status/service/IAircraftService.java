@@ -8,7 +8,7 @@ public interface IAircraftService {
 
     Aircraft fetchById(int id);
 
-    void save(Aircraft aircraft);
+    void save(Aircraft aircraft) throws Exception;
 
     List<Aircraft> getOutofServiceAircraft();
 }

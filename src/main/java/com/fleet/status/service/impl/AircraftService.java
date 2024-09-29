@@ -53,7 +53,7 @@ public class AircraftService implements IAircraftService {
     }
 
     @Override
-    public void save(Aircraft aircraft) {
+    public void save(Aircraft aircraft) throws Exception {
         aircraftDAO.save(aircraft);
     }
 

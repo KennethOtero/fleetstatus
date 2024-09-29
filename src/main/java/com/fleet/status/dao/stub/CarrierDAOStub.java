@@ -18,4 +18,9 @@ public class CarrierDAOStub implements ICarrierDAO {
     public void save(Carrier carrier) {
         carrierRepository.put(carrier.getCarrierId(), carrier);
     }
+
+    @Override
+    public Carrier findById(int id) {
+        return carrierRepository.get((long) id);
+    }
 }

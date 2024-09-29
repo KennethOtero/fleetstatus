@@ -43,23 +43,15 @@ public class FleetStatusController {
 
     @PostMapping(value="/SubmitEvent")
     public String submitEvent(@ModelAttribute("aircraftDTO")Aircraft aircraftDTO, Model model) {
-        aircraftService.save(aircraftDTO);
-        Aircraft blankAircraft = new Aircraft();
-        model.addAttribute("aircraftDTO", blankAircraft);
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
-        return "AircraftStatus";
-    }
-
-    @PostMapping(value = "/test", consumes = "application/json", produces = "application/json")
-    @ResponseBody
-    public String testSubmit(@RequestBody Aircraft aircraft) {
         try {
-            aircraftService.save(aircraft);
+            aircraftService.save(aircraftDTO);
+            Aircraft blankAircraft = new Aircraft();
+            model.addAttribute("aircraftDTO", blankAircraft);
+            List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
+            model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
+            return "AircraftStatus";
         } catch (Exception e) {
-            return "Error: " + e;
+            throw new RuntimeException(e);
         }
-        return "Aircraft saved.";
     }
-
 }
