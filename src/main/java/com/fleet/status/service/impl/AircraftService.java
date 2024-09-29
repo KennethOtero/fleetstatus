@@ -1,7 +1,8 @@
-package com.fleet.status.service;
+package com.fleet.status.service.impl;
 
-import com.fleet.status.dao.AircraftDAO;
+import com.fleet.status.dao.impl.AircraftDAO;
 import com.fleet.status.dto.Aircraft;
+import com.fleet.status.service.IAircraftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,9 @@ public class AircraftService implements IAircraftService {
     @Autowired
     private AircraftDAO aircraftDAO;
 
-    private List<Aircraft> outOfServiceAircraft;
+    private final List<Aircraft> outOfServiceAircraft = new ArrayList<>();
 
     public AircraftService() {
-        outOfServiceAircraft = new ArrayList<Aircraft>();
-
         Aircraft aircraftDTO = new Aircraft();
         aircraftDTO.setAircraftId(12);
         aircraftDTO.setTailNumber("N767AX");
@@ -34,7 +33,7 @@ public class AircraftService implements IAircraftService {
         aircraftDTO2.setReason("MAINTENANCE");
         aircraftDTO2.setRemark("#1 Generator inop");
         aircraftDTO2.setNextUpdate("15:00z");
-        aircraftDTO2.setBackInService(true);
+        aircraftDTO2.setBackInService(1);
 
         Aircraft aircraftDTO3 = new Aircraft();
         aircraftDTO3.setAircraftId(10);
@@ -54,8 +53,8 @@ public class AircraftService implements IAircraftService {
     }
 
     @Override
-    public void save(Aircraft aircraft) {
-        outOfServiceAircraft.add(aircraft);
+    public void save(Aircraft aircraft) throws Exception {
+        aircraftDAO.save(aircraft);
     }
 
     @Override

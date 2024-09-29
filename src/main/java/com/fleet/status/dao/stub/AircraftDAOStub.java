@@ -13,11 +13,15 @@ import java.util.Map;
 public class AircraftDAOStub implements IAircraftDAO {
 
     // Store data locally for CircleCI
-    Map<Integer, Aircraft> aircraftRepository = new HashMap<>();
+    Map<Long, Aircraft> aircraftRepository = new HashMap<>();
 
     @Override
-    public boolean save(Aircraft aircraft) throws Exception {
+    public void save(Aircraft aircraft) {
         aircraftRepository.put(aircraft.getAircraftId(), aircraft);
-        return false;
+    }
+
+    @Override
+    public Aircraft findById(int id) {
+        return aircraftRepository.get((long) id);
     }
 }
