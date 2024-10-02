@@ -66,7 +66,11 @@ FOREIGN KEY (intCarrierId) REFERENCES TCarriers (intCarrierId)
 INSERT INTO TCarriers	(strCarrier)
 VALUES					('Cargojet'),
 						('Mesa Airlines'),
-						('Ameriflight')
+						('Ameriflight'),
+						('ABX Air'),
+						('Atlas Air'),
+						('Swift Air'),
+						('Kalitta Air')
 
 INSERT INTO TAircraft	(strStatus, strTailNumber, strReason, strRemark, strNextUpdate, blnBackInService, intCarrierId)
 VALUES					('', 'N767AX', 'DAMAGED', 'Bird strike to the #1 engine', '13:21z', 0, 1),
