@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +30,7 @@ public class AircraftDAO implements IAircraftDAO {
 
     public void save(Aircraft aircraft) throws Exception {
         aircraftRepository.save(aircraft);
+        log.info("Saving new aircraft.");
     }
 
     @Override
@@ -141,6 +141,7 @@ public class AircraftDAO implements IAircraftDAO {
             query.registerStoredProcedureParameter("intAircraftId", Integer.class, ParameterMode.IN);
             query.setParameter("intAircraftId", aircraftId);
             query.execute();
+            log.info("Deleted aircraft with ID {}", aircraftId);
         } catch (Exception e) {
             log.error("An error occurred while deleting aircraft: ", e);
             throw new RuntimeException(e);
