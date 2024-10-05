@@ -167,7 +167,8 @@ AS
 
 BEGIN
 
-SELECT * 
+SELECT 
+	TA.*
 FROM TAircraft as TA JOIN TCarriers as TC
 	ON TA.intCarrierId = TC.intCarrierId
 WHERE
@@ -186,7 +187,8 @@ AS
 
 BEGIN
 
-SELECT * 
+SELECT 
+	TA.* 
 FROM TAircraft as TA JOIN TCarriers as TC
 	ON TA.intCarrierId = TC.intCarrierId
 WHERE
@@ -206,7 +208,8 @@ AS
 
 BEGIN
 
-SELECT * 
+SELECT 
+	TA.* 
 FROM TAircraft as TA JOIN TCarriers as TC
 	ON TA.intCarrierId = TC.intCarrierId
 WHERE

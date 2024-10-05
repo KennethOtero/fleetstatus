@@ -12,7 +12,7 @@ public class Carrier {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "intCarrierId")
-    private long carrierId;
+    private Long carrierId;
 
     @Column(name = "strCarrier")
     private String carrierName;

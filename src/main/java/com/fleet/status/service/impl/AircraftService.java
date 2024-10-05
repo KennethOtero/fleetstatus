@@ -21,14 +21,14 @@ public class AircraftService implements IAircraftService {
 
     public AircraftService() {
         Aircraft aircraftDTO = new Aircraft();
-        aircraftDTO.setAircraftId(12);
+        aircraftDTO.setAircraftId(12L);
         aircraftDTO.setTailNumber("N767AX");
         aircraftDTO.setReason("DAMAGED");
         aircraftDTO.setRemark("Bird strike to the #1 engine");
         aircraftDTO.setNextUpdate("13:21z");
 
         Aircraft aircraftDTO2 = new Aircraft();
-        aircraftDTO2.setAircraftId(10);
+        aircraftDTO2.setAircraftId(10L);
         aircraftDTO2.setTailNumber("N650GT");
         aircraftDTO2.setReason("MAINTENANCE");
         aircraftDTO2.setRemark("#1 Generator inop");
@@ -36,7 +36,7 @@ public class AircraftService implements IAircraftService {
         aircraftDTO2.setBackInService(1);
 
         Aircraft aircraftDTO3 = new Aircraft();
-        aircraftDTO3.setAircraftId(10);
+        aircraftDTO3.setAircraftId(10L);
         aircraftDTO3.setTailNumber("N762CK");
         aircraftDTO3.setReason("AOG");
         aircraftDTO3.setRemark("Awaiting replacement FMC and required engineering order from Boeing");
@@ -60,5 +60,10 @@ public class AircraftService implements IAircraftService {
     @Override
     public List<Aircraft> getOutofServiceAircraft() {
         return outOfServiceAircraft;
+    }
+
+    @Override
+    public List<Aircraft> getAllAircraft() {
+        return aircraftDAO.getAllAircraft();
     }
 }

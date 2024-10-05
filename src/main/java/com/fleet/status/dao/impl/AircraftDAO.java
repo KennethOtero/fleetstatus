@@ -1,26 +1,30 @@
 package com.fleet.status.dao.impl;
 
-import com.fleet.status.dao.ICarrierDAO;
 import com.fleet.status.dao.repository.AircraftRepository;
 import com.fleet.status.dao.IAircraftDAO;
 import com.fleet.status.dto.Aircraft;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Profile("dev")
 @Slf4j
+@RequiredArgsConstructor
 public class AircraftDAO implements IAircraftDAO {
 
     @Autowired
     private AircraftRepository aircraftRepository;
 
     @Autowired
-    private ICarrierDAO carrierDAO;
+    private EntityManager entityManager;
 
     public void save(Aircraft aircraft) throws Exception {
         aircraftRepository.save(aircraft);
@@ -39,6 +43,42 @@ public class AircraftDAO implements IAircraftDAO {
         } catch (Exception e) {
             log.error("An error occurred while fetching aircraft: ", e);
             return null;
+        }
+    }
+
+    @Override
+    public List<Aircraft> getAllAircraft() {
+        try {
+            String query = "SELECT * FROM vAllAircraft";
+            Query allAircraft = entityManager.createNativeQuery(query, Aircraft.class);
+            return allAircraft.getResultList();
+        } catch (Exception e) {
+            log.error("An error occurred while selecting all aircraft: ", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Aircraft> getOutOfServiceAircraft() {
+        try {
+            String query = "SELECT * FROM vOutOfServiceAircraft";
+            Query allAircraft = entityManager.createNativeQuery(query, Aircraft.class);
+            return allAircraft.getResultList();
+        } catch (Exception e) {
+            log.error("An error occurred while selecting all out of service aircraft: ", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Aircraft> getInServiceAircraft() {
+        try {
+            String query = "SELECT * FROM vInServiceAircraft";
+            Query allAircraft = entityManager.createNativeQuery(query, Aircraft.class);
+            return allAircraft.getResultList();
+        } catch (Exception e) {
+            log.error("An error occurred while selecting all in service aircraft: ", e);
+            throw new RuntimeException(e);
         }
     }
 

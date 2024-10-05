@@ -11,4 +11,6 @@ public interface IAircraftService {
     void save(Aircraft aircraft) throws Exception;
 
     List<Aircraft> getOutofServiceAircraft();
+
+    List<Aircraft> getAllAircraft();
 }
