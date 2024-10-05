@@ -35,4 +35,9 @@ public class AircraftDAOStub implements IAircraftDAO {
     public List<Aircraft> getOutOfServiceAircraft() {
         return List.of();
     }
+
+    @Override
+    public List<Aircraft> getInServiceAircraft() {
+        return List.of();
+    }
 }
