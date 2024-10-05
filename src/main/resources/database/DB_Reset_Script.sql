@@ -29,9 +29,11 @@ IF OBJECT_ID('vInServiceAircraft')		IS NOT NULL DROP VIEW vInServiceAircraft;
 -- -------------------------------------------------------------------------
 -- Drop Stored Procedures
 -- -------------------------------------------------------------------------
-IF OBJECT_ID('uspShowCarrierAircraft')		IS NOT NULL DROP PROCEDURE uspShowCarrierAircraft;
-IF OBJECT_ID('uspShowCarrierAircraftOOS')	IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftOOS;
-IF OBJECT_ID('uspShowCarrierAircraftIS')	IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftIS;
+IF OBJECT_ID('uspShowCarrierAircraft')			IS NOT NULL DROP PROCEDURE uspShowCarrierAircraft;
+IF OBJECT_ID('uspShowCarrierAircraftOOS')		IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftOOS;
+IF OBJECT_ID('uspShowCarrierAircraftIS')		IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftIS;
+IF OBJECT_ID('uspUpdateAircraftServiceStatus')	IS NOT NULL DROP PROCEDURE uspUpdateAircraftServiceStatus;
+IF OBJECT_ID('uspDeleteAircraft')				IS NOT NULL DROP PROCEDURE uspDeleteAircraft;
 
 -- -------------------------------------------------------------------------
 -- Create Tables
@@ -215,6 +217,46 @@ FROM TAircraft as TA JOIN TCarriers as TC
 WHERE
 	TC.intCarrierId = @intCarrierId
 	AND TA.blnBackInService = 1
+
+END;
+
+GO
+
+-- Stored procedure to update an aircraft
+GO
+
+CREATE PROCEDURE uspUpdateAircraftServiceStatus
+	@intAircraftId		AS INTEGER,
+	@blnBackInService	AS INTEGER
+AS
+
+BEGIN
+
+-- Update the service status
+UPDATE 
+	TAircraft
+SET 
+	blnBackInService = @blnBackInService
+WHERE 
+	intAircraftId = @intAircraftId
+
+-- Return the aircraft
+SELECT * FROM TAircraft WHERE intAircraftId = @intAircraftId
+
+END;
+
+GO
+
+-- Stored procedure to remove an aircraft
+GO
+
+CREATE PROCEDURE uspDeleteAircraft
+	@intAircraftId		AS INTEGER
+AS
+
+BEGIN
+
+DELETE FROM TAircraft WHERE intAircraftId = @intAircraftId
 
 END;
 

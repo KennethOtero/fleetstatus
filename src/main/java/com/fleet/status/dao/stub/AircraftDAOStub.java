@@ -55,4 +55,14 @@ public class AircraftDAOStub implements IAircraftDAO {
     public List<Aircraft> getAllAircraftFromCarrierIS(int carrierId) {
         return List.of();
     }
+
+    @Override
+    public Aircraft updateAircraftServiceStatus(int aircraftId, int backInService) {
+        return null;
+    }
+
+    @Override
+    public void deleteAircraft(int aircraftId) {
+
+    }
 }

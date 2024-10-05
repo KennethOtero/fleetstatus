@@ -60,4 +60,14 @@ public class AircraftService implements IAircraftService {
     public List<Aircraft> getAllAircraftFromCarrierIS(int carrierId) {
         return aircraftDAO.getAllAircraftFromCarrierIS(carrierId);
     }
+
+    @Override
+    public Aircraft updateAircraftServiceStatus(int aircraftId, int backInService) {
+        return aircraftDAO.updateAircraftServiceStatus(aircraftId, backInService);
+    }
+
+    @Override
+    public void deleteAircraft(int aircraftId) {
+        aircraftDAO.deleteAircraft(aircraftId);
+    }
 }

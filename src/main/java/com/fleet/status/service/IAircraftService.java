@@ -23,4 +23,8 @@ public interface IAircraftService {
     List<Aircraft> getAllAircraftFromCarrierOOS(int carrierId);
 
     List<Aircraft> getAllAircraftFromCarrierIS(int carrierId);
+
+    Aircraft updateAircraftServiceStatus(int aircraftId, int backInService);
+
+    void deleteAircraft(int aircraftId);
 }
