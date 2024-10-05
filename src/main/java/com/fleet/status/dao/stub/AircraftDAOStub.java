@@ -40,4 +40,9 @@ public class AircraftDAOStub implements IAircraftDAO {
     public List<Aircraft> getInServiceAircraft() {
         return List.of();
     }
+
+    @Override
+    public List<Aircraft> getAllAircraftFromCarrier(int carrierId) {
+        return List.of();
+    }
 }

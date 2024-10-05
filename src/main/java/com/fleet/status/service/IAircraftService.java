@@ -13,4 +13,10 @@ public interface IAircraftService {
     List<Aircraft> getOutofServiceAircraft();
 
     List<Aircraft> getAllAircraft();
+
+    List<Aircraft> getOutOfServiceAircraft();
+
+    List<Aircraft> getInServiceAircraft();
+
+    List<Aircraft> getAllAircraftFromCarrier(int carrierId);
 }

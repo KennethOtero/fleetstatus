@@ -82,4 +82,16 @@ public class AircraftDAO implements IAircraftDAO {
         }
     }
 
+    @Override
+    public List<Aircraft> getAllAircraftFromCarrier(int carrierId) {
+        try {
+            String query = "EXEC uspShowCarrierAircraft @intCarrierId = " + carrierId;
+            Query allAircraft = entityManager.createNativeQuery(query, Aircraft.class);
+            return allAircraft.getResultList();
+        } catch (Exception e) {
+            log.error("An error occurred while selecting aircraft from carrier with ID {}: ", carrierId, e);
+            throw new RuntimeException(e);
+        }
+    }
+
 }
