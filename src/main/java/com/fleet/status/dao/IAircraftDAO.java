@@ -16,4 +16,8 @@ public interface IAircraftDAO {
     List<Aircraft> getInServiceAircraft();
 
     List<Aircraft> getAllAircraftFromCarrier(int carrierId);
+
+    List<Aircraft> getAllAircraftFromCarrierOOS(int carrierId);
+
+    List<Aircraft> getAllAircraftFromCarrierIS(int carrierId);
 }

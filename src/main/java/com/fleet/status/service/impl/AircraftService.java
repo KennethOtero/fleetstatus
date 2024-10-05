@@ -50,4 +50,14 @@ public class AircraftService implements IAircraftService {
     public List<Aircraft> getAllAircraftFromCarrier(int carrierId) {
         return aircraftDAO.getAllAircraftFromCarrier(carrierId);
     }
+
+    @Override
+    public List<Aircraft> getAllAircraftFromCarrierOOS(int carrierId) {
+        return aircraftDAO.getAllAircraftFromCarrierOOS(carrierId);
+    }
+
+    @Override
+    public List<Aircraft> getAllAircraftFromCarrierIS(int carrierId) {
+        return aircraftDAO.getAllAircraftFromCarrierIS(carrierId);
+    }
 }
