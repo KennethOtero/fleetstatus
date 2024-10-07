@@ -10,7 +10,7 @@ public class Aircraft {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "intAircraftId")
-    private long aircraftId;
+    private Long aircraftId;
 
     @Column(name = "strStatus")
     private String status;
@@ -23,9 +23,9 @@ public class Aircraft {
     @Column(name = "strRemark")
     private String remark;
     @Column(name = "blnBackInService")
-    private int backInService;
+    private Integer backInService;
     @Column(name = "intDownTime")
-    private int downTime;
+    private Integer downTime;
 
     @ManyToOne
     @JoinColumn(name = "intCarrierId", referencedColumnName = "intCarrierId")

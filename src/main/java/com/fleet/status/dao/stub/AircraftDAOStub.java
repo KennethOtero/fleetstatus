@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -23,5 +24,45 @@ public class AircraftDAOStub implements IAircraftDAO {
     @Override
     public Aircraft findById(int id) {
         return aircraftRepository.get((long) id);
+    }
+
+    @Override
+    public List<Aircraft> getAllAircraft() {
+        return List.of();
+    }
+
+    @Override
+    public List<Aircraft> getOutOfServiceAircraft() {
+        return List.of();
+    }
+
+    @Override
+    public List<Aircraft> getInServiceAircraft() {
+        return List.of();
+    }
+
+    @Override
+    public List<Aircraft> getAllAircraftFromCarrier(int carrierId) {
+        return List.of();
+    }
+
+    @Override
+    public List<Aircraft> getAllAircraftFromCarrierOOS(int carrierId) {
+        return List.of();
+    }
+
+    @Override
+    public List<Aircraft> getAllAircraftFromCarrierIS(int carrierId) {
+        return List.of();
+    }
+
+    @Override
+    public Aircraft updateAircraftServiceStatus(int aircraftId, int backInService) {
+        return null;
+    }
+
+    @Override
+    public void deleteAircraft(int aircraftId) {
+
     }
 }
