@@ -75,15 +75,25 @@ public class AircraftService implements IAircraftService {
     }
 
     @Override
-    public String calculateDownTime(String startTime, String endTime) {
+    public long calculateDownTime(String startTime, String endTime) {
+        // SQL may return decimal point after seconds. Remove if needed.
+        if (startTime.contains(".")) {
+            int period = startTime.indexOf(".");
+            startTime = startTime.substring(0, period);
+        }
+
+        if (endTime.contains(".")) {
+            int period = endTime.indexOf(".");
+            endTime = endTime.substring(0, period);
+        }
+
         String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-        LocalDateTime now = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
+        LocalDateTime start = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
         LocalDateTime end = LocalDateTime.parse(endTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
 
-        Duration duration = Duration.between(now, end);
-        long difference = Math.abs(duration.toHours());
+        Duration duration = Duration.between(start, end);
 
-        return difference + " hours";
+        return Math.abs(duration.toHours());
     }
 }

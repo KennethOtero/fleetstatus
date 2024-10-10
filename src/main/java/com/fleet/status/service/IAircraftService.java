@@ -28,5 +28,5 @@ public interface IAircraftService {
 
     void deleteAircraft(int aircraftId);
 
-    String calculateDownTime(String startTime, String endTime);
+    long calculateDownTime(String startTime, String endTime);
 }

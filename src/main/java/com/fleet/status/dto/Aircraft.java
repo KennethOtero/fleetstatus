@@ -24,8 +24,10 @@ public class Aircraft {
     private String remark;
     @Column(name = "blnBackInService")
     private Integer backInService;
-    @Column(name = "intDownTime")
-    private Integer downTime;
+    @Column(name = "dtmStartTime")
+    private String startTime;
+    @Column(name = "dtmEndTime")
+    private String endTime;
 
     @ManyToOne
     @JoinColumn(name = "intCarrierId", referencedColumnName = "intCarrierId")
