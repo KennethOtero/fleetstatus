@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -69,5 +72,18 @@ public class AircraftService implements IAircraftService {
     @Override
     public void deleteAircraft(int aircraftId) {
         aircraftDAO.deleteAircraft(aircraftId);
+    }
+
+    @Override
+    public String calculateDownTime(String startTime, String endTime) {
+        String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+        LocalDateTime now = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
+        LocalDateTime end = LocalDateTime.parse(endTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
+
+        Duration duration = Duration.between(now, end);
+        long difference = Math.abs(duration.toHours());
+
+        return difference + " hours";
     }
 }
