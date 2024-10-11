@@ -27,4 +27,6 @@ public interface IAircraftService {
     Aircraft updateAircraftServiceStatus(int aircraftId, int backInService);
 
     void deleteAircraft(int aircraftId);
+
+    long calculateDownTime(String startTime, String endTime);
 }

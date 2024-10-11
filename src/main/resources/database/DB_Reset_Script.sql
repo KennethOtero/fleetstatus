@@ -54,7 +54,8 @@ CREATE TABLE TAircraft
 	strNextUpdate		NVARCHAR(250)		NOT NULL,
 	strRemark			NVARCHAR(250)		NOT NULL,
 	blnBackInService	INTEGER				NOT NULL,
-	intDownTime			INTEGER				,
+	dtmStartTime		DATETIME			,
+	dtmEndTime			DATETIME			,
 	intCarrierId		INTEGER				NOT NULL,
 	CONSTRAINT TAircraft_PK PRIMARY KEY (intAircraftId)
 );
@@ -116,10 +117,10 @@ VALUES					('Cargojet'),
 						('Swift Air'),
 						('Kalitta Air')
 
-INSERT INTO TAircraft	(strStatus, strTailNumber, strReason, strRemark, strNextUpdate, blnBackInService, intCarrierId)
-VALUES					('', 'N767AX', 'DAMAGED', 'Bird strike to the #1 engine', '13:21z', 0, 1),
-						('', 'N650GT', 'MAINTENANCE', '#1 Generator inop', '15:00z', 1, 2),
-						('', 'N762CK', 'AOG', 'Awaiting replacement FMC and required engineering order from Boeing', '21:00z', 0, 3)
+INSERT INTO TAircraft	(strStatus, strTailNumber, strReason, strRemark, strNextUpdate, blnBackInService, intCarrierId, dtmStartTime, dtmEndTime)
+VALUES					('', 'N767AX', 'DAMAGED', 'Bird strike to the #1 engine', '13:21z', 0, 1, GETUTCDATE(), DATEADD(hour, 1, GETUTCDATE())),
+						('', 'N650GT', 'MAINTENANCE', '#1 Generator inop', '15:00z', 1, 2, GETUTCDATE(), DATEADD(hour, 2, GETUTCDATE())),
+						('', 'N762CK', 'AOG', 'Awaiting replacement FMC and required engineering order from Boeing', '21:00z', 0, 3, GETUTCDATE(), DATEADD(hour, 3, GETUTCDATE()))
 
 INSERT INTO TRoles		(strRole)
 VALUES					('Admin')
@@ -133,7 +134,10 @@ VALUES					(1, 1)
 -- -------------------------------------------------------------------------
 -- Create Stored Procedures, Views, and Functions
 -- -------------------------------------------------------------------------
+
+-- -------------------------------------------------------------------------
 -- View to show all aircraft
+-- -------------------------------------------------------------------------
 GO
 
 CREATE VIEW vAllAircraft
@@ -142,7 +146,9 @@ SELECT * FROM TAircraft
 
 GO
 
+-- -------------------------------------------------------------------------
 -- View to show all out of service aircraft
+-- -------------------------------------------------------------------------
 GO
 
 CREATE VIEW vOutOfServiceAircraft
@@ -151,7 +157,9 @@ SELECT * FROM TAircraft WHERE TAircraft.blnBackInService = 0
 
 GO
 
+-- -------------------------------------------------------------------------
 -- View to show all back in service aircraft
+-- -------------------------------------------------------------------------
 GO
 
 CREATE VIEW vInServiceAircraft
@@ -160,7 +168,9 @@ SELECT * FROM TAircraft WHERE TAircraft.blnBackInService = 1
 
 GO
 
+-- -------------------------------------------------------------------------
 -- Stored procedure to show all aircraft from a specific carrier
+-- -------------------------------------------------------------------------
 GO
 
 CREATE PROCEDURE uspShowCarrierAircraft
@@ -180,7 +190,9 @@ END;
 
 GO
 
+-- -------------------------------------------------------------------------
 -- Stored procedure to show all aircraft from a specific carrier that is out of service
+-- -------------------------------------------------------------------------
 GO
 
 CREATE PROCEDURE uspShowCarrierAircraftOOS
@@ -201,7 +213,9 @@ END;
 
 GO
 
+-- -------------------------------------------------------------------------
 -- Stored procedure to show all aircraft from a specific carrier that is in service
+-- -------------------------------------------------------------------------
 GO
 
 CREATE PROCEDURE uspShowCarrierAircraftIS
@@ -222,7 +236,9 @@ END;
 
 GO
 
+-- -------------------------------------------------------------------------
 -- Stored procedure to update an aircraft
+-- -------------------------------------------------------------------------
 GO
 
 CREATE PROCEDURE uspUpdateAircraftServiceStatus
@@ -232,22 +248,26 @@ AS
 
 BEGIN
 
--- Update the service status
+-- Update the service status and end time
 UPDATE 
 	TAircraft
 SET 
-	blnBackInService = @blnBackInService
+	blnBackInService = @blnBackInService,
+	-- Set the current UTC time as the end time
+	dtmEndTime = GETUTCDATE()
 WHERE 
 	intAircraftId = @intAircraftId
 
 -- Return the aircraft
-SELECT * FROM TAircraft WHERE intAircraftId = @intAircraftId
+SELECT * FROM TAircraft WHERE intAircraftId = @intAircraftId;
 
 END;
 
 GO
 
+-- -------------------------------------------------------------------------
 -- Stored procedure to remove an aircraft
+-- -------------------------------------------------------------------------
 GO
 
 CREATE PROCEDURE uspDeleteAircraft
