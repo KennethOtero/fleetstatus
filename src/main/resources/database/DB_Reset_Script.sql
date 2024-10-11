@@ -117,10 +117,10 @@ VALUES					('Cargojet'),
 						('Swift Air'),
 						('Kalitta Air')
 
-INSERT INTO TAircraft	(strStatus, strTailNumber, strReason, strRemark, strNextUpdate, blnBackInService, intCarrierId)
-VALUES					('', 'N767AX', 'DAMAGED', 'Bird strike to the #1 engine', '13:21z', 0, 1),
-						('', 'N650GT', 'MAINTENANCE', '#1 Generator inop', '15:00z', 1, 2),
-						('', 'N762CK', 'AOG', 'Awaiting replacement FMC and required engineering order from Boeing', '21:00z', 0, 3)
+INSERT INTO TAircraft	(strStatus, strTailNumber, strReason, strRemark, strNextUpdate, blnBackInService, intCarrierId, dtmStartTime, dtmEndTime)
+VALUES					('', 'N767AX', 'DAMAGED', 'Bird strike to the #1 engine', '13:21z', 0, 1, GETUTCDATE(), DATEADD(hour, 1, GETUTCDATE())),
+						('', 'N650GT', 'MAINTENANCE', '#1 Generator inop', '15:00z', 1, 2, GETUTCDATE(), DATEADD(hour, 2, GETUTCDATE())),
+						('', 'N762CK', 'AOG', 'Awaiting replacement FMC and required engineering order from Boeing', '21:00z', 0, 3, GETUTCDATE(), DATEADD(hour, 3, GETUTCDATE()))
 
 INSERT INTO TRoles		(strRole)
 VALUES					('Admin')

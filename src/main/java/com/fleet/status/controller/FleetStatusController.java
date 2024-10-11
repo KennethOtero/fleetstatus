@@ -54,4 +54,12 @@ public class FleetStatusController {
             throw new RuntimeException(e);
         }
     }
+
+    @PostMapping(value = "/calcDowntime", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public String calcDowntime(@RequestBody int aircraftId) {
+        Aircraft aircraft = aircraftService.fetchById(aircraftId);
+        long hours = aircraftService.calculateDownTime(aircraft.getStartTime(), aircraft.getEndTime());
+        return hours + " hour(s).";
+    }
 }
