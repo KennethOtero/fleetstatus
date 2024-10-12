@@ -41,7 +41,7 @@
   
   <div class="container"> 
   	<div class="row">  		
-		  	<div class="col-4" th:each="aircraftDTO: ${outOfServiceAircraft}">
+		  	<div class="col-4" th:each="aircraftDTO: ${allAircraft}">
 		  	<div class="card text-white bg-dark mb-3">
 			  <img th:if="${aircraftDTO.backInService}" class="card-img-top" src="/images/GreenAircraft.png" alt="aircraft status image">
 			  <img th:unless="${aircraftDTO.backInService}" class="card-img-top" src="/images/redAircraft.png" alt="aircraft status image">

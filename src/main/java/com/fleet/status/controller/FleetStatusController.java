@@ -18,17 +18,10 @@ public class FleetStatusController {
     @Autowired
     private AircraftService aircraftService;
 
-    @GetMapping("/")
-    public String index(Model model) {
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
-        return "start";
-    }
-
-    @GetMapping("/start")
+    @GetMapping({"/", "/start"})
     public String read(Model model) {
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
+        List<Aircraft> allAircraft = aircraftService.getAllAircraft();
+        model.addAttribute("allAircraft", allAircraft);
         return "start";
     }
 
