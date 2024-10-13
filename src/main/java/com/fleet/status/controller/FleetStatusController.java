@@ -18,17 +18,10 @@ public class FleetStatusController {
     @Autowired
     private AircraftService aircraftService;
 
-    @GetMapping("/")
-    public String index(Model model) {
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
-        return "start";
-    }
-
-    @GetMapping("/start")
+    @GetMapping({"/", "/start"})
     public String read(Model model) {
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
+        List<Aircraft> allAircraft = aircraftService.getAllAircraft();
+        model.addAttribute("allAircraft", allAircraft);
         return "start";
     }
 
@@ -59,6 +52,10 @@ public class FleetStatusController {
     @ResponseBody
     public String calcDowntime(@RequestBody int aircraftId) {
         Aircraft aircraft = aircraftService.fetchById(aircraftId);
+
+        if (aircraft.getEndTime() == null || aircraft.getStartTime() == null) {
+            return "Down time is not available";
+        }
         long hours = aircraftService.calculateDownTime(aircraft.getStartTime(), aircraft.getEndTime());
         return hours + " hour(s).";
     }

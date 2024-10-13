@@ -24,3 +24,10 @@ spring:
         url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
         username: sa
         password: password
+
+server:
+    error:
+        whitelabel:
+            enabled: false  # avoid Whitelabel Error Page
+        path: /error       # path to customised error page
+        include-message: always

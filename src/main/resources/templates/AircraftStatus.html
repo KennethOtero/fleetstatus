@@ -28,7 +28,7 @@
       <ul class="list_load">
         <li class="list_item"><a href="\start">Fleet Overview</a></li>
         <li class="list_item"><a href="\AircraftStatus">Aircraft Status</a></li>
-        <li class="list_item"><a href="C:\Users\falco\Documents\Enterprise App Development\FleetStatusReport/Delay.html">Carrier Delays</a></li>
+        <li class="list_item"><a href="\Delay.html">Carrier Delays</a></li>
       </ul>
       <div class="spacer_box"><p></p></div>
     </div>
@@ -39,7 +39,7 @@
       <form action="#" th:action="@{/SubmitEvent}" method="post" th:object="${aircraftDTO}">
       <div class="row" id="addAircraftForm">        
           <div class="col">
-            <select class="form-select lg-mb-3" id="inlineFormCustomSelect" th:field="*{tailNumber}">
+            <select class="form-select lg-mb-3" id="tailNumberSelect" th:field="*{tailNumber}">
               <option th:value="0" selected>Select Tail...</option>
               <option th:value="650GT">650GT</option>
               <option th:value="651GT">651GT</option>
@@ -47,7 +47,7 @@
             </select>
           </div>          
           <div class="col">
-              <select class="form-select lg-mb-3" id="inlineFormCustomSelect" th:field="*{reason}">
+              <select class="form-select lg-mb-3" id="reasonSelect" th:field="*{reason}">
                 <option th:value="0" selected>Reason...</option>
                 <option th:value="Maintenance">Maintenance</option>
                 <option th:value="AOG">AOG</option>
@@ -91,7 +91,7 @@
         </div>
       </div>
 
-      <table class="table" id="tableStyle">
+      <table class="table" id="tableDisplay">
         <thead>
           <tr class="text-white bg-dark">
             <th scope="col">Status</th>
@@ -103,7 +103,7 @@
             <th scope="col">Down Time</th>
           </tr>
         </thead>
-        <tbody id="tableStyle">
+        <tbody id="statusDisplay">
           <tr class="text-white bg-dark" th:each="aircraftDTO: ${outOfServiceAircraft}">
 			<td>
 	          	<img th:if="${aircraftDTO.backInService}" src="/images/SmallGreenAircraft.png" alt="aircraft status image">
@@ -114,7 +114,7 @@
             <td th:text="${aircraftDTO.nextUpdate}"></td>
             <td th:text="${aircraftDTO.remark}"></td>
             <td><input type="checkbox" id="isFixed" name="isFixed" value="false"></td>
-            <td>23 Min</td>
+              <td th:id="'downtime-' + ${aircraftDTO.aircraftId}">Loading...</td>
           </tr>          
         </tbody>
       </table>    
@@ -127,6 +127,6 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="/js/SideMenu.js" rel="script"></script>
-    
+  <script src="/js/Downtime.js" rel="script"></script>
 </body>
 </html>
