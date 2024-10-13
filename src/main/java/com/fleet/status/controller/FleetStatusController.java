@@ -52,6 +52,10 @@ public class FleetStatusController {
     @ResponseBody
     public String calcDowntime(@RequestBody int aircraftId) {
         Aircraft aircraft = aircraftService.fetchById(aircraftId);
+
+        if (aircraft.getEndTime() == null || aircraft.getStartTime() == null) {
+            return "Down time is not available";
+        }
         long hours = aircraftService.calculateDownTime(aircraft.getStartTime(), aircraft.getEndTime());
         return hours + " hour(s).";
     }
