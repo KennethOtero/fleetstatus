@@ -114,7 +114,7 @@
             <td th:text="${aircraftDTO.nextUpdate}"></td>
             <td th:text="${aircraftDTO.remark}"></td>
             <td><input type="checkbox" id="isFixed" name="isFixed" value="false"></td>
-            <td>23 Min</td>
+              <td th:id="'downtime-' + ${aircraftDTO.aircraftId}">Loading...</td>
           </tr>          
         </tbody>
       </table>    
@@ -127,6 +127,6 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="/js/SideMenu.js" rel="script"></script>
-    
+  <script src="/js/Downtime.js" rel="script"></script>
 </body>
 </html>
