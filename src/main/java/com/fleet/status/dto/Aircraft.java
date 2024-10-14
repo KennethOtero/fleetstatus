@@ -12,8 +12,6 @@ public class Aircraft {
     @Column(name = "intAircraftId")
     private Long aircraftId;
 
-    @Column(name = "strStatus")
-    private String status;
     @Column(name = "strTailNumber")
     private String tailNumber;
     @Column(name = "strReason")
