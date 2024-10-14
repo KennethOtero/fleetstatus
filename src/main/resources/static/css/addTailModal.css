@@ -1,0 +1,9 @@
+/* Add Tail Modal Styles */
+.addTailModal h5 {
+    color: black;
+}
+
+.addTailModal label {
+    color: black;
+    padding: 5px;
+}
