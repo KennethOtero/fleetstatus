@@ -3,6 +3,7 @@ package com.fleet.status.controller;
 import java.util.List;
 
 import com.fleet.status.service.impl.AircraftService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import com.fleet.status.dto.Aircraft;
 
 @Controller
 @Profile("dev")
+@Slf4j
 public class FleetStatusController {
 
     @Autowired
@@ -34,17 +36,16 @@ public class FleetStatusController {
         return "AircraftStatus";
     }
 
-    @PostMapping(value="/SubmitEvent")
-    public String submitEvent(@ModelAttribute("aircraftDTO")Aircraft aircraftDTO, Model model) {
+    @PostMapping(value="/addAircraft", produces = "application/json")
+    @ResponseBody
+    public String submitEvent(Aircraft aircraft) {
         try {
-            aircraftService.save(aircraftDTO);
-            Aircraft blankAircraft = new Aircraft();
-            model.addAttribute("aircraftDTO", blankAircraft);
-            List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-            model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
-            return "AircraftStatus";
+            aircraftService.save(aircraft);
+            log.info("Tail number {} saved.", aircraft.getTailNumber());
+            return "Tail number " + aircraft.getTailNumber() + " saved.";
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Failed to save tail number {}", aircraft.getTailNumber(), e);
+            return "Failed to save tail number " + aircraft.getTailNumber();
         }
     }
 
