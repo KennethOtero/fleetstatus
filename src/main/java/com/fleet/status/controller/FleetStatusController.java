@@ -6,6 +6,8 @@ import com.fleet.status.service.impl.AircraftService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,16 +38,16 @@ public class FleetStatusController {
         return "AircraftStatus";
     }
 
-    @PostMapping(value="/addAircraft", produces = "application/json")
+    @PostMapping(value="/addAircraft", consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public String submitEvent(Aircraft aircraft) {
+    public ResponseEntity<String> submitEvent(@RequestBody Aircraft aircraft) {
         try {
             aircraftService.save(aircraft);
             log.info("Tail number {} saved.", aircraft.getTailNumber());
-            return "Tail number " + aircraft.getTailNumber() + " saved.";
+            return new ResponseEntity<>("Aircraft saved.", HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("Failed to save tail number {}", aircraft.getTailNumber(), e);
-            return "Failed to save tail number " + aircraft.getTailNumber();
+            log.error("Failed to save aircraft with tail number {}", aircraft.getTailNumber(), e);
+            return new ResponseEntity<>("Failed to save aircraft.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
