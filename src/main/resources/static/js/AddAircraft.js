@@ -1,7 +1,17 @@
 // Save aircraft on button click or display errors
 function saveAircraft() {
+    // Remove old highlighted errors
+    removeErrorHighlights();
+
     if (validateAircraft()) {
         postAircraft();
+    }
+}
+
+function removeErrorHighlights() {
+    let inputs = getInputs();
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].style.removeProperty("border-color");
     }
 }
 
@@ -10,14 +20,17 @@ function validateAircraft() {
     // Get inputs
     let inputs = getInputs();
 
+    let result = true;
+
     for (let i = 0; i < inputs.length; i++) {
-        if (inputs[i].length === 0) {
+        if (inputs[i].value.trim().length === 0) {
+            inputs[i].style.borderColor = "red";
             displayResult("showAlert", "One or more fields are empty.");
-            return false;
+            result = false;
         }
     }
 
-    return true;
+    return result;
 }
 
 // Post to /addAircraft
@@ -25,15 +38,15 @@ function postAircraft() {
     let inputs = getInputs();
 
     const aircraft = {
-        tailNumber:     inputs[0],
-        reason:         inputs[1],
-        nextUpdate:     convertDateToSQL(inputs[2]),
-        remark:         inputs[3],
-        backInService:  inputs[4],
+        tailNumber:     inputs[0].value.trim(),
+        reason:         inputs[1].value.trim(),
+        nextUpdate:     convertDateToSQL(inputs[2].value.trim()),
+        remark:         inputs[3].value.trim(),
+        backInService:  inputs[4].value.trim(),
         carrier: {
-            carrierId:  inputs[5]
+            carrierId:  inputs[5].value.trim()
         },
-        startTime:      convertDateToSQL(inputs[6])
+        startTime:      convertDateToSQL(inputs[6].value.trim())
     }
 
     $.ajax({
@@ -72,13 +85,13 @@ function displayResult(alertBoxName, message) {
 function getInputs() {
     // Have to manually do it this way or else it won't add to the array
     let inputs = [];
-    let tailNumber = document.getElementById("tailNumber").value.trim();
-    let reason = document.getElementById("reason").value.trim();
-    let nextUpdate = document.getElementById("dtmNextUpdate").value.trim();
-    let remark = document.getElementById("strRemark").value.trim();
-    let serviceStatus = document.getElementById("serviceStatus").value.trim();
-    let carrier = document.getElementById("carrier").value.trim();
-    let startTime = document.getElementById("startTime").value.trim();
+    let tailNumber = document.getElementById("tailNumber");
+    let reason = document.getElementById("reason");
+    let nextUpdate = document.getElementById("dtmNextUpdate");
+    let remark = document.getElementById("strRemark");
+    let serviceStatus = document.getElementById("serviceStatus");
+    let carrier = document.getElementById("carrier");
+    let startTime = document.getElementById("startTime");
 
     inputs.push(tailNumber);
     inputs.push(reason);
