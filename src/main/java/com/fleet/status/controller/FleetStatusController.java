@@ -62,4 +62,17 @@ public class FleetStatusController {
         long hours = aircraftService.calculateDownTime(aircraft.getStartTime(), aircraft.getEndTime());
         return hours + " hour(s).";
     }
+
+    @PostMapping(value = "/removeAircraft", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<String> removeAircraft(@RequestBody int aircraftId) {
+        try {
+            aircraftService.deleteAircraft(aircraftId);
+            log.info("Removed aircraft with ID {}", aircraftId);
+            return new ResponseEntity<>("Aircraft removed.", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Failed to remove aircraft with tail number {}", aircraftId, e);
+            return new ResponseEntity<>("Failed to remove aircraft." , HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -35,11 +35,12 @@
                     </div>
                     <label for="allTails">Select Tail to Remove:</label>
                     <select id="allTails" class="form-select lg-mb-3">
-                        <option>N/A</option>
+                        <option value="0">Select Tail</option>
+                        <option value="1">N767AX</option>
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="">REMOVE</button>
+                    <button class="btn btn-primary" onclick="removeAircraft()">REMOVE</button>
                 </div>
             </div>
         </div>
@@ -129,5 +130,6 @@
     <script src="/js/SideMenu.js" rel="script"></script>
     <script src="/js/Downtime.js" rel="script"></script>
     <script src="/js/AddAircraft.js" rel="script"></script>
+    <script src="/js/RemoveAircraft.js" rel="script"></script>
 </body>
 </html>

@@ -12,7 +12,7 @@ function validateAircraft() {
 
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].length === 0) {
-            displayResult("One or more fields are empty.");
+            displayResult("showAlert", "One or more fields are empty.");
             return false;
         }
     }
@@ -48,15 +48,15 @@ function postAircraft() {
             },
             500: function() {
                 // Display error
-                displayResult("An error occurred saving the aircraft.");
+                displayResult("showAlert", "An error occurred saving the aircraft.");
             }
         }
     });
 }
 
 // Display error
-function displayResult(message) {
-    const alert = document.getElementById("showAlert");
+function displayResult(alertBoxName, message) {
+    const alert = document.getElementById(alertBoxName);
     alert.classList.remove("d-none");
     alert.innerText = message;
 
