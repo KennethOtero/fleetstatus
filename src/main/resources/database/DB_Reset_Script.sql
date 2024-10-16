@@ -48,10 +48,9 @@ CREATE TABLE TCarriers
 CREATE TABLE TAircraft
 (
 	intAircraftId		INTEGER IDENTITY	NOT NULL,
-	strStatus			NVARCHAR(250)		NOT NULL,
 	strTailNumber		NVARCHAR(250)		NOT NULL,
 	strReason			NVARCHAR(250)		NOT NULL,
-	strNextUpdate		NVARCHAR(250)		NOT NULL,
+	strNextUpdate		DATETIME			NOT NULL,
 	strRemark			NVARCHAR(250)		NOT NULL,
 	blnBackInService	INTEGER				NOT NULL,
 	dtmStartTime		DATETIME			,
@@ -117,10 +116,10 @@ VALUES					('Cargojet'),
 						('Swift Air'),
 						('Kalitta Air')
 
-INSERT INTO TAircraft	(strStatus, strTailNumber, strReason, strRemark, strNextUpdate, blnBackInService, intCarrierId, dtmStartTime, dtmEndTime)
-VALUES					('', 'N767AX', 'DAMAGED', 'Bird strike to the #1 engine', '13:21z', 0, 1, GETUTCDATE(), DATEADD(hour, 1, GETUTCDATE())),
-						('', 'N650GT', 'MAINTENANCE', '#1 Generator inop', '15:00z', 1, 2, GETUTCDATE(), DATEADD(hour, 2, GETUTCDATE())),
-						('', 'N762CK', 'AOG', 'Awaiting replacement FMC and required engineering order from Boeing', '21:00z', 0, 3, GETUTCDATE(), DATEADD(hour, 3, GETUTCDATE()))
+INSERT INTO TAircraft	(strTailNumber, strReason, strRemark, strNextUpdate, blnBackInService, intCarrierId, dtmStartTime, dtmEndTime)
+VALUES					('N767AX', 'DAMAGED', 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, 1, GETUTCDATE(), DATEADD(hour, 1, GETUTCDATE())),
+						('N650GT', 'MAINTENANCE', '#1 Generator inop', '2024-10-15 21:00:0', 1, 2, GETUTCDATE(), DATEADD(hour, 2, GETUTCDATE())),
+						('N762CK', 'AOG', 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, 3, GETUTCDATE(), DATEADD(hour, 3, GETUTCDATE()))
 
 INSERT INTO TRoles		(strRole)
 VALUES					('Admin')

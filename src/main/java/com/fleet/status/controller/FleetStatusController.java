@@ -3,8 +3,11 @@ package com.fleet.status.controller;
 import java.util.List;
 
 import com.fleet.status.service.impl.AircraftService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,7 @@ import com.fleet.status.dto.Aircraft;
 
 @Controller
 @Profile("dev")
+@Slf4j
 public class FleetStatusController {
 
     @Autowired
@@ -34,17 +38,16 @@ public class FleetStatusController {
         return "AircraftStatus";
     }
 
-    @PostMapping(value="/SubmitEvent")
-    public String submitEvent(@ModelAttribute("aircraftDTO")Aircraft aircraftDTO, Model model) {
+    @PostMapping(value="/addAircraft", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<String> submitEvent(@RequestBody Aircraft aircraft) {
         try {
-            aircraftService.save(aircraftDTO);
-            Aircraft blankAircraft = new Aircraft();
-            model.addAttribute("aircraftDTO", blankAircraft);
-            List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-            model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
-            return "AircraftStatus";
+            aircraftService.save(aircraft);
+            log.info("Tail number {} saved.", aircraft.getTailNumber());
+            return new ResponseEntity<>("Aircraft saved.", HttpStatus.CREATED);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Failed to save aircraft with tail number {}", aircraft.getTailNumber(), e);
+            return new ResponseEntity<>("Failed to save aircraft.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -58,5 +61,18 @@ public class FleetStatusController {
         }
         long hours = aircraftService.calculateDownTime(aircraft.getStartTime(), aircraft.getEndTime());
         return hours + " hour(s).";
+    }
+
+    @PostMapping(value = "/removeAircraft", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<String> removeAircraft(@RequestBody int aircraftId) {
+        try {
+            aircraftService.deleteAircraft(aircraftId);
+            log.info("Removed aircraft with ID {}", aircraftId);
+            return new ResponseEntity<>("Aircraft removed.", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Failed to remove aircraft with tail number {}", aircraftId, e);
+            return new ResponseEntity<>("Failed to remove aircraft." , HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

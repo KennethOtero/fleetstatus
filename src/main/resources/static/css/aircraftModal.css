@@ -1,0 +1,9 @@
+/* Add Tail Modal Styles */
+.aircraftModal h5 {
+    color: black;
+}
+
+.aircraftModal label {
+    color: black;
+    padding: 5px;
+}
