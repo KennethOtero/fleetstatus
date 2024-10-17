@@ -1,6 +1,8 @@
 package com.fleet.status.dto;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 
 @Entity
 @Data
@@ -17,6 +19,7 @@ public class Aircraft {
     @Column(name = "strReason")
     private String reason;
     @Column(name = "strNextUpdate")
+    @Getter(AccessLevel.NONE)
     private String nextUpdate;
     @Column(name = "strRemark")
     private String remark;
@@ -30,4 +33,10 @@ public class Aircraft {
     @ManyToOne
     @JoinColumn(name = "intCarrierId", referencedColumnName = "intCarrierId")
     private Carrier carrier;
+
+
+    public String getNextUpdate() {
+        // Preserve old formatting of nextUpdate
+        return nextUpdate.substring(10, 16) + "z";
+    }
 }
