@@ -111,7 +111,7 @@
 				<img th:unless="${aircraftDTO.backInService}" src="/images/SmallRedAircraft.png" alt="aircraft status image">
 			</td>            
             <td th:text="${aircraftDTO.tailNumber}"></td>
-            <td th:text="${aircraftDTO.reason}"></td>
+            <td th:text="${aircraftDTO.reasonString}"></td>
             <td th:text="${aircraftDTO.nextUpdate}"></td>
             <td th:text="${aircraftDTO.remark}"></td>
             <td><input type="checkbox" id="isFixed" name="isFixed" value="false"></td>

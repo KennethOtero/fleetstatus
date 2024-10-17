@@ -3,6 +3,7 @@ package com.fleet.status.dao.impl;
 import com.fleet.status.dao.repository.AircraftRepository;
 import com.fleet.status.dao.IAircraftDAO;
 import com.fleet.status.dto.Aircraft;
+import com.fleet.status.dto.Reason;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.Query;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("dev")
@@ -54,7 +56,22 @@ public class AircraftDAO implements IAircraftDAO {
         try {
             String query = "SELECT * FROM vAllAircraft";
             Query allAircraft = entityManager.createNativeQuery(query, Aircraft.class);
-            return allAircraft.getResultList();
+            List<Aircraft> aircraftList = allAircraft.getResultList();
+
+            for (Aircraft aircraft : aircraftList) {
+                List<Object[]> reasons = getReasonsForAircraft(aircraft.getAircraftId());
+
+                // Object[0] stand for intReasonId
+                // Object[1] stand for strReason
+                if (reasons != null && !reasons.isEmpty()) {
+                    String reasonsString = reasons.stream()
+                            .map(result -> (String) result[1])
+                            .collect(Collectors.joining(", "));
+                    aircraft.setReasonString(reasonsString);
+                }
+            }
+
+            return aircraftList;
         } catch (Exception e) {
             log.error("An error occurred while selecting all aircraft: ", e);
             throw new RuntimeException(e);
@@ -66,12 +83,40 @@ public class AircraftDAO implements IAircraftDAO {
         try {
             String query = "SELECT * FROM vOutOfServiceAircraft";
             Query allAircraft = entityManager.createNativeQuery(query, Aircraft.class);
-            return allAircraft.getResultList();
+            List<Aircraft> aircraftList = allAircraft.getResultList();
+
+            for (Aircraft aircraft : aircraftList) {
+                List<Object[]> reasons = getReasonsForAircraft(aircraft.getAircraftId());
+
+                if (reasons != null && !reasons.isEmpty()) {
+                    String reasonsString = reasons.stream()
+                            .map(result -> (String) result[1])
+                            .collect(Collectors.joining(", "));
+                    aircraft.setReasonString(reasonsString);
+                }
+            }
+
+            return aircraftList;
         } catch (Exception e) {
             log.error("An error occurred while selecting all out of service aircraft: ", e);
             throw new RuntimeException(e);
         }
     }
+
+    public List<Object[]> getReasonsForAircraft(Long aircraftId) {
+        try {
+            // Call a stored procedure to get the reason information
+            Query query = entityManager.createNativeQuery("EXEC uspGetReasonsForAircraft :aircraftId");
+            query.setParameter("aircraftId", aircraftId);
+
+            return query.getResultList();
+        } catch (Exception e) {
+            log.error("An error occurred while fetching reasons for aircraft: ", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     @Override
     public List<Aircraft> getInServiceAircraft() {
