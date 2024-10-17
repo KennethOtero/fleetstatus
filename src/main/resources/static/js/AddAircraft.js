@@ -116,3 +116,27 @@ function convertDateToSQL(datetime) {
 
     return utcDate;
 }
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetchReasons();
+});
+
+function fetchReasons() {
+    fetch('/getAllReason')
+        .then(response => response.json())
+        .then(data => {
+            const reasonSelect = document.getElementById('reason');
+
+            // clear exist choices
+            reasonSelect.innerHTML = '';
+            data.forEach(reason => {
+                const option = document.createElement('option');
+                option.value = reason.reason;
+                option.textContent = reason.reason;
+                reasonSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching reasons:', error));
+}
