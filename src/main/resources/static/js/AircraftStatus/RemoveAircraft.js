@@ -35,3 +35,25 @@ function postRemoveAircraft() {
         }
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetchAircraft();
+});
+
+function fetchAircraft() {
+    fetch('/getAllAircraft')
+        .then(response => response.json())
+        .then(data => {
+            const allAircraft = document.getElementById('allTails');
+
+            // clear exist choices
+            allAircraft.innerHTML = '';
+            data.forEach(aircraft => {
+                const option = document.createElement('option');
+                option.value = aircraft.aircraftId;
+                option.textContent = aircraft.tailNumber;
+                allAircraft.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching aircraft:', error));
+}

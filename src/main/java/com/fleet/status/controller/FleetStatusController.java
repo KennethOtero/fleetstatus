@@ -97,4 +97,10 @@ public class FleetStatusController {
     public List<Carrier> getAllCarriers() {
         return carrierService.getAllCarrier();
     }
+
+    @GetMapping("/getAllAircraft")
+    @ResponseBody
+    public List<Aircraft> getAllAircrafts() {
+        return aircraftService.getAllAircraft();
+    }
 }
