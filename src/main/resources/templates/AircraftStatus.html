@@ -97,10 +97,8 @@
                     <input type="text" class="form-control" id="tailNumber" placeholder="e.g. N123XY">
 
                     <label for="reason">Select Reason</label>
-                    <select id="reason" class="form-select lg-mb-3">
-                        <option value="Maintenance">Maintenance</option>
-                        <option value="AOG">AOG</option>
-                        <option value="Damage">Damage</option>
+                    <select id="reason" multiple class="form-control">
+                        <!-- Options will be populated dynamically -->
                     </select>
 
                     <label for="dtmNextUpdate">Enter Next Update</label>
@@ -117,7 +115,7 @@
 
                     <label for="carrier">Select Carrier</label>
                     <select id="carrier" class="form-select lg-mb-3">
-                        <option value="1">Cargojet</option>
+                        <!-- Options will be populated dynamically -->
                     </select>
 
                     <label for="startTime">Enter Start Time</label>
@@ -149,7 +147,7 @@
 				<img th:unless="${aircraftDTO.backInService}" src="/images/SmallRedAircraft.png" alt="aircraft status image">
 			</td>            
             <td th:text="${aircraftDTO.tailNumber}"></td>
-            <td th:text="${aircraftDTO.reason}"></td>
+            <td th:text="${aircraftDTO.reasonString}"></td>
             <td th:text="${aircraftDTO.nextUpdate}"></td>
             <td th:text="${aircraftDTO.remark}"></td>
             <td><input type="checkbox" id="isFixed" name="isFixed" value="false"></td>

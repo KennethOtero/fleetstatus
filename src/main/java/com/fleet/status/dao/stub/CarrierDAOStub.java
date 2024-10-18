@@ -5,7 +5,9 @@ import com.fleet.status.dto.Carrier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -22,5 +24,10 @@ public class CarrierDAOStub implements ICarrierDAO {
     @Override
     public Carrier findById(int id) {
         return carrierRepository.get((long) id);
+    }
+
+    @Override
+    public List<Carrier> getAllCarrier() {
+        return new ArrayList<>(carrierRepository.values());
     }
 }
