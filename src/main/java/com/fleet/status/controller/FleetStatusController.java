@@ -38,7 +38,7 @@ public class FleetStatusController {
         return "AircraftStatus";
     }
 
-    @PostMapping(value="/addAircraft", consumes = "application/json", produces = "application/json")
+    @PostMapping(value="/addAircraftEvent", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public ResponseEntity<String> submitEvent(@RequestBody Aircraft aircraft) {
         try {

@@ -8,7 +8,7 @@ function validateRemove() {
     let aircraftId = document.getElementById("allTails").value;
 
     if (aircraftId === "0") {
-        displayResult("removeAlert", "Please select a tail to remove.");
+        displayResult("removeAircraftAlert", "Please select a tail to remove.");
         return false;
     }
 
@@ -30,7 +30,7 @@ function postRemoveAircraft() {
             },
             500: function() {
                 // Display error
-                displayResult("removeAlert", "An error occurred deleting the aircraft.");
+                displayResult("removeAircraftAlert", "An error occurred deleting the aircraft.");
             }
         }
     });
