@@ -32,11 +32,12 @@ IF OBJECT_ID('vAllReason')		    	IS NOT NULL DROP VIEW vAllReason;
 -- -------------------------------------------------------------------------
 -- Drop Stored Procedures
 -- -------------------------------------------------------------------------
-IF OBJECT_ID('uspShowCarrierAircraft')			IS NOT NULL DROP PROCEDURE uspShowCarrierAircraft;
-IF OBJECT_ID('uspShowCarrierAircraftOOS')		IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftOOS;
-IF OBJECT_ID('uspShowCarrierAircraftIS')		IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftIS;
-IF OBJECT_ID('uspUpdateAircraftServiceStatus')	IS NOT NULL DROP PROCEDURE uspUpdateAircraftServiceStatus;
-IF OBJECT_ID('uspDeleteAircraft')				IS NOT NULL DROP PROCEDURE uspDeleteAircraft;
+IF OBJECT_ID('uspShowCarrierAircraft')			        IS NOT NULL DROP PROCEDURE uspShowCarrierAircraft;
+IF OBJECT_ID('uspShowCarrierAircraftOOS')		        IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftOOS;
+IF OBJECT_ID('uspShowCarrierAircraftIS')		        IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftIS;
+IF OBJECT_ID('uspUpdateAircraftServiceStatus')	        IS NOT NULL DROP PROCEDURE uspUpdateAircraftServiceStatus;
+IF OBJECT_ID('uspDeleteAircraft')				        IS NOT NULL DROP PROCEDURE uspDeleteAircraft;
+IF OBJECT_ID('uspGetReasonsForAircraft')				IS NOT NULL DROP PROCEDURE uspGetReasonsForAircraft;
 
 -- -------------------------------------------------------------------------
 -- Create Tables
