@@ -46,8 +46,6 @@ function fetchAircraft() {
         .then(data => {
             const allAircraft = document.getElementById('allTails');
 
-            // clear exist choices
-            allAircraft.innerHTML = '';
             data.forEach(aircraft => {
                 const option = document.createElement('option');
                 option.value = aircraft.aircraftId;

@@ -100,7 +100,7 @@ public class FleetStatusController {
 
     @GetMapping("/getAllAircraft")
     @ResponseBody
-    public List<Aircraft> getAllAircrafts() {
+    public List<Aircraft> getAllAircraft() {
         return aircraftService.getAllAircraft();
     }
 }
