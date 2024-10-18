@@ -133,6 +133,7 @@ function convertDateToSQL(datetime) {
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchReasons();
+    fetchCarriers();
 });
 
 function fetchReasons() {
@@ -151,4 +152,21 @@ function fetchReasons() {
             });
         })
         .catch(error => console.error('Error fetching reasons:', error));
+}
+
+function fetchCarriers() {
+    fetch('/getAllCarrier')
+        .then(response => response.json())
+        .then(data => {
+            const carrierSelect = document.getElementById('carrier');
+
+            carrierSelect.innerHTML = '';
+            data.forEach(carrier => {
+                const option = document.createElement('option');
+                option.value = carrier.carrierId;
+                option.textContent = carrier.carrierName;
+                carrierSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching carriers:', error));
 }

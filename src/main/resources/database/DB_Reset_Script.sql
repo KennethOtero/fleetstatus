@@ -28,6 +28,7 @@ IF OBJECT_ID('vAllAircraft')			IS NOT NULL DROP VIEW vAllAircraft;
 IF OBJECT_ID('vOutOfServiceAircraft')	IS NOT NULL DROP VIEW vOutOfServiceAircraft;
 IF OBJECT_ID('vInServiceAircraft')		IS NOT NULL DROP VIEW vInServiceAircraft;
 IF OBJECT_ID('vAllReason')		    	IS NOT NULL DROP VIEW vAllReason;
+IF OBJECT_ID('vAllCarrier')		    	IS NOT NULL DROP VIEW vAllCarrier;
 
 -- -------------------------------------------------------------------------
 -- Drop Stored Procedures
@@ -213,6 +214,17 @@ GO
 CREATE VIEW vAllReason
 AS
 SELECT * FROM TReason
+
+GO
+
+-- -------------------------------------------------------------------------
+-- View to show all Carrier
+-- -------------------------------------------------------------------------
+GO
+
+CREATE VIEW vAllCarrier
+AS
+SELECT * FROM TCarriers
 
 GO
 
