@@ -47,8 +47,8 @@
                     <label for="addAircraftTailNumber">Enter Tail Number</label>
                     <input type="text" class="form-control" id="addAircraftTailNumber" placeholder="e.g. N123XY">
                     <label for="addAircraftCarrier">Select Carrier</label>
-                    <select id="addAircraftCarrier" class="form-select lg-mb-3">
-                        <option value="1">Cargojet</option>
+                    <select id="addAircraftCarrier" class="carrierSelect form-select lg-mb-3">
+                        <!-- Options will be populated dynamically -->
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -71,8 +71,7 @@
                     </div>
                     <label for="allTails">Select Tail to Remove:</label>
                     <select id="allTails" class="form-select lg-mb-3">
-                        <option value="0">Select Tail</option>
-                        <option value="1">N767AX</option>
+                        <!-- Options will be populated dynamically -->
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -114,7 +113,7 @@
                     </select>
 
                     <label for="carrier">Select Carrier</label>
-                    <select id="carrier" class="form-select lg-mb-3">
+                    <select id="carrier" class="carrierSelect form-select lg-mb-3">
                         <!-- Options will be populated dynamically -->
                     </select>
 

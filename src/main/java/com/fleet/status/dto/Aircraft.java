@@ -49,6 +49,9 @@ public class Aircraft {
 
     public String getNextUpdate() {
         // Preserve old formatting of nextUpdate
-        return nextUpdate.substring(10, 16) + "z";
+        if (nextUpdate != null) {
+            return nextUpdate.substring(10, 16) + "z";
+        }
+        return null;
     }
 }

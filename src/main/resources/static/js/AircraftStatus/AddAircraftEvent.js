@@ -157,15 +157,17 @@ function fetchCarriers() {
     fetch('/getAllCarrier')
         .then(response => response.json())
         .then(data => {
-            const carrierSelect = document.getElementById('carrier');
+            const carrierSelects = document.getElementsByClassName('carrierSelect');
 
-            carrierSelect.innerHTML = '';
-            data.forEach(carrier => {
-                const option = document.createElement('option');
-                option.value = carrier.carrierId;
-                option.textContent = carrier.carrierName;
-                carrierSelect.appendChild(option);
-            });
+            for (let i = 0; i < carrierSelects.length; i++) {
+                carrierSelects[i].innerHTML = '';
+                data.forEach(carrier => {
+                    const option = document.createElement('option');
+                    option.value = carrier.carrierId;
+                    option.textContent = carrier.carrierName;
+                    carrierSelects[i].appendChild(option);
+                });
+            }
         })
         .catch(error => console.error('Error fetching carriers:', error));
 }
