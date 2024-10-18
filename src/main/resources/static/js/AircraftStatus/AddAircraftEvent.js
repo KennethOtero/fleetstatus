@@ -4,7 +4,7 @@ function saveAircraft() {
     removeErrorHighlights();
 
     if (validateAircraft()) {
-        postAircraft();
+        postEvent();
     }
 }
 
@@ -25,7 +25,7 @@ function validateAircraft() {
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].value.trim().length === 0) {
             inputs[i].style.borderColor = "red";
-            displayResult("showAlert", "One or more fields are empty.");
+            displayResult("addAircraftEventAlert", "One or more fields are empty.");
             result = false;
         }
     }
@@ -33,8 +33,8 @@ function validateAircraft() {
     return result;
 }
 
-// Post to /addAircraft
-function postAircraft() {
+// Post to /addAircraftEvent
+function postEvent() {
     let inputs = getInputs();
 
     // Convert the selected reasonId to an array of Reason objects
@@ -63,7 +63,7 @@ function postAircraft() {
 
     $.ajax({
         type: "POST",
-        url: "/addAircraft",
+        url: "/addAircraftEvent",
         data: JSON.stringify(aircraft),
         contentType: "application/json",
         statusCode: {
@@ -71,13 +71,12 @@ function postAircraft() {
                 location.reload();
             },
             500: function() {
-                displayResult("showAlert", "An error occurred saving the aircraft.");
+                // Display error
+                displayResult("addAircraftEventAlert", "An error occurred saving the aircraft.");
             }
         }
     });
 }
-
-
 
 // Display error
 function displayResult(alertBoxName, message) {
@@ -158,15 +157,17 @@ function fetchCarriers() {
     fetch('/getAllCarrier')
         .then(response => response.json())
         .then(data => {
-            const carrierSelect = document.getElementById('carrier');
+            const carrierSelects = document.getElementsByClassName('carrierSelect');
 
-            carrierSelect.innerHTML = '';
-            data.forEach(carrier => {
-                const option = document.createElement('option');
-                option.value = carrier.carrierId;
-                option.textContent = carrier.carrierName;
-                carrierSelect.appendChild(option);
-            });
+            for (let i = 0; i < carrierSelects.length; i++) {
+                carrierSelects[i].innerHTML = '';
+                data.forEach(carrier => {
+                    const option = document.createElement('option');
+                    option.value = carrier.carrierId;
+                    option.textContent = carrier.carrierName;
+                    carrierSelects[i].appendChild(option);
+                });
+            }
         })
         .catch(error => console.error('Error fetching carriers:', error));
 }

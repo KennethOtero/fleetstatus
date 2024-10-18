@@ -13,16 +13,52 @@
     <div th:replace="~{fragments/navbar :: sideMenu}"></div>
 
     <h2 class="AOSText">ABC Fleet Status: </h2>
-    <h5 class="formTitle">Add MX/AOG/Damage Event:</h5>
 
-    <div class="row" id="addAircraftForm">
-        <div class="text-left">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTailModal">Add New Tail</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#removeTailModal">Remove Tail</button>
+    <div class="row">
+        <div class="col-sm">
+            <h5 class="formTitle">Add MX/AOG/Damage Event:</h5>
+        </div>
+        <div class="col-sm">
+            <h5 class="formTitle">Add or Remove Aircraft:</h5>
         </div>
     </div>
 
-    <div class="modal fade aircraftModal" id="removeTailModal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="row" id="addAircraftForm">
+        <div class="col-sm">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTailEvent">Add New Tail Event</button>
+        </div>
+        <div class="col-sm">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAircraft">Add Aircraft</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#removeAircraft">Remove Aircraft</button>
+        </div>
+    </div>
+
+    <div class="modal fade aircraftModal" id="addAircraft" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAircraftTitle">Add an Aircraft</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger d-none" id="addAircraftAlert" role="alert">
+                        This is a danger alert - check it out!
+                    </div>
+                    <label for="addAircraftTailNumber">Enter Tail Number</label>
+                    <input type="text" class="form-control" id="addAircraftTailNumber" placeholder="e.g. N123XY">
+                    <label for="addAircraftCarrier">Select Carrier</label>
+                    <select id="addAircraftCarrier" class="carrierSelect form-select lg-mb-3">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="addAircraft()">ADD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade aircraftModal" id="removeAircraft" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -30,13 +66,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger d-none" id="removeAlert" role="alert">
+                    <div class="alert alert-danger d-none" id="removeAircraftAlert" role="alert">
                         This is a danger alert - check it out!
                     </div>
                     <label for="allTails">Select Tail to Remove:</label>
                     <select id="allTails" class="form-select lg-mb-3">
                         <option value="0">Select Tail</option>
-                        <option value="1">N767AX</option>
+                        <!-- Options will be populated dynamically -->
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -46,7 +82,7 @@
         </div>
     </div>
 
-    <div class="modal fade aircraftModal" id="addTailModal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal fade aircraftModal" id="addTailEvent" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -54,7 +90,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger d-none" id="showAlert" role="alert">
+                    <div class="alert alert-danger d-none" id="addAircraftEventAlert" role="alert">
                           This is a danger alert - check it out!
                     </div>
                     <label for="tailNumber">Enter Tail Number</label>
@@ -78,7 +114,7 @@
                     </select>
 
                     <label for="carrier">Select Carrier</label>
-                    <select id="carrier" class="form-select lg-mb-3">
+                    <select id="carrier" class="carrierSelect form-select lg-mb-3">
                         <!-- Options will be populated dynamically -->
                     </select>
 
@@ -119,15 +155,14 @@
             </tr>
         </tbody>
     </table>
-      
-    <footer id="footer">
-        <p>ABC Fleet Status</p>
-    </footer>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/SideMenu.js" rel="script"></script>
-    <script src="/js/Downtime.js" rel="script"></script>
-    <script src="/js/AddAircraft.js" rel="script"></script>
-    <script src="/js/RemoveAircraft.js" rel="script"></script>
+    <script src="/js/navbar/SideMenu.js" rel="script"></script>
+    <script src="/js/AircraftStatus/Downtime.js" rel="script"></script>
+    <script src="/js/AircraftStatus/AddAircraftEvent.js" rel="script"></script>
+    <script src="/js/AircraftStatus/RemoveAircraft.js" rel="script"></script>
+    <script src="/js/AircraftStatus/AddAircraft.js" rel="script"></script>
 </body>
 </html>

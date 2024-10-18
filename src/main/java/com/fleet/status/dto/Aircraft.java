@@ -1,10 +1,11 @@
 package com.fleet.status.dto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
+import lombok.Getter;
 
 @Entity
 @Data
@@ -19,6 +20,7 @@ public class Aircraft {
     @Column(name = "strTailNumber")
     private String tailNumber;
     @Column(name = "strNextUpdate")
+    @Getter(AccessLevel.NONE)
     private String nextUpdate;
     @Column(name = "strRemark")
     private String remark;
@@ -44,4 +46,12 @@ public class Aircraft {
 
     @Transient
     private String reasonString;
+
+    public String getNextUpdate() {
+        // Preserve old formatting of nextUpdate
+        if (nextUpdate != null) {
+            return nextUpdate.substring(10, 16) + "z";
+        }
+        return null;
+    }
 }
