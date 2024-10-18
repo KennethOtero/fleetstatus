@@ -324,6 +324,7 @@ AS
 
 BEGIN
 
+DELETE FROM TAircraft_Reason WHERE intAircraftId = @intAircraftId;
 DELETE FROM TAircraft WHERE intAircraftId = @intAircraftId
 
 END;
