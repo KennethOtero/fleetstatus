@@ -49,9 +49,9 @@ CREATE TABLE TAircraft
 (
 	intAircraftId		INTEGER IDENTITY	NOT NULL,
 	strTailNumber		NVARCHAR(250)		NOT NULL,
-	strReason			NVARCHAR(250)		NOT NULL,
-	strNextUpdate		DATETIME			NOT NULL,
-	strRemark			NVARCHAR(250)		NOT NULL,
+	strReason			NVARCHAR(250)		,
+	strNextUpdate		DATETIME			,
+	strRemark			NVARCHAR(250)		,
 	blnBackInService	INTEGER				NOT NULL,
 	dtmStartTime		DATETIME			,
 	dtmEndTime			DATETIME			,
