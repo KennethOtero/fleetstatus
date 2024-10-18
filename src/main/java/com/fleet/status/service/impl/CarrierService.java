@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Profile("dev")
 public class CarrierService implements ICarrierService {
@@ -22,5 +24,10 @@ public class CarrierService implements ICarrierService {
     @Override
     public Carrier findById(int id) {
         return carrierDAO.findById(id);
+    }
+
+    @Override
+    public List<Carrier> getAllCarrier() {
+        return carrierDAO.getAllCarrier();
     }
 }

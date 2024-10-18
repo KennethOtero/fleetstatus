@@ -2,7 +2,11 @@ package com.fleet.status.controller;
 
 import java.util.List;
 
+import com.fleet.status.dto.Carrier;
+import com.fleet.status.dto.Reason;
 import com.fleet.status.service.impl.AircraftService;
+import com.fleet.status.service.impl.CarrierService;
+import com.fleet.status.service.impl.ReasonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -21,6 +25,12 @@ public class FleetStatusController {
 
     @Autowired
     private AircraftService aircraftService;
+
+    @Autowired
+    private ReasonService reasonService;
+
+    @Autowired
+    private CarrierService carrierService;
 
     @GetMapping({"/", "/start"})
     public String read(Model model) {
@@ -74,5 +84,17 @@ public class FleetStatusController {
             log.error("Failed to remove aircraft with tail number {}", aircraftId, e);
             return new ResponseEntity<>("Failed to remove aircraft." , HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/getAllReason")
+    @ResponseBody
+    public List<Reason> getReasons() {
+        return reasonService.getAllReason();
+    }
+
+    @GetMapping("/getAllCarrier")
+    @ResponseBody
+    public List<Carrier> getAllCarriers() {
+        return carrierService.getAllCarrier();
     }
 }

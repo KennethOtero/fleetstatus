@@ -37,9 +37,21 @@ function validateAircraft() {
 function postAircraft() {
     let inputs = getInputs();
 
+    // Convert the selected reasonId to an array of Reason objects
+    const selectedReasons = Array
+        .from(inputs[1].selectedOptions)
+        .map(option => {
+        return {
+            reasonId: option.value, // Map reasonId to Reason object
+            reason: option.textContent
+        };
+    });
+
+    console.log("Selected Reasons:", selectedReasons);
+
     const aircraft = {
         tailNumber:     inputs[0].value.trim(),
-        reason:         inputs[1].value.trim(),
+        reason:         selectedReasons, // 发送 reasons 对象数组到后端
         nextUpdate:     convertDateToSQL(inputs[2].value.trim()),
         remark:         inputs[3].value.trim(),
         backInService:  inputs[4].value.trim(),
@@ -47,7 +59,7 @@ function postAircraft() {
             carrierId:  inputs[5].value.trim()
         },
         startTime:      convertDateToSQL(inputs[6].value.trim())
-    }
+    };
 
     $.ajax({
         type: "POST",
@@ -56,16 +68,16 @@ function postAircraft() {
         contentType: "application/json",
         statusCode: {
             201: function() {
-                // Reload page
                 location.reload();
             },
             500: function() {
-                // Display error
                 displayResult("showAlert", "An error occurred saving the aircraft.");
             }
         }
     });
 }
+
+
 
 // Display error
 function displayResult(alertBoxName, message) {
@@ -115,4 +127,46 @@ function convertDateToSQL(datetime) {
     utcDate = utcDate.replace("T", " ");
 
     return utcDate;
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetchReasons();
+    fetchCarriers();
+});
+
+function fetchReasons() {
+    fetch('/getAllReason')
+        .then(response => response.json())
+        .then(data => {
+            const reasonSelect = document.getElementById('reason');
+
+            // clear exist choices
+            reasonSelect.innerHTML = '';
+            data.forEach(reason => {
+                const option = document.createElement('option');
+                option.value = reason.reasonId;  // 使用 reasonId 作为 value
+                option.textContent = reason.reason;
+                reasonSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching reasons:', error));
+}
+
+function fetchCarriers() {
+    fetch('/getAllCarrier')
+        .then(response => response.json())
+        .then(data => {
+            const carrierSelect = document.getElementById('carrier');
+
+            carrierSelect.innerHTML = '';
+            data.forEach(carrier => {
+                const option = document.createElement('option');
+                option.value = carrier.carrierId;
+                option.textContent = carrier.carrierName;
+                carrierSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching carriers:', error));
 }

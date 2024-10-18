@@ -13,11 +13,13 @@ SET NOCOUNT ON;			-- Report only errors
 -- -------------------------------------------------------------------------
 -- Drop Tables
 -- -------------------------------------------------------------------------
-IF OBJECT_ID('TAircraft')	IS NOT NULL DROP TABLE TAircraft;
-IF OBJECT_ID('TCarriers')	IS NOT NULL DROP TABLE TCarriers;
-IF OBJECT_ID('TUserRoles')	IS NOT NULL DROP TABLE TUserRoles;
-IF OBJECT_ID('TUsers')		IS NOT NULL DROP TABLE TUsers;
-IF OBJECT_ID('TRoles')		IS NOT NULL DROP TABLE TRoles;
+IF OBJECT_ID('TAircraft_Reason')		IS NOT NULL DROP TABLE TAircraft_Reason;
+IF OBJECT_ID('TAircraft')	            IS NOT NULL DROP TABLE TAircraft;
+IF OBJECT_ID('TCarriers')	            IS NOT NULL DROP TABLE TCarriers;
+IF OBJECT_ID('TUserRoles')	            IS NOT NULL DROP TABLE TUserRoles;
+IF OBJECT_ID('TUsers')		            IS NOT NULL DROP TABLE TUsers;
+IF OBJECT_ID('TRoles')	            	IS NOT NULL DROP TABLE TRoles;
+IF OBJECT_ID('TReason')		            IS NOT NULL DROP TABLE TReason;
 
 -- -------------------------------------------------------------------------
 -- Drop Views
@@ -25,15 +27,18 @@ IF OBJECT_ID('TRoles')		IS NOT NULL DROP TABLE TRoles;
 IF OBJECT_ID('vAllAircraft')			IS NOT NULL DROP VIEW vAllAircraft;
 IF OBJECT_ID('vOutOfServiceAircraft')	IS NOT NULL DROP VIEW vOutOfServiceAircraft;
 IF OBJECT_ID('vInServiceAircraft')		IS NOT NULL DROP VIEW vInServiceAircraft;
+IF OBJECT_ID('vAllReason')		    	IS NOT NULL DROP VIEW vAllReason;
+IF OBJECT_ID('vAllCarrier')		    	IS NOT NULL DROP VIEW vAllCarrier;
 
 -- -------------------------------------------------------------------------
 -- Drop Stored Procedures
 -- -------------------------------------------------------------------------
-IF OBJECT_ID('uspShowCarrierAircraft')			IS NOT NULL DROP PROCEDURE uspShowCarrierAircraft;
-IF OBJECT_ID('uspShowCarrierAircraftOOS')		IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftOOS;
-IF OBJECT_ID('uspShowCarrierAircraftIS')		IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftIS;
-IF OBJECT_ID('uspUpdateAircraftServiceStatus')	IS NOT NULL DROP PROCEDURE uspUpdateAircraftServiceStatus;
-IF OBJECT_ID('uspDeleteAircraft')				IS NOT NULL DROP PROCEDURE uspDeleteAircraft;
+IF OBJECT_ID('uspShowCarrierAircraft')			        IS NOT NULL DROP PROCEDURE uspShowCarrierAircraft;
+IF OBJECT_ID('uspShowCarrierAircraftOOS')		        IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftOOS;
+IF OBJECT_ID('uspShowCarrierAircraftIS')		        IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftIS;
+IF OBJECT_ID('uspUpdateAircraftServiceStatus')	        IS NOT NULL DROP PROCEDURE uspUpdateAircraftServiceStatus;
+IF OBJECT_ID('uspDeleteAircraft')				        IS NOT NULL DROP PROCEDURE uspDeleteAircraft;
+IF OBJECT_ID('uspGetReasonsForAircraft')				IS NOT NULL DROP PROCEDURE uspGetReasonsForAircraft;
 
 -- -------------------------------------------------------------------------
 -- Create Tables
@@ -49,7 +54,6 @@ CREATE TABLE TAircraft
 (
 	intAircraftId		INTEGER IDENTITY	NOT NULL,
 	strTailNumber		NVARCHAR(250)		NOT NULL,
-	strReason			NVARCHAR(250)		NOT NULL,
 	strNextUpdate		DATETIME			NOT NULL,
 	strRemark			NVARCHAR(250)		NOT NULL,
 	blnBackInService	INTEGER				NOT NULL,
@@ -82,6 +86,20 @@ CREATE TABLE TUserRoles
 	CONSTRAINT intUserRolesId PRIMARY KEY (intUserRolesId)
 );
 
+CREATE TABLE TReason
+(
+    intReasonId        INTEGER IDENTITY    NOT NULL,
+    strReason          NVARCHAR(250)       NOT NULL,
+    CONSTRAINT TReason_PK PRIMARY KEY (intReasonId)
+);
+
+CREATE TABLE TAircraft_Reason
+(
+    intAircraftId      INTEGER             NOT NULL,
+    intReasonId        INTEGER             NOT NULL,
+    CONSTRAINT TAircraft_Reason_PK PRIMARY KEY (intAircraftId, intReasonId),
+);
+
 -- -------------------------------------------------------------------------
 -- Define Relationships and Create Foreign Keys
 -- -------------------------------------------------------------------------
@@ -91,6 +109,8 @@ CREATE TABLE TUserRoles
 -- 1 TAircraft					TCarriers					intCarrierId
 -- 2 TUserRoles					TUsers						intUserId
 -- 3 TUserRoles					TRoles						intRoleId
+-- 4 TAircraft_Reason           TAircraft                   intAircraftId
+-- 5 TAircraft_Reason           TReason                     intReasonId
 
 -- 1
 ALTER TABLE TAircraft ADD CONSTRAINT TAircraft_TCarriers_FK
@@ -104,6 +124,14 @@ FOREIGN KEY (intUserId) REFERENCES TUsers (intUserId)
 ALTER TABLE TUserRoles ADD CONSTRAINT TUserRoles_TRoles_FK
 FOREIGN KEY (intRoleId) REFERENCES TRoles (intRoleId)
 
+--4
+ALTER TABLE TAircraft_Reason ADD CONSTRAINT TAircraft_Reason_TAircraft_FK
+FOREIGN KEY (intAircraftId) REFERENCES TAircraft (intAircraftId)
+
+--5
+ALTER TABLE TAircraft_Reason ADD CONSTRAINT TAircraft_Reason_TReason_FK
+FOREIGN KEY (intReasonId) REFERENCES TReason (intReasonId);
+
 -- -------------------------------------------------------------------------
 -- Insert Data
 -- -------------------------------------------------------------------------
@@ -116,10 +144,21 @@ VALUES					('Cargojet'),
 						('Swift Air'),
 						('Kalitta Air')
 
-INSERT INTO TAircraft	(strTailNumber, strReason, strRemark, strNextUpdate, blnBackInService, intCarrierId, dtmStartTime, dtmEndTime)
-VALUES					('N767AX', 'DAMAGED', 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, 1, GETUTCDATE(), DATEADD(hour, 1, GETUTCDATE())),
-						('N650GT', 'MAINTENANCE', '#1 Generator inop', '2024-10-15 21:00:0', 1, 2, GETUTCDATE(), DATEADD(hour, 2, GETUTCDATE())),
-						('N762CK', 'AOG', 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, 3, GETUTCDATE(), DATEADD(hour, 3, GETUTCDATE()))
+INSERT INTO TAircraft	(strTailNumber, strRemark, strNextUpdate, blnBackInService, intCarrierId, dtmStartTime, dtmEndTime)
+VALUES					('N767AX', 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, 1, GETUTCDATE(), DATEADD(hour, 1, GETUTCDATE())),
+						('N650GT', '#1 Generator inop', '2024-10-15 21:00:0', 1, 2, GETUTCDATE(), DATEADD(hour, 2, GETUTCDATE())),
+						('N762CK', 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, 3, GETUTCDATE(), DATEADD(hour, 3, GETUTCDATE()))
+
+INSERT INTO TReason     (strReason)
+VALUES                  ('Maintenance'),
+                        ('AOG'),
+                        ('Damage')
+
+INSERT INTO TAircraft_Reason    (intAircraftId, intReasonId)
+VALUES                          (1, 1),
+                                (1, 2),
+                                (2, 2),
+                                (3, 3)
 
 INSERT INTO TRoles		(strRole)
 VALUES					('Admin')
@@ -164,6 +203,28 @@ GO
 CREATE VIEW vInServiceAircraft
 AS
 SELECT * FROM TAircraft WHERE TAircraft.blnBackInService = 1
+
+GO
+
+-- -------------------------------------------------------------------------
+-- View to show all Reason
+-- -------------------------------------------------------------------------
+GO
+
+CREATE VIEW vAllReason
+AS
+SELECT * FROM TReason
+
+GO
+
+-- -------------------------------------------------------------------------
+-- View to show all Carrier
+-- -------------------------------------------------------------------------
+GO
+
+CREATE VIEW vAllCarrier
+AS
+SELECT * FROM TCarriers
 
 GO
 
@@ -275,7 +336,28 @@ AS
 
 BEGIN
 
+DELETE FROM TAircraft_Reason WHERE intAircraftId = @intAircraftId;
 DELETE FROM TAircraft WHERE intAircraftId = @intAircraftId
+
+END;
+
+GO
+
+-- -------------------------------------------------------------------------
+-- Search reason for a aircraft
+-- -------------------------------------------------------------------------
+GO
+
+CREATE PROCEDURE uspGetReasonsForAircraft
+    @intAircraftId		AS INTEGER
+AS
+
+BEGIN
+
+SELECT TReason.intReasonId, TReason.strReason
+FROM TReason TReason
+JOIN TAircraft_Reason TAircraft_Reason ON TReason.intReasonId = TAircraft_Reason.intReasonId
+WHERE TAircraft_Reason.intAircraftId = @intAircraftId;
 
 END;
 
