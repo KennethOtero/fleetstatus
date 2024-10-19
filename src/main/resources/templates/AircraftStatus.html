@@ -164,17 +164,6 @@
     <script src="/js/AircraftStatus/AddAircraftEvent.js" rel="script"></script>
     <script src="/js/AircraftStatus/RemoveAircraft.js" rel="script"></script>
     <script src="/js/AircraftStatus/AddAircraft.js" rel="script"></script>
-    <script>
-        function showBackInService(aircraftID){
-            $.ajax({
-                url: '/showBackInService/' + aircraftID,
-                type: 'PUT',
-                success: function () {
-                    window.location.href='/AircraftStatus';
-                }
-            })
-            ;
-        }
-    </script>
+    <script src="/js/AircraftStatus/BackInService.js" rel="script"></script>
 </body>
 </html>

@@ -107,8 +107,12 @@ public class FleetStatusController {
 
     @Transactional
     @RequestMapping(value="showBackInService/{id}", method = RequestMethod.PUT)
-    public String showBackInService (@PathVariable int id) {
-        aircraftService.showBackInService(id);
-        return "AircraftStatus";
+    public ResponseEntity<String> showBackInService (@PathVariable int id) {
+        try {
+            aircraftService.showBackInService(id);
+            return new ResponseEntity<>("Aircraft back in service.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to put aircraft back in service.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
