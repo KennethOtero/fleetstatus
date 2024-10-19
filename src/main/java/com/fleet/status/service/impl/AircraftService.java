@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -95,5 +94,22 @@ public class AircraftService implements IAircraftService {
         Duration duration = Duration.between(start, end);
 
         return Math.abs(duration.toHours());
+    }
+
+    @Override
+    public void showBackInService(int aircraftId) {
+        Aircraft aircraft = aircraftDAO.findById(aircraftId);
+        Instant now = Instant.now();
+        ZonedDateTime zonedDateTime = now.atZone(ZoneId.of("UTC"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = zonedDateTime.format(formatter);
+        aircraft.setEndTime(formattedDate);
+        aircraft.setBackInService(1);
+        aircraftDAO.updateAircraft(aircraft);
+    }
+
+    @Override
+    public List<Aircraft> findAll() {
+        return aircraftDAO.findAll();
     }
 }

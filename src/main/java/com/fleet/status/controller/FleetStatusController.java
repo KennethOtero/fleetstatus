@@ -7,6 +7,7 @@ import com.fleet.status.dto.Reason;
 import com.fleet.status.service.impl.AircraftService;
 import com.fleet.status.service.impl.CarrierService;
 import com.fleet.status.service.impl.ReasonService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -98,9 +99,20 @@ public class FleetStatusController {
         return carrierService.getAllCarrier();
     }
 
-    @GetMapping("/getAllAircraft")
+    @GetMapping("/findAllAircraft")
     @ResponseBody
     public List<Aircraft> getAllAircraft() {
-        return aircraftService.getAllAircraft();
+        return aircraftService.findAll();
+    }
+
+    @Transactional
+    @RequestMapping(value="showBackInService/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<String> showBackInService (@PathVariable int id) {
+        try {
+            aircraftService.showBackInService(id);
+            return new ResponseEntity<>("Aircraft back in service.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to put aircraft back in service.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

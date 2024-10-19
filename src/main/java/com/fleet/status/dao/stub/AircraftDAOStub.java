@@ -65,4 +65,13 @@ public class AircraftDAOStub implements IAircraftDAO {
     public void deleteAircraft(int aircraftId) {
 
     }
+
+    @Override
+    public void updateAircraft(Aircraft aircraft){}
+
+    @Override
+    public List<Aircraft> findAll() {
+        return List.of();
+    }
+
 }

@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function fetchAircraft() {
-    fetch('/getAllAircraft')
+    fetch('/findAllAircraft')
         .then(response => response.json())
         .then(data => {
             const allAircraft = document.getElementById('allTails');
