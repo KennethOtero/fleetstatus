@@ -7,6 +7,7 @@ import com.fleet.status.dto.Reason;
 import com.fleet.status.service.impl.AircraftService;
 import com.fleet.status.service.impl.CarrierService;
 import com.fleet.status.service.impl.ReasonService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -102,5 +103,12 @@ public class FleetStatusController {
     @ResponseBody
     public List<Aircraft> getAllAircraft() {
         return aircraftService.getAllAircraft();
+    }
+
+    @Transactional
+    @RequestMapping(value="showBackInService/{id}", method = RequestMethod.PUT)
+    public String showBackInService (@PathVariable int id) {
+        aircraftService.showBackInService(id);
+        return "AircraftStatus";
     }
 }

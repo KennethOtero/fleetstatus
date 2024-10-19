@@ -54,7 +54,8 @@ public class AircraftDAO implements IAircraftDAO {
     @Override
     public List<Aircraft> getAllAircraft() {
         try {
-            String query = "SELECT * FROM vAllAircraft";
+            String query = "SELECT * FROM vAllAircraft WHERE [blnBackInService] = 0 " +
+                            "OR (dtmEndTime IS NOT NULL AND DATEDIFF(minute, dtmEndTime, GETUTCDATE()) < 30)";
             Query allAircraft = entityManager.createNativeQuery(query, Aircraft.class);
             List<Aircraft> aircraftList = allAircraft.getResultList();
 
@@ -192,5 +193,17 @@ public class AircraftDAO implements IAircraftDAO {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void updateAircraft(Aircraft aircraft){
+        try {
+            entityManager.merge(aircraft);
+            log.info("Updated aircraft with ID {}", aircraft.getAircraftId());
+        } catch (Exception e) {
+            log.error("An error occurred while updating aircraft: ", e);
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

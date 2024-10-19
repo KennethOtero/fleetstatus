@@ -150,7 +150,7 @@
             <td th:text="${aircraftDTO.reasonString}"></td>
             <td th:text="${aircraftDTO.nextUpdate}"></td>
             <td th:text="${aircraftDTO.remark}"></td>
-            <td><input type="checkbox" id="isFixed" name="isFixed" value="false"></td>
+            <td><input th:onclick="|showBackInService(${aircraftDTO.aircraftId})|" type="checkbox" id="isFixed" name="isFixed" value="${aircraftDTO.backInService}"></td>
             <td th:id="'downtime-' + ${aircraftDTO.aircraftId}">Loading...</td>
             </tr>
         </tbody>
@@ -164,5 +164,17 @@
     <script src="/js/AircraftStatus/AddAircraftEvent.js" rel="script"></script>
     <script src="/js/AircraftStatus/RemoveAircraft.js" rel="script"></script>
     <script src="/js/AircraftStatus/AddAircraft.js" rel="script"></script>
+    <script>
+        function showBackInService(aircraftID){
+            $.ajax({
+                url: '/showBackInService/' + aircraftID,
+                type: 'PUT',
+                success: function () {
+                    window.location.href='/AircraftStatus';
+                }
+            })
+            ;
+        }
+    </script>
 </body>
 </html>

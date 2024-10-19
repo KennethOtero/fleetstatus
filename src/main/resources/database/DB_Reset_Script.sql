@@ -145,9 +145,9 @@ VALUES					('Cargojet'),
 						('Kalitta Air')
 
 INSERT INTO TAircraft	(strTailNumber, strRemark, strNextUpdate, blnBackInService, intCarrierId, dtmStartTime, dtmEndTime)
-VALUES					('N767AX', 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, 1, GETUTCDATE(), DATEADD(hour, 1, GETUTCDATE())),
-						('N650GT', '#1 Generator inop', '2024-10-15 21:00:0', 1, 2, GETUTCDATE(), DATEADD(hour, 2, GETUTCDATE())),
-						('N762CK', 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, 3, GETUTCDATE(), DATEADD(hour, 3, GETUTCDATE()))
+VALUES					('N767AX', 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, 1, DATEADD(hour, -1, GETUTCDATE()), GETUTCDATE()),
+						('N650GT', '#1 Generator inop', '2024-10-15 21:00:0', 1, 2, DATEADD(hour, -2, GETUTCDATE()), GETUTCDATE()),
+						('N762CK', 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, 3, DATEADD(hour, -3, GETUTCDATE()), GETUTCDATE())
 
 INSERT INTO TReason     (strReason)
 VALUES                  ('Maintenance'),
