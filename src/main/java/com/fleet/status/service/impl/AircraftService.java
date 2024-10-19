@@ -107,4 +107,9 @@ public class AircraftService implements IAircraftService {
         aircraft.setBackInService(1);
         aircraftDAO.updateAircraft(aircraft);
     }
+
+    @Override
+    public List<Aircraft> findAll() {
+        return aircraftDAO.findAll();
+    }
 }

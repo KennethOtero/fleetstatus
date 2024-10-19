@@ -99,10 +99,10 @@ public class FleetStatusController {
         return carrierService.getAllCarrier();
     }
 
-    @GetMapping("/getAllAircraft")
+    @GetMapping("/findAllAircraft")
     @ResponseBody
     public List<Aircraft> getAllAircraft() {
-        return aircraftService.getAllAircraft();
+        return aircraftService.findAll();
     }
 
     @Transactional

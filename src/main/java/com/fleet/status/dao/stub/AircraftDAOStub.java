@@ -69,4 +69,9 @@ public class AircraftDAOStub implements IAircraftDAO {
     @Override
     public void updateAircraft(Aircraft aircraft){}
 
+    @Override
+    public List<Aircraft> findAll() {
+        return List.of();
+    }
+
 }

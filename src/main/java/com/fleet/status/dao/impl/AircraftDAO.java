@@ -205,5 +205,11 @@ public class AircraftDAO implements IAircraftDAO {
         }
     }
 
+    @Override
+    public List<Aircraft> findAll() {
+        // Returns everything within the TAircraft table
+        return (List<Aircraft>) aircraftRepository.findAll();
+    }
+
 
 }

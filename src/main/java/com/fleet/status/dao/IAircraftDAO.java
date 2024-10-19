@@ -26,4 +26,6 @@ public interface IAircraftDAO {
     void deleteAircraft(int aircraftId);
 
     void updateAircraft(Aircraft aircraft);
+
+    List<Aircraft> findAll();
 }
