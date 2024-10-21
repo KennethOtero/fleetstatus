@@ -34,9 +34,7 @@ public class FleetStatusController {
     private CarrierService carrierService;
 
     @GetMapping({"/", "/start"})
-    public String read(Model model) {
-        List<Aircraft> allAircraft = aircraftService.getAllAircraft();
-        model.addAttribute("allAircraft", allAircraft);
+    public String read() {
         return "start";
     }
 
@@ -47,6 +45,16 @@ public class FleetStatusController {
         List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
         model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
         return "AircraftStatus";
+    }
+
+    @GetMapping("/getAllAircraft")
+    @ResponseBody
+    public ResponseEntity<List<Aircraft>> getHomepageAircraft() {
+        try {
+            return new ResponseEntity<>(aircraftService.getAllAircraft(), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping(value="/addAircraftEvent", consumes = "application/json", produces = "application/json")
