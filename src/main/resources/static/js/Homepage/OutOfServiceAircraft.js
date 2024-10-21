@@ -16,9 +16,6 @@ function getAllAircraft() {
 }
 
 function displayOutOfServiceAircraft(aircraftArray) {
-    // REMOVE ONCE DONE
-    console.log(aircraftArray);
-
     for (let i = 0; i < aircraftArray.length; i++) {
         // Create parent div col-4
         const col_4 = document.createElement("div");
@@ -49,12 +46,12 @@ function displayOutOfServiceAircraft(aircraftArray) {
 
         const reason = document.createElement("p");
         reason.classList.add("card-text");
-        reason.textContent = "REASON STRING";
-        for (let j = 0; j < aircraftArray[i].reason.length; i++) {
-            if (j + 1 < aircraftArray[i].reason.length) {
-                reason.textContent = aircraftArray[i].reason[j].reason + ", ";
+        let length = aircraftArray[i].reason.length;
+        for (let j = 0; j < length; j++) {
+            if (j + 1 < length) {
+                reason.textContent += aircraftArray[i].reason[j].reason + ", ";
             } else {
-                reason.textContent = aircraftArray[i].reason[j].reason;
+                reason.textContent += aircraftArray[i].reason[j].reason;
             }
         }
 
