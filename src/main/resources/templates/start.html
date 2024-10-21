@@ -17,7 +17,7 @@
 	<br>
   
     <div class="container">
-        <div class="row">
+        <div class="row" id="outOfServiceAircraft">
             <div class="col-4" th:each="aircraftDTO: ${allAircraft}">
                 <div class="card text-white bg-dark mb-3">
                     <img th:if="${aircraftDTO.backInService}" class="card-img-top" src="/images/GreenAircraft.png" alt="aircraft status image">
@@ -37,6 +37,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/navbar/SideMenu.js"></script>
-
+    <script src="/js/Homepage/OutOfServiceAircraft.js"></script>
 </body>
 </html>
