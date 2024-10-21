@@ -1,15 +1,20 @@
 // Get aircraft on startup
 getAllAircraft();
 
-// setInterval(() => {
-//     // Update aircraft every 10 seconds
-//     getAllAircraft();
-// }, 10000);
+setInterval(() => {
+    // Update aircraft every 10 seconds
+    getAllAircraft();
+}, 10000);
 
 function getAllAircraft() {
     fetch("/getAllAircraft")
         .then(response => response.json())
         .then((data) => {
+            // Remove old data
+            const table = document.getElementById("outOfServiceAircraft");
+            if (table.hasChildNodes()) {
+                table.innerHTML = '';
+            }
             displayOutOfServiceAircraft(data);
         })
         .catch(error => console.log(error));
