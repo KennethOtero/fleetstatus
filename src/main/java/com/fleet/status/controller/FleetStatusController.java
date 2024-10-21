@@ -40,10 +40,6 @@ public class FleetStatusController {
 
     @GetMapping("/AircraftStatus")
     public String AircraftStatus(Model model) {
-        Aircraft aircraftDTO = new Aircraft();
-        model.addAttribute("aircraftDTO", aircraftDTO);
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
         return "AircraftStatus";
     }
 
@@ -52,6 +48,16 @@ public class FleetStatusController {
     public ResponseEntity<List<Aircraft>> getHomepageAircraft() {
         try {
             return new ResponseEntity<>(aircraftService.getAllAircraft(), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getOutOfServiceAircraft")
+    @ResponseBody
+    public ResponseEntity<List<Aircraft>> getOutOfServiceAircraft() {
+        try {
+            return new ResponseEntity<>(aircraftService.getOutOfServiceAircraft(), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
