@@ -68,6 +68,9 @@ function displayAircraftStatusTable(aircraft) {
         const backInService = document.createElement("input");
         backInService.type = "checkbox";
         backInService.id = "backInService-" + aircraft[i].aircraftId;
+        backInService.onclick = function() {
+            showBackInService(aircraft[i].aircraftId);
+        };
         backInServiceColumn.appendChild(backInService);
 
         const downtime = document.createElement("td");
