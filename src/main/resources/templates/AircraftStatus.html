@@ -140,26 +140,14 @@
                 <th scope="col">Down Time</th>
             </tr>
         </thead>
-        <tbody id="statusDisplay">
-            <tr class="text-white bg-dark" th:each="aircraftDTO: ${outOfServiceAircraft}">
-			<td>
-	          	<img th:if="${aircraftDTO.backInService}" src="/images/SmallGreenAircraft.png" alt="aircraft status image">
-				<img th:unless="${aircraftDTO.backInService}" src="/images/SmallRedAircraft.png" alt="aircraft status image">
-			</td>            
-            <td th:text="${aircraftDTO.tailNumber}"></td>
-            <td th:text="${aircraftDTO.reasonString}"></td>
-            <td th:text="${aircraftDTO.nextUpdate}"></td>
-            <td th:text="${aircraftDTO.remark}"></td>
-            <td><input th:onclick="|showBackInService(${aircraftDTO.aircraftId})|" type="checkbox" id="isFixed" name="isFixed" value="${aircraftDTO.backInService}"></td>
-            <td th:id="'downtime-' + ${aircraftDTO.aircraftId}">Loading...</td>
-            </tr>
-        </tbody>
+        <tbody id="statusDisplay"></tbody>
     </table>
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="/js/navbar/SideMenu.js" rel="script"></script>
+    <script src="/js/AircraftStatus/AircraftStatusTable.js" rel="script"></script>
     <script src="/js/AircraftStatus/Downtime.js" rel="script"></script>
     <script src="/js/AircraftStatus/AddAircraftEvent.js" rel="script"></script>
     <script src="/js/AircraftStatus/RemoveAircraft.js" rel="script"></script>
