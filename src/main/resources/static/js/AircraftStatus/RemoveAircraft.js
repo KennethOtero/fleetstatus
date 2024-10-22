@@ -25,8 +25,11 @@ function postRemoveAircraft() {
         contentType: "application/json",
         statusCode: {
             200: function() {
-                // Reload page
-                location.reload();
+                // Close modal and reload table
+                let modalElement = document.getElementById("removeAircraft");
+                let modal = bootstrap.Modal.getInstance(modalElement);
+                modal.hide();
+                getAircraftStatusTable();
             },
             500: function() {
                 // Display error

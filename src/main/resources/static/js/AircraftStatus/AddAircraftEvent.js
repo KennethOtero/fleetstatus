@@ -68,7 +68,11 @@ function postEvent() {
         contentType: "application/json",
         statusCode: {
             201: function() {
-                location.reload();
+                // Close modal and reload table
+                let modalElement = document.getElementById("addTailEvent");
+                let modal = bootstrap.Modal.getInstance(modalElement);
+                modal.hide();
+                getAircraftStatusTable();
             },
             500: function() {
                 // Display error
