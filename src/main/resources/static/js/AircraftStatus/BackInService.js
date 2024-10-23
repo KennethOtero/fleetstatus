@@ -3,8 +3,8 @@ function showBackInService(aircraftID){
         url: '/showBackInService/' + aircraftID,
         type: 'PUT',
         success: function () {
-            window.location.href='/AircraftStatus';
+            // Reload aircraft status table
+            getAircraftStatusTable();
         }
-    })
-    ;
+    });
 }
