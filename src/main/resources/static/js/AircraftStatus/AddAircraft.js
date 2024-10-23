@@ -71,3 +71,8 @@ function getAddAircraftInputs() {
 
     return inputs;
 }
+
+// Get updated list of carriers when modal is opened
+$("#addAircraft").on("show.bs.modal", () => {
+    fetchCarriers();
+});

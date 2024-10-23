@@ -132,9 +132,8 @@ function convertDateToSQL(datetime) {
     return utcDate;
 }
 
-
-
-document.addEventListener("DOMContentLoaded", function () {
+// Get updated list of carriers and reasons when modal is opened
+$("#addTailEvent").on("show.bs.modal", () => {
     fetchReasons();
     fetchCarriers();
 });
