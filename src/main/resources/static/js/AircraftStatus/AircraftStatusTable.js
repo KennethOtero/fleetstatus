@@ -1,6 +1,15 @@
 // Get aircraft events on startup
 getAircraftStatusTable();
 
+// Show back in service on click
+let tableBody = document.getElementById("statusDisplay");
+tableBody.addEventListener("click", function(event) {
+    if (event.target && event.target.id.startsWith("backInService-")) {
+        const aircraftId = event.target.id.split("-")[1];
+        showBackInService(aircraftId);
+    }
+});
+
 setInterval(() => {
     // Update aircraft every 10 seconds
     getAircraftStatusTable();
@@ -27,58 +36,50 @@ function getAircraftStatusTable() {
 }
 
 function displayAircraftStatusTable(aircraft) {
-    let tableBody = document.getElementById("statusDisplay");
+    if (aircraft.length === 0) {
+        tableBody.innerHTML = `
+        <tr class="text-white text-center bg-dark">
+            <td colspan="7">No current events.</td>
+        </tr>`;
+        return;
+    }
 
     for (let i = 0; i < aircraft.length; i++) {
-        // Create a new row for each aircraft
-        const row = document.createElement("tr");
-        row.classList.add("text-white", "bg-dark");
+        let aircraftId = aircraft[i].aircraftId;
 
-        // Add fields
-        const imageColumn = document.createElement("td");
-        const image = document.createElement("img");
-        image.alt = "aircraft status image";
-        if (aircraft[i].backInService === 1) {
-            image.src = "/images/SmallGreenAircraft.png";
+        // Get correct aircraft image
+        let imagePath = "";
+        if (aircraft[i].backInService) {
+            imagePath = "/images/SmallGreenAircraft.png";
         } else {
-            image.src = "/images/SmallRedAircraft.png";
+            imagePath = "/images/SmallRedAircraft.png";
         }
-        imageColumn.appendChild(image);
 
-        const tailNumber = document.createElement("td");
-        tailNumber.innerText = aircraft[i].tailNumber;
-
-        const reason = document.createElement("td");
+        // Get reasons
+        let reasonString = "";
         let length = aircraft[i].reason.length;
         for (let j = 0; j < length; j++) {
             if (j + 1 < length) {
-                reason.innerText += aircraft[i].reason[j].reason + ", ";
+                reasonString += aircraft[i].reason[j].reason + ", ";
             } else {
-                reason.innerText += aircraft[i].reason[j].reason;
+                reasonString += aircraft[i].reason[j].reason;
             }
         }
 
-        const nextUpdate = document.createElement("td");
-        nextUpdate.innerText = aircraft[i].nextUpdate;
-
-        const remark = document.createElement("td");
-        remark.innerText = aircraft[i].remark;
-
-        const backInServiceColumn = document.createElement("td");
-        const backInService = document.createElement("input");
-        backInService.type = "checkbox";
-        backInService.id = "backInService-" + aircraft[i].aircraftId;
-        backInService.onclick = function() {
-            showBackInService(aircraft[i].aircraftId);
-        };
-        backInServiceColumn.appendChild(backInService);
-
-        const downtime = document.createElement("td");
-        downtime.id = "downtime-" + aircraft[i].aircraftId;
-        downtime.innerText = updateDowntime(aircraft[i].aircraftId);
-
-        // Add data to table
-        row.append(imageColumn, tailNumber, reason, nextUpdate, remark, backInServiceColumn, downtime);
-        tableBody.appendChild(row);
+        tableBody.innerHTML += `
+            <tr class="text-white bg-dark">
+                <td>
+                    <img src="${imagePath}" alt="aircraft status image" />
+                </td>
+                <td>${aircraft[i].tailNumber}</td>
+                <td>${reasonString}</td>
+                <td>${aircraft[i].nextUpdate}</td>
+                <td>${aircraft[i].remark}</td>
+                <td>
+                    <input type="checkbox" id="backInService-${aircraftId}"/>
+                </td>
+                <td id="downtime-${aircraftId}">${updateDowntime(aircraftId)}</td>
+            </tr>
+        `;
     }
 }

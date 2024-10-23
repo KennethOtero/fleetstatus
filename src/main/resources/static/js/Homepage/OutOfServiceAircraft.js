@@ -21,65 +21,43 @@ function getAllAircraft() {
 }
 
 function displayOutOfServiceAircraft(aircraftArray) {
+    const table = document.getElementById("outOfServiceAircraft");
+
     for (let i = 0; i < aircraftArray.length; i++) {
-        // Create parent div col-4
-        const col_4 = document.createElement("div");
-        col_4.classList.add("col-4");
-
-        // Create card
         const card = document.createElement("div");
-        card.classList.add("card", "text-white", "bg-dark", "mb-3");
+        card.classList.add("col-4");
 
-        // Add fields
-        const image = document.createElement("img");
-        image.classList.add("card-img-top");
-        image.alt = "aircraft status image";
-        if (aircraftArray[i].backInService === 1) {
-            image.src = "/images/GreenAircraft.png";
+        // Get correct aircraft image
+        let imagePath = "";
+        if (aircraftArray[i].backInService) {
+            imagePath = "/images/GreenAircraft.png";
         } else {
-            image.src = "/images/redAircraft.png";
+            imagePath = "/images/redAircraft.png";
         }
 
-        // Create card body
-        const card_body = document.createElement("div");
-        card_body.classList.add("card-body");
-
-        // Add aircraft info
-        const tailNumber = document.createElement("h5");
-        tailNumber.classList.add("card-title");
-        tailNumber.textContent = aircraftArray[i].tailNumber;
-
-        const reason = document.createElement("p");
-        reason.classList.add("card-text");
+        // Get reasons
+        let reasonString = "";
         let length = aircraftArray[i].reason.length;
         for (let j = 0; j < length; j++) {
             if (j + 1 < length) {
-                reason.textContent += aircraftArray[i].reason[j].reason + ", ";
+                reasonString += aircraftArray[i].reason[j].reason + ", ";
             } else {
-                reason.textContent += aircraftArray[i].reason[j].reason;
+                reasonString += aircraftArray[i].reason[j].reason;
             }
         }
 
-        const remark = document.createElement("p");
-        remark.classList.add("card-text");
-        remark.textContent = aircraftArray[i].remark;
-
-        const nextUpdate = document.createElement("p");
-        nextUpdate.classList.add("card-text");
-        nextUpdate.textContent = aircraftArray[i].nextUpdate;
-
-        // Add info to card-body
-        card_body.append(tailNumber, reason, remark, nextUpdate);
-
-        // Add card-body to card
-        card.appendChild(image);
-        card.appendChild(card_body);
-
-        // Nest card div within parent col-4 div
-        col_4.appendChild(card);
-
-        // Add aircraft to DOM
-        const table = document.getElementById("outOfServiceAircraft");
-        table.appendChild(col_4);
+        // Display card
+        card.innerHTML = `
+        <div class="card text-white bg-dark mb-3">
+            <img src="${imagePath}" alt="aircraft status image" class="card-img-top"/>
+            <div class="card-body">
+                <h5 class="card-title">${aircraftArray[i].tailNumber}</h5>
+                <p class="card-text">${reasonString}</p>
+                <p class="card-text">${aircraftArray[i].remark}</p>
+                <p class="card-text">${aircraftArray[i].nextUpdate}</p>
+            </div>
+        </div>
+        `;
+        table.appendChild(card);
     }
 }
