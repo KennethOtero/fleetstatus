@@ -99,11 +99,11 @@ public class AircraftService implements IAircraftService {
     @Override
     public void showBackInService(int aircraftId) {
         Aircraft aircraft = aircraftDAO.findById(aircraftId);
-        Instant now = Instant.now();
-        ZonedDateTime zonedDateTime = now.atZone(ZoneId.of("UTC"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = zonedDateTime.format(formatter);
-        aircraft.setEndTime(formattedDate);
+        //Instant now = Instant.now();
+        //ZonedDateTime zonedDateTime = now.atZone(ZoneId.of("UTC"));
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        //String formattedDate = zonedDateTime.format(formatter);
+        aircraft.setEndTime(Instant.now());
         aircraft.setBackInService(1);
         aircraftDAO.updateAircraft(aircraft);
     }

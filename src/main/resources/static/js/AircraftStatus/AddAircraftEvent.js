@@ -119,12 +119,6 @@ function getInputs() {
 function convertDateToSQL(datetime) {
     // Convert local timezone to UTC
     let utcDate = new Date(datetime).toISOString();
-
-    // Format date to match SQL
-    let period = utcDate.indexOf(".");
-    utcDate = utcDate.substring(0, period);
-    utcDate = utcDate.replace("T", " ");
-
     return utcDate;
 }
 

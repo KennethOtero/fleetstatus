@@ -4,8 +4,13 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Data
@@ -27,9 +32,11 @@ public class Aircraft {
     @Column(name = "blnBackInService")
     private Integer backInService;
     @Column(name = "dtmStartTime")
-    private String startTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Instant startTime;
     @Column(name = "dtmEndTime")
-    private String endTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Instant endTime;
 
     @ManyToOne
     @JoinColumn(name = "intCarrierId", referencedColumnName = "intCarrierId")
@@ -53,5 +60,13 @@ public class Aircraft {
             return nextUpdate.substring(10, 16) + "z";
         }
         return null;
+    }
+
+    public String getDownTime(){
+        if (getEndTime() == null || getStartTime() == null) {
+            return "Down time is not available";
+        }
+        Duration downtime = Duration.between(startTime, endTime);
+        return "Down Time: " + downtime.toDaysPart() + "d " + downtime.toHoursPart() + "h " + downtime.toMinutesPart() + "m";
     }
 }

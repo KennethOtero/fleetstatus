@@ -49,6 +49,15 @@ public class FleetStatusController {
         return "AircraftStatus";
     }
 
+    @GetMapping("/History")
+    public String History(Model model) {
+        Aircraft aircraftDTO = new Aircraft();
+        model.addAttribute("aircraftDTO", aircraftDTO);
+        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
+        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
+        return "History";
+    }
+
     @PostMapping(value="/addAircraftEvent", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public ResponseEntity<String> submitEvent(@RequestBody Aircraft aircraft) {
@@ -66,12 +75,7 @@ public class FleetStatusController {
     @ResponseBody
     public String calcDowntime(@RequestBody int aircraftId) {
         Aircraft aircraft = aircraftService.fetchById(aircraftId);
-
-        if (aircraft.getEndTime() == null || aircraft.getStartTime() == null) {
-            return "Down time is not available";
-        }
-        long hours = aircraftService.calculateDownTime(aircraft.getStartTime(), aircraft.getEndTime());
-        return hours + " hour(s).";
+        return aircraft.getDownTime();
     }
 
     @PostMapping(value = "/removeAircraft", consumes = "application/json", produces = "application/json")
