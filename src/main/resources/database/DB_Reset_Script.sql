@@ -13,11 +13,12 @@ SET NOCOUNT ON;			-- Report only errors
 -- -------------------------------------------------------------------------
 -- Drop Tables
 -- -------------------------------------------------------------------------
+IF OBJECT_ID('TEventReasons')			IS NOT NULL DROP TABLE TEventReasons
 IF OBJECT_ID('TEvents')					IS NOT NULL DROP TABLE TEvents
 IF OBJECT_ID('TAircraft')	            IS NOT NULL DROP TABLE TAircraft;
 IF OBJECT_ID('TCarriers')	            IS NOT NULL DROP TABLE TCarriers;
 IF OBJECT_ID('TTypes')					IS NOT NULL DROP TABLE TTypes;
-IF OBJECT_ID('TReason')		            IS NOT NULL DROP TABLE TReason;
+IF OBJECT_ID('TReasons')		        IS NOT NULL DROP TABLE TReasons;
 IF OBJECT_ID('TUsers')		            IS NOT NULL DROP TABLE TUsers;
 IF OBJECT_ID('TRoles')	            	IS NOT NULL DROP TABLE TRoles;
 
@@ -63,6 +64,7 @@ CREATE TABLE TAircraft
 	strTailNumber		NVARCHAR(250)		NOT NULL,
 	intTypeId			INTEGER				NOT NULL,
 	intCarrierId		INTEGER				NOT NULL,
+	CONSTRAINT TAircraft_UQ UNIQUE (intAircraftId, strTailNumber),
 	CONSTRAINT TAircraft_PK PRIMARY KEY (intAircraftId)
 );
 
@@ -70,7 +72,6 @@ CREATE TABLE TEvents
 (
 	intEventId			INTEGER IDENTITY	NOT NULL,
 	intAircraftId		INTEGER				NOT NULL,
-	strReasons			NVARCHAR(250)		NOT NULL,
 	strRemark			NVARCHAR(250)		NOT NULL,
 	dtmNextUpdate		DATETIME			,
 	blnBackInService	INTEGER				NOT NULL,
@@ -96,11 +97,19 @@ CREATE TABLE TRoles
 	CONSTRAINT TRoles_PK PRIMARY KEY (intRoleId)
 );
 
-CREATE TABLE TReason
+CREATE TABLE TReasons
 (
     intReasonId        INTEGER IDENTITY    NOT NULL,
     strReason          NVARCHAR(250)       NOT NULL,
-    CONSTRAINT TReason_PK PRIMARY KEY (intReasonId)
+    CONSTRAINT TReasons_PK PRIMARY KEY (intReasonId)
+);
+
+CREATE TABLE TEventReasons
+(
+	intEventReasonId	INTEGER IDENTITY	NOT NULL,
+	intEventId			INTEGER				NOT NULL,
+	intReasonId			INTEGER				NOT NULL,
+	CONSTRAINT TEventReasons_PK PRIMARY KEY (intEventReasonId)
 );
 
 -- -------------------------------------------------------------------------
@@ -112,6 +121,8 @@ CREATE TABLE TReason
 -- 1 TAircraft					TCarriers					intCarrierId
 -- 2 TAircraft					TTypes						intTypeId
 -- 3 TEvents					TAircraft					intAircraftId
+-- 4 TEventReasons				TEvents						intEventId
+-- 5 TEventReasons				TReasons					intReasonId
 
 -- 1
 ALTER TABLE TAircraft ADD CONSTRAINT TAircraft_TCarriers_FK
@@ -125,6 +136,14 @@ FOREIGN KEY (intTypeId) REFERENCES TTypes (intTypeId)
 ALTER TABLE TEvents ADD CONSTRAINT TEvents_TAircraft_FK
 FOREIGN KEY (intAircraftId) REFERENCES TAircraft (intAircraftId)
 
+-- 4
+ALTER TABLE TEventReasons ADD CONSTRAINT TEventReasons_TEvents_FK
+FOREIGN KEY (intEventId) REFERENCES TEvents (intEventId)
+
+-- 5
+ALTER TABLE TEventReasons ADD CONSTRAINT TEventReasons_TReasons_FK
+FOREIGN KEY (intReasonId) REFERENCES TReasons (intReasonId)
+
 -- -------------------------------------------------------------------------
 -- Insert Data
 -- -------------------------------------------------------------------------
@@ -137,7 +156,7 @@ VALUES					('Cargojet'),
 						('Swift Air'),
 						('Kalitta Air')
 
-INSERT INTO TTypes (strType)
+INSERT INTO TTypes		(strType)
 VALUES					('767'),
 						('650'),
 						('762')
@@ -147,15 +166,21 @@ VALUES					('N767AX', 1, 1),
 						('N650GT', 2, 2),
 						('N762CK', 3, 3)
 
-INSERT INTO TEvents		(intAircraftId, strReasons, strRemark, dtmNextUpdate, blnBackInService, dtmStartTime, dtmEndTime, strDownTime)
-VALUES					(1, 'Maintenance,AOG', 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, DATEADD(hour, -1, GETUTCDATE()), GETUTCDATE(), '0d 1h 0m'),
-						(2, 'AOG', '#1 Generator inop', '2024-10-15 21:00:0', 1, DATEADD(hour, -2, GETUTCDATE()), GETUTCDATE(), '0d 2h 0m'),
-						(3, 'Damage', 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, DATEADD(hour, -3, GETUTCDATE()), GETUTCDATE(), '0d 3h 0m')
+INSERT INTO TEvents		(intAircraftId, strRemark, dtmNextUpdate, blnBackInService, dtmStartTime, dtmEndTime, strDownTime)
+VALUES					(1, 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, DATEADD(hour, -1, GETUTCDATE()), GETUTCDATE(), '0d 1h 0m'),
+						(2, '#1 Generator inop', '2024-10-15 21:00:0', 1, DATEADD(hour, -2, GETUTCDATE()), GETUTCDATE(), '0d 2h 0m'),
+						(3, 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, DATEADD(hour, -3, GETUTCDATE()), GETUTCDATE(), '0d 3h 0m')
 
-INSERT INTO TReason     (strReason)
+INSERT INTO TReasons    (strReason)
 VALUES                  ('Maintenance'),
                         ('AOG'),
                         ('Damage')
+
+INSERT INTO TEventReasons	(intEventId, intReasonId)
+VALUES						(1, 1),
+							(1, 2),
+							(2, 2),
+							(3, 3)
 
 INSERT INTO TRoles		(strRole)
 VALUES					('Admin')
@@ -182,7 +207,6 @@ SELECT
 	TA.intAircraftId,
 	TA.strTailNumber,
 	TE.intEventid,
-	TE.strReasons,
 	TE.strRemark,
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
@@ -214,7 +238,6 @@ SELECT
 	TA.intAircraftId,
 	TA.strTailNumber,
 	TE.intEventid,
-	TE.strReasons,
 	TE.strRemark,
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
@@ -248,7 +271,6 @@ SELECT
 	TA.intAircraftId,
 	TA.strTailNumber,
 	TE.intEventid,
-	TE.strReasons,
 	TE.strRemark,
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
@@ -274,7 +296,7 @@ GO
 
 CREATE VIEW vAllReason
 AS
-SELECT * FROM TReason
+SELECT * FROM TReasons
 
 GO
 
@@ -338,7 +360,6 @@ SELECT
 	TT.intTypeId,
 	TT.strType,
 	TE.intEventid,
-	TE.strReasons,
 	TE.strRemark,
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
@@ -379,7 +400,6 @@ SELECT
 	TT.intTypeId,
 	TT.strType,
 	TE.intEventid,
-	TE.strReasons,
 	TE.strRemark,
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
@@ -423,6 +443,7 @@ SET
 	dtmEndTime = GETUTCDATE()
 WHERE 
 	intAircraftId = @intAircraftId
+	AND intEventId = @intEventId
 
 -- Return the aircraft
 SELECT 
@@ -433,7 +454,6 @@ SELECT
 	TT.intTypeId,
 	TT.strType,
 	TE.intEventid,
-	TE.strReasons,
 	TE.strRemark,
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
@@ -466,6 +486,7 @@ AS
 
 BEGIN
 
+DELETE FROM TEventReasons WHERE intEventId = (SELECT intEventId FROM TEvents WHERE intAircraftId = @intAircraftId);
 DELETE FROM TEvents WHERE intAircraftId = @intAircraftId;
 DELETE FROM TAircraft WHERE intAircraftId = @intAircraftId;
 
@@ -485,9 +506,15 @@ AS
 BEGIN
 
 SELECT 
-	TE.strReasons 
+	TR.intReasonId,
+	TR.strReason 
 FROM 
-	TEvents as TE
+	TEvents as TE JOIN TAircraft as TA
+		ON TA.intAircraftId = TE.intAircraftId
+	JOIN TEventReasons as TER
+		ON TER.intEventId = TE.intEventId
+	JOIN TReasons as TR
+		ON TR.intReasonId = TER.intReasonId
 WHERE 
 	TE.intAircraftId = @intAircraftId;
 
