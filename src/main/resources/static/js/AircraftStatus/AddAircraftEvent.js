@@ -51,14 +51,14 @@ function postEvent() {
 
     const aircraft = {
         tailNumber:     inputs[0].value.trim(),
-        reason:         selectedReasons, // 发送 reasons 对象数组到后端
+        reason:         selectedReasons,
         nextUpdate:     convertDateToSQL(inputs[2].value.trim()),
         remark:         inputs[3].value.trim(),
-        backInService:  inputs[4].value.trim(),
+        backInService:  0,
         carrier: {
-            carrierId:  inputs[5].value.trim()
+            carrierId:  inputs[4].value.trim()
         },
-        startTime:      convertDateToSQL(inputs[6].value.trim())
+        startTime:      convertDateToSQL(inputs[5].value.trim())
     };
 
     $.ajax({
@@ -104,7 +104,7 @@ function getInputs() {
     let reason = document.getElementById("reason");
     let nextUpdate = document.getElementById("dtmNextUpdate");
     let remark = document.getElementById("strRemark");
-    let serviceStatus = document.getElementById("serviceStatus");
+    //let serviceStatus = document.getElementById("serviceStatus");
     let carrier = document.getElementById("carrier");
     let startTime = document.getElementById("startTime");
 
@@ -112,7 +112,7 @@ function getInputs() {
     inputs.push(reason);
     inputs.push(nextUpdate);
     inputs.push(remark);
-    inputs.push(serviceStatus);
+    //inputs.push(serviceStatus);
     inputs.push(carrier);
     inputs.push(startTime);
 
