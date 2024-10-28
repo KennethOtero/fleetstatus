@@ -16,6 +16,10 @@ public class Aircraft {
     private String tailNumber;
 
     @ManyToOne
+    @JoinColumn(name = "intCarrierId", referencedColumnName = "intCarrierId")
+    private Carrier carrier;
+
+    @ManyToOne
     @JoinColumn(name = "intTypeId", referencedColumnName = "intTypeId")
     private Type type;
 }

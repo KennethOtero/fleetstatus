@@ -11,4 +11,18 @@ public interface IEventDAO {
     Event findById(int id);
 
     List<Event> findAll();
+
+    List<Event> getHomepageAircraft();
+
+    List<Event> getOutOfServiceAircraft();
+
+    List<Event> getInServiceAircraft();
+
+    List<Event> getAllAircraftFromCarrierOOS(int carrierId);
+
+    List<Event> getAllAircraftFromCarrierIS(int carrierId);
+
+    Event updateAircraftServiceStatus(int aircraftId, int backInService);
+
+    void updateAircraft(Event event);
 }
