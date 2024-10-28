@@ -46,8 +46,11 @@ function postAddAircraft() {
         contentType: "application/json",
         statusCode: {
             201: function() {
-                // Reload page
-                location.reload();
+                // Close modal and reload table
+                let modalElement = document.getElementById("addAircraft");
+                let modal = bootstrap.Modal.getInstance(modalElement);
+                modal.hide();
+                getAircraftStatusTable();
             },
             500: function() {
                 // Display error
@@ -68,3 +71,8 @@ function getAddAircraftInputs() {
 
     return inputs;
 }
+
+// Get updated list of carriers when modal is opened
+$("#addAircraft").on("show.bs.modal", () => {
+    fetchCarriers();
+});
