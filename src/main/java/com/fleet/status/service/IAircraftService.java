@@ -31,4 +31,6 @@ public interface IAircraftService {
     long calculateDownTime(String startTime, String endTime);
 
     void showBackInService(int aircraftId);
+
+    List<Aircraft> findAll();
 }

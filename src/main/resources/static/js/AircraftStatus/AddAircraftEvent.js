@@ -68,7 +68,11 @@ function postEvent() {
         contentType: "application/json",
         statusCode: {
             201: function() {
-                location.reload();
+                // Close modal and reload table
+                let modalElement = document.getElementById("addTailEvent");
+                let modal = bootstrap.Modal.getInstance(modalElement);
+                modal.hide();
+                getAircraftStatusTable();
             },
             500: function() {
                 // Display error
@@ -122,9 +126,8 @@ function convertDateToSQL(datetime) {
     return utcDate;
 }
 
-
-
-document.addEventListener("DOMContentLoaded", function () {
+// Get updated list of carriers and reasons when modal is opened
+$("#addTailEvent").on("show.bs.modal", () => {
     fetchReasons();
     fetchCarriers();
 });

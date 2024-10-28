@@ -34,18 +34,12 @@ public class FleetStatusController {
     private CarrierService carrierService;
 
     @GetMapping({"/", "/start"})
-    public String read(Model model) {
-        List<Aircraft> allAircraft = aircraftService.getAllAircraft();
-        model.addAttribute("allAircraft", allAircraft);
+    public String read() {
         return "start";
     }
 
     @GetMapping("/AircraftStatus")
-    public String AircraftStatus(Model model) {
-        Aircraft aircraftDTO = new Aircraft();
-        model.addAttribute("aircraftDTO", aircraftDTO);
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
+    public String AircraftStatus() {
         return "AircraftStatus";
     }
 
@@ -56,6 +50,26 @@ public class FleetStatusController {
         List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
         model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
         return "History";
+    }
+
+    @GetMapping("/getAllAircraft")
+    @ResponseBody
+    public ResponseEntity<List<Aircraft>> getHomepageAircraft() {
+        try {
+            return new ResponseEntity<>(aircraftService.getAllAircraft(), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getOutOfServiceAircraft")
+    @ResponseBody
+    public ResponseEntity<List<Aircraft>> getOutOfServiceAircraft() {
+        try {
+            return new ResponseEntity<>(aircraftService.getOutOfServiceAircraft(), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping(value="/addAircraftEvent", consumes = "application/json", produces = "application/json")
@@ -103,16 +117,20 @@ public class FleetStatusController {
         return carrierService.getAllCarrier();
     }
 
-    @GetMapping("/getAllAircraft")
+    @GetMapping("/findAllAircraft")
     @ResponseBody
     public List<Aircraft> getAllAircraft() {
-        return aircraftService.getAllAircraft();
+        return aircraftService.findAll();
     }
 
     @Transactional
     @RequestMapping(value="showBackInService/{id}", method = RequestMethod.PUT)
-    public String showBackInService (@PathVariable int id) {
-        aircraftService.showBackInService(id);
-        return "AircraftStatus";
+    public ResponseEntity<String> showBackInService (@PathVariable int id) {
+        try {
+            aircraftService.showBackInService(id);
+            return new ResponseEntity<>("Aircraft back in service.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to put aircraft back in service.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
