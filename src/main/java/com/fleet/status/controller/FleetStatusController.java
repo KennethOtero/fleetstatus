@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.fleet.status.dto.Aircraft;
@@ -34,19 +33,33 @@ public class FleetStatusController {
     private CarrierService carrierService;
 
     @GetMapping({"/", "/start"})
-    public String read(Model model) {
-        List<Aircraft> allAircraft = aircraftService.getAllAircraft();
-        model.addAttribute("allAircraft", allAircraft);
+    public String read() {
         return "start";
     }
 
     @GetMapping("/AircraftStatus")
-    public String AircraftStatus(Model model) {
-        Aircraft aircraftDTO = new Aircraft();
-        model.addAttribute("aircraftDTO", aircraftDTO);
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
+    public String AircraftStatus() {
         return "AircraftStatus";
+    }
+
+    @GetMapping("/getAllAircraft")
+    @ResponseBody
+    public ResponseEntity<List<Aircraft>> getHomepageAircraft() {
+        try {
+            return new ResponseEntity<>(aircraftService.getAllAircraft(), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getOutOfServiceAircraft")
+    @ResponseBody
+    public ResponseEntity<List<Aircraft>> getOutOfServiceAircraft() {
+        try {
+            return new ResponseEntity<>(aircraftService.getOutOfServiceAircraft(), HttpStatus.OK);
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping(value="/addAircraftEvent", consumes = "application/json", produces = "application/json")
