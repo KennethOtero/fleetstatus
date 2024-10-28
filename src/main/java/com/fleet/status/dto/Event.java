@@ -28,6 +28,8 @@ public class Event {
     private String startTime;
     @Column(name = "dtmEndTime")
     private String endTime;
+    @Column(name = "strDowntime")
+    private String downtime;
 
     @ManyToOne
     @JoinColumn(name = "intAircraftId", referencedColumnName = "intAircraftId")
