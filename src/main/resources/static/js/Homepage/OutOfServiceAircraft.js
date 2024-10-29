@@ -20,16 +20,16 @@ function getAllAircraft() {
         .catch(error => console.log(error));
 }
 
-function displayOutOfServiceAircraft(aircraftArray) {
+function displayOutOfServiceAircraft(events) {
     const table = document.getElementById("outOfServiceAircraft");
 
-    for (let i = 0; i < aircraftArray.length; i++) {
+    for (let i = 0; i < events.length; i++) {
         const card = document.createElement("div");
         card.classList.add("col-4");
 
         // Get correct aircraft image
         let imagePath = "";
-        if (aircraftArray[i].backInService) {
+        if (events[i].backInService) {
             imagePath = "/images/GreenAircraft.png";
         } else {
             imagePath = "/images/redAircraft.png";
@@ -37,12 +37,12 @@ function displayOutOfServiceAircraft(aircraftArray) {
 
         // Get reasons
         let reasonString = "";
-        let length = aircraftArray[i].reason.length;
+        let length = events[i].reason.length;
         for (let j = 0; j < length; j++) {
             if (j + 1 < length) {
-                reasonString += aircraftArray[i].reason[j].reason + ", ";
+                reasonString += events[i].reason[j].reason + ", ";
             } else {
-                reasonString += aircraftArray[i].reason[j].reason;
+                reasonString += events[i].reason[j].reason;
             }
         }
 
@@ -51,10 +51,10 @@ function displayOutOfServiceAircraft(aircraftArray) {
         <div class="card text-white bg-dark mb-3">
             <img src="${imagePath}" alt="aircraft status image" class="card-img-top"/>
             <div class="card-body">
-                <h5 class="card-title">${aircraftArray[i].tailNumber}</h5>
+                <h5 class="card-title">${events[i].aircraft.tailNumber}</h5>
                 <p class="card-text">${reasonString}</p>
-                <p class="card-text">${aircraftArray[i].remark}</p>
-                <p class="card-text">${aircraftArray[i].nextUpdate}</p>
+                <p class="card-text">${events[i].remark}</p>
+                <p class="card-text">${events[i].nextUpdate}</p>
             </div>
         </div>
         `;

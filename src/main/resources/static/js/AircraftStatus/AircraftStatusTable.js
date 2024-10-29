@@ -17,7 +17,7 @@ setInterval(() => {
 
 // Update every 10 seconds
 function getAircraftStatusTable() {
-    fetch("getOutOfServiceAircraft")
+    fetch("/getOutOfServiceAircraft")
         .then(response => response.json())
         .then(data => {
             try {
@@ -35,8 +35,8 @@ function getAircraftStatusTable() {
         .catch(error => console.log(error));
 }
 
-function displayAircraftStatusTable(aircraft) {
-    if (aircraft.length === 0) {
+function displayAircraftStatusTable(event) {
+    if (event.length === 0) {
         tableBody.innerHTML = `
         <tr class="text-white text-center bg-dark">
             <td colspan="7">No current events.</td>
@@ -44,12 +44,12 @@ function displayAircraftStatusTable(aircraft) {
         return;
     }
 
-    for (let i = 0; i < aircraft.length; i++) {
-        let aircraftId = aircraft[i].aircraftId;
+    for (let i = 0; i < event.length; i++) {
+        let eventId = event[i].eventId;
 
         // Get correct aircraft image
         let imagePath = "";
-        if (aircraft[i].backInService) {
+        if (event[i].backInService) {
             imagePath = "/images/SmallGreenAircraft.png";
         } else {
             imagePath = "/images/SmallRedAircraft.png";
@@ -57,12 +57,12 @@ function displayAircraftStatusTable(aircraft) {
 
         // Get reasons
         let reasonString = "";
-        let length = aircraft[i].reason.length;
+        let length = event[i].reason.length;
         for (let j = 0; j < length; j++) {
             if (j + 1 < length) {
-                reasonString += aircraft[i].reason[j].reason + ", ";
+                reasonString += event[i].reason[j].reason + ", ";
             } else {
-                reasonString += aircraft[i].reason[j].reason;
+                reasonString += event[i].reason[j].reason;
             }
         }
 
@@ -71,14 +71,14 @@ function displayAircraftStatusTable(aircraft) {
                 <td>
                     <img src="${imagePath}" alt="aircraft status image" />
                 </td>
-                <td>${aircraft[i].tailNumber}</td>
+                <td>${event[i].aircraft.tailNumber}</td>
                 <td>${reasonString}</td>
-                <td>${aircraft[i].nextUpdate}</td>
-                <td>${aircraft[i].remark}</td>
+                <td>${event[i].nextUpdate}</td>
+                <td>${event[i].remark}</td>
                 <td>
-                    <input type="checkbox" id="backInService-${aircraftId}"/>
+                    <input type="checkbox" id="backInService-${eventId}"/>
                 </td>
-                <td id="downtime-${aircraftId}">${updateDowntime(aircraftId)}</td>
+                <td id="downtime-${eventId}">${updateDowntime(eventId)}</td>
             </tr>
         `;
     }

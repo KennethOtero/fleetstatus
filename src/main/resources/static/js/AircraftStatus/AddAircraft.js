@@ -36,7 +36,9 @@ function postAddAircraft() {
         carrier: {
             carrierId:  inputs[1].value.trim()
         },
-        backInService: 1
+        type: {
+            typeId: 1 // Hardcoded for now, need to add type field
+        }
     }
 
     $.ajax({
