@@ -22,7 +22,5 @@ public interface IEventDAO {
 
     List<Event> getAllAircraftFromCarrierIS(int carrierId);
 
-    Event updateAircraftServiceStatus(int aircraftId, int backInService);
-
     void updateAircraft(Event event);
 }
