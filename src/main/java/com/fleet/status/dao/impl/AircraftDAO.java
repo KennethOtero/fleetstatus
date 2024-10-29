@@ -27,7 +27,7 @@ public class AircraftDAO implements IAircraftDAO {
 
     public void save(Aircraft aircraft) throws Exception {
         aircraftRepository.save(aircraft);
-        log.info("Saving new aircraft.");
+        log.info("Saving new aircraft with tail number {}.", aircraft.getTailNumber());
     }
 
     @Override
