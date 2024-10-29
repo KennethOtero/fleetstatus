@@ -5,6 +5,7 @@ import com.fleet.status.dto.Event;
 import com.fleet.status.service.IEventService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@Profile("dev")
 public class EventService implements IEventService {
     @Autowired
     private EventDAO eventDAO;
