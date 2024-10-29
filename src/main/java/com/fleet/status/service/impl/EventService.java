@@ -60,11 +60,6 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public Event updateAircraftServiceStatus(int aircraftId, int backInService) {
-        return eventDAO.updateAircraftServiceStatus(aircraftId, backInService);
-    }
-
-    @Override
     public void updateAircraft(Event event) {
         eventDAO.updateAircraft(event);
     }
