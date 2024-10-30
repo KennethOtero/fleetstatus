@@ -35,24 +35,13 @@ function displayOutOfServiceAircraft(events) {
             imagePath = "/images/redAircraft.png";
         }
 
-        // Get reasons
-        let reasonString = "";
-        let length = events[i].reason.length;
-        for (let j = 0; j < length; j++) {
-            if (j + 1 < length) {
-                reasonString += events[i].reason[j].reason + ", ";
-            } else {
-                reasonString += events[i].reason[j].reason;
-            }
-        }
-
         // Display card
         card.innerHTML = `
         <div class="card text-white bg-dark mb-3">
             <img src="${imagePath}" alt="aircraft status image" class="card-img-top"/>
             <div class="card-body">
                 <h5 class="card-title">${events[i].aircraft.tailNumber}</h5>
-                <p class="card-text">${reasonString}</p>
+                <p class="card-text">${events[i].reasonString}</p>
                 <p class="card-text">${events[i].remark}</p>
                 <p class="card-text">${events[i].nextUpdate}</p>
             </div>
