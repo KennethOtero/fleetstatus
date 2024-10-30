@@ -76,7 +76,7 @@ function getAddAircraftInputs() {
     return inputs;
 }
 
-// Get updated list of carriers when modal is opened
+// Get updated list of carriers and types when modal is opened
 $("#addAircraft").on("show.bs.modal", () => {
     fetchCarriers();
     fetchTypes();
@@ -86,14 +86,16 @@ function fetchTypes() {
     fetch('/getAllTypes')
         .then(response => response.json())
         .then(data => {
-            const typeSelect = document.getElementById('addAircraftType');
-            typeSelect.innerHTML = '';
-            data.forEach(type => {
-                const option = document.createElement("option")
-                option.value = type.typeId;
-                option.textContent = type.typeName;
-                typeSelect.appendChild(option);
-            });
+            const typeSelects = document.getElementsByClassName('typeSelect');
+            for (let i = 0; i < typeSelects.length; i++) {
+                typeSelects[i].innerHTML = '';
+                data.forEach(type => {
+                    const option = document.createElement("option")
+                    option.value = type.typeId;
+                    option.textContent = type.typeName;
+                    typeSelects[i].appendChild(option);
+                });
+            }
         })
         .catch(error => console.error('Error fetching types:', error));
 }

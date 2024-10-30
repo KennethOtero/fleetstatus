@@ -67,6 +67,11 @@ public class FleetStatusController {
     @ResponseBody
     public ResponseEntity<String> submitEvent(@RequestBody Event event) {
         try {
+            // Save aircraft first if needed
+            if (event.getAircraft().getAircraftId() == null) {
+                aircraftService.save(event.getAircraft());
+            }
+
             eventService.save(event);
             return new ResponseEntity<>("New event saved.", HttpStatus.CREATED);
         } catch (Exception e) {
