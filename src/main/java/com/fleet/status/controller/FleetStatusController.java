@@ -2,13 +2,8 @@ package com.fleet.status.controller;
 
 import java.util.List;
 
-import com.fleet.status.dto.Carrier;
-import com.fleet.status.dto.Event;
-import com.fleet.status.dto.Reason;
-import com.fleet.status.service.impl.AircraftService;
-import com.fleet.status.service.impl.CarrierService;
-import com.fleet.status.service.impl.EventService;
-import com.fleet.status.service.impl.ReasonService;
+import com.fleet.status.dto.*;
+import com.fleet.status.service.impl.*;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import com.fleet.status.dto.Aircraft;
 
 @Controller
 @Profile("dev")
@@ -36,6 +29,9 @@ public class FleetStatusController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private TypeService typeService;
 
     @GetMapping({"/", "/start"})
     public String read() {
@@ -67,7 +63,7 @@ public class FleetStatusController {
         }
     }
 
-    @PostMapping(value="/addAircraftEvent", consumes = "application/json", produces = "application/json")
+    @PostMapping(value="/saveEvent", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public ResponseEntity<String> submitEvent(@RequestBody Event event) {
         try {
@@ -130,6 +126,24 @@ public class FleetStatusController {
             return new ResponseEntity<>("Aircraft back in service.", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to put aircraft back in service.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getAllTypes")
+    @ResponseBody
+    public List<Type> getAllTypes() {
+        return typeService.findAll();
+    }
+
+    @PostMapping(value = "/saveAircraft", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<String> saveAircraft(@RequestBody Aircraft aircraft) {
+        try {
+            aircraftService.save(aircraft);
+            return new ResponseEntity<>("Aircraft saved.", HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("Failed to save aircraft {}", aircraft, e);
+            return new ResponseEntity<>("Failed to save aircraft.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

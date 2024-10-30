@@ -63,7 +63,7 @@ function postEvent() {
 
     $.ajax({
         type: "POST",
-        url: "/addAircraftEvent",
+        url: "/saveEvent",
         data: JSON.stringify(aircraft),
         contentType: "application/json",
         statusCode: {

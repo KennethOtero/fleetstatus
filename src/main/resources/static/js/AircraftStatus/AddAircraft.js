@@ -37,13 +37,13 @@ function postAddAircraft() {
             carrierId:  inputs[1].value.trim()
         },
         type: {
-            typeId: 1 // Hardcoded for now, need to add type field
+            typeId: inputs[2].value.trim()
         }
     }
 
     $.ajax({
         type: "POST",
-        url: "/addAircraftEvent",
+        url: "/saveAircraft",
         data: JSON.stringify(aircraft),
         contentType: "application/json",
         statusCode: {
@@ -65,11 +65,13 @@ function postAddAircraft() {
 function getAddAircraftInputs() {
     const tailNumber = document.getElementById("addAircraftTailNumber");
     const carrier = document.getElementById("addAircraftCarrier");
+    const type = document.getElementById("addAircraftType");
 
     let inputs = [];
 
     inputs.push(tailNumber);
     inputs.push(carrier);
+    inputs.push(type);
 
     return inputs;
 }
@@ -77,4 +79,21 @@ function getAddAircraftInputs() {
 // Get updated list of carriers when modal is opened
 $("#addAircraft").on("show.bs.modal", () => {
     fetchCarriers();
+    fetchTypes();
 });
+
+function fetchTypes() {
+    fetch('/getAllTypes')
+        .then(response => response.json())
+        .then(data => {
+            const typeSelect = document.getElementById('addAircraftType');
+            typeSelect.innerHTML = '';
+            data.forEach(type => {
+                const option = document.createElement("option")
+                option.value = type.typeId;
+                option.textContent = type.typeName;
+                typeSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching types:', error));
+}
