@@ -171,33 +171,30 @@ public class EventDAO implements IEventDAO {
                 return null;
             }
 
-            // IDs are automatically converted from Object to Integer.
-            // Parse IDs by converting Integer to String to Long.
-
             Carrier carrier = new Carrier();
-            carrier.setCarrierId(Long.parseLong(String.valueOf(currentRow.get(0))));
-            carrier.setCarrierName((String) currentRow.get(1));
+            carrier.setCarrierId(Long.valueOf(validateEventFields(currentRow.get(0))));
+            carrier.setCarrierName(validateEventFields(currentRow.get(1)));
 
             Type type = new Type();
-            type.setTypeId(Long.parseLong(String.valueOf(currentRow.get(2))));
-            type.setTypeName(currentRow.get(3).toString());
+            type.setTypeId(Long.valueOf(validateEventFields(currentRow.get(2))));
+            type.setTypeName(validateEventFields(currentRow.get(3)));
 
             Aircraft aircraft = new Aircraft();
-            aircraft.setAircraftId(Long.parseLong(String.valueOf(currentRow.get(4))));
-            aircraft.setTailNumber(currentRow.get(5).toString());
+            aircraft.setAircraftId(Long.valueOf(validateEventFields(currentRow.get(4))));
+            aircraft.setTailNumber(validateEventFields(currentRow.get(5)));
             aircraft.setType(type);
             aircraft.setCarrier(carrier);
 
             Event event = new Event();
             event.setAircraft(aircraft);
 
-            event.setEventId(Long.parseLong(String.valueOf(currentRow.get(6))));
-            event.setRemark(currentRow.get(7).toString());
-            event.setNextUpdate(currentRow.get(8).toString());
-            event.setBackInService((Integer) currentRow.get(9));
-            event.setStartTime(currentRow.get(10).toString());
-            event.setEndTime(currentRow.get(11).toString());
-            event.setDowntime(currentRow.get(12).toString());
+            event.setEventId(Long.valueOf(validateEventFields(currentRow.get(6))));
+            event.setRemark(validateEventFields(currentRow.get(7)));
+            event.setNextUpdate(validateEventFields(currentRow.get(8)));
+            event.setBackInService(Integer.valueOf(validateEventFields(currentRow.get(9))));
+            event.setStartTime(validateEventFields(currentRow.get(10)));
+            event.setEndTime(validateEventFields(currentRow.get(11)));
+            event.setDowntime(validateEventFields(currentRow.get(12)));
 
             // Set reasons
             event.setReasonString(getReasons(event.getAircraft().getAircraftId()));
@@ -207,6 +204,10 @@ public class EventDAO implements IEventDAO {
         }
 
         return events;
+    }
+
+    private String validateEventFields(Object item) {
+        return (item != null) ? item.toString() : null;
     }
 
     /**
