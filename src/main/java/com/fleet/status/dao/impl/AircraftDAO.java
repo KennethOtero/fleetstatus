@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,8 +27,15 @@ public class AircraftDAO implements IAircraftDAO {
     private EntityManager entityManager;
 
     public void save(Aircraft aircraft) throws Exception {
-        aircraftRepository.save(aircraft);
-        log.info("Saving new aircraft with tail number {}.", aircraft.getTailNumber());
+        try {
+            aircraftRepository.save(aircraft);
+            log.info("Saving new aircraft with tail number {}.", aircraft.getTailNumber());
+        } catch (DataIntegrityViolationException e) {
+            log.error("Failed to save aircraft. Tail number {} already exists", aircraft.getTailNumber());
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -74,6 +75,8 @@ public class FleetStatusController {
 
             eventService.save(event);
             return new ResponseEntity<>("New event saved.", HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>("Tail number already exists.", HttpStatus.CONFLICT);
         } catch (Exception e) {
             log.error("Failed to save event for tail number {}", event.getAircraft().getTailNumber(), e);
             return new ResponseEntity<>("Failed to save event.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -146,6 +149,8 @@ public class FleetStatusController {
         try {
             aircraftService.save(aircraft);
             return new ResponseEntity<>("Aircraft saved.", HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>("Tail number already exists.", HttpStatus.CONFLICT);
         } catch (Exception e) {
             log.error("Failed to save aircraft {}", aircraft, e);
             return new ResponseEntity<>("Failed to save aircraft.", HttpStatus.INTERNAL_SERVER_ERROR);

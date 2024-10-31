@@ -64,7 +64,7 @@ CREATE TABLE TAircraft
 	strTailNumber		NVARCHAR(250)		NOT NULL,
 	intTypeId			INTEGER				NOT NULL,
 	intCarrierId		INTEGER				NOT NULL,
-	CONSTRAINT TAircraft_UQ UNIQUE (intAircraftId, strTailNumber),
+	CONSTRAINT TAircraft_UQ UNIQUE (strTailNumber),
 	CONSTRAINT TAircraft_PK PRIMARY KEY (intAircraftId)
 );
 
@@ -214,12 +214,12 @@ SELECT
 	TE.dtmEndTime,
 	TE.strDownTime
 FROM 
-	TAircraft as TA JOIN
-		TEvents as TE ON TE.intAircraftId = TA.intAircraftId
-	JOIN TCarriers as TC ON
-		TC.intCarrierId = TA.intAircraftId
-	JOIN TTypes as TT ON
-		TT.intTypeId = TA.intTypeId
+	TEvents as TE JOIN
+		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
+	JOIN TCarriers as TC
+		ON TC.intCarrierId = TA.intCarrierId
+	JOIN TTypes as TT
+		ON TT.intTypeId = TA.intTypeId
 
 GO
 
@@ -245,12 +245,12 @@ SELECT
 	TE.dtmEndTime,
 	TE.strDownTime
 FROM 
-	TAircraft as TA JOIN
-		TEvents as TE ON TE.intAircraftId = TA.intAircraftId
-	JOIN TCarriers as TC ON
-		TC.intCarrierId = TA.intAircraftId
-	JOIN TTypes as TT ON
-		TT.intTypeId = TA.intTypeId
+	TEvents as TE JOIN
+		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
+	JOIN TCarriers as TC
+		ON TC.intCarrierId = TA.intCarrierId
+	JOIN TTypes as TT
+		ON TT.intTypeId = TA.intTypeId
 WHERE 
 	TE.blnBackInService = 0
 
@@ -278,12 +278,12 @@ SELECT
 	TE.dtmEndTime,
 	TE.strDownTime
 FROM 
-	TAircraft as TA JOIN
-		TEvents as TE ON TE.intAircraftId = TA.intAircraftId
-	JOIN TCarriers as TC ON
-		TC.intCarrierId = TA.intAircraftId
-	JOIN TTypes as TT ON
-		TT.intTypeId = TA.intTypeId
+	TEvents as TE JOIN
+		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
+	JOIN TCarriers as TC
+		ON TC.intCarrierId = TA.intCarrierId
+	JOIN TTypes as TT
+		ON TT.intTypeId = TA.intTypeId
 WHERE 
 	TE.blnBackInService = 1
 
@@ -367,10 +367,10 @@ SELECT
 	TE.dtmEndTime,
 	TE.strDownTime
 FROM 
-	TAircraft as TA JOIN TCarriers as TC
-		ON TA.intCarrierId = TC.intCarrierId
-	JOIN TEvents as TE ON
-		TE.intAircraftId = TA.intAircraftId
+	TEvents as TE JOIN
+		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
+	JOIN TCarriers as TC
+		ON TC.intCarrierId = TA.intCarrierId
 	JOIN TTypes as TT
 		ON TT.intTypeId = TA.intTypeId
 WHERE
@@ -407,10 +407,10 @@ SELECT
 	TE.dtmEndTime,
 	TE.strDownTime
 FROM 
-	TAircraft as TA JOIN TCarriers as TC
-		ON TA.intCarrierId = TC.intCarrierId
-	JOIN TEvents as TE ON
-		TE.intAircraftId = TA.intAircraftId
+	TEvents as TE JOIN
+		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
+	JOIN TCarriers as TC
+		ON TC.intCarrierId = TA.intCarrierId
 	JOIN TTypes as TT
 		ON TT.intTypeId = TA.intTypeId
 WHERE
@@ -461,8 +461,8 @@ SELECT
 	TE.dtmEndTime,
 	TE.strDownTime
 FROM 
-	TAircraft as TA JOIN TEvents as TE
-		ON TE.intAircraftId = TA.intAircraftId
+	TEvents as TE JOIN
+		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
 	JOIN TCarriers as TC
 		ON TC.intCarrierId = TA.intCarrierId
 	JOIN TTypes as TT

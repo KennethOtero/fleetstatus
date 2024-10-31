@@ -54,6 +54,9 @@ function postAddAircraft() {
                 modal.hide();
                 getAircraftStatusTable();
             },
+            409: function() {
+                displayResult("addAircraftAlert", "This tail number already exists.");
+            },
             500: function() {
                 // Display error
                 displayResult("addAircraftAlert", "An error occurred saving the aircraft.");

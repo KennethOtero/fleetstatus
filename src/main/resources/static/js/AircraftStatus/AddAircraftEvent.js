@@ -47,8 +47,6 @@ function postEvent() {
         };
     });
 
-    console.log("Selected Reasons:", selectedReasons);
-
     const event = {
         aircraft: {
             // Add aircraftId once autocomplete feature is finished. Remove if statement on controller to save
@@ -80,6 +78,9 @@ function postEvent() {
                 let modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
                 getAircraftStatusTable();
+            },
+            409: function() {
+                displayResult("addAircraftEventAlert", "This tail number already exists.");
             },
             500: function() {
                 // Display error
