@@ -5,8 +5,8 @@ getAircraftStatusTable();
 let tableBody = document.getElementById("statusDisplay");
 tableBody.addEventListener("click", function(event) {
     if (event.target && event.target.id.startsWith("backInService-")) {
-        const aircraftId = event.target.id.split("-")[1];
-        showBackInService(aircraftId);
+        const eventId = event.target.id.split("-")[1];
+        showBackInService(eventId);
     }
 });
 
