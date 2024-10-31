@@ -1,5 +1,6 @@
 package com.fleet.status.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,5 +19,6 @@ public class Carrier {
     private String carrierName;
 
     @OneToMany(mappedBy = "carrier")
+    @JsonIgnore
     private Set<Aircraft> aircraft;
 }
