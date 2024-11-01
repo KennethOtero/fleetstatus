@@ -54,7 +54,7 @@ function displayOutOfServiceAircraft(aircraftArray) {
                 <h5 class="card-title">${aircraftArray[i].tailNumber}</h5>
                 <p class="card-text">${reasonString}</p>
                 <p class="card-text">${aircraftArray[i].remark}</p>
-                <p class="card-text">${aircraftArray[i].nextUpdate}</p>
+                <p class="card-text">${aircraftArray[i].reason}</p>
             </div>
         </div>
         `;
