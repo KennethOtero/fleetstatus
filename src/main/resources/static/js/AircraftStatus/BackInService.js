@@ -1,6 +1,6 @@
-function showBackInService(aircraftID){
+function showBackInService(eventId){
     $.ajax({
-        url: '/showBackInService/' + aircraftID,
+        url: '/showBackInService/' + eventId,
         type: 'PUT',
         success: function () {
             // Reload aircraft status table

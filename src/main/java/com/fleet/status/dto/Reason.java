@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "TReason")
+@Table(name = "TReasons")
 public class Reason {
 
     @Id
@@ -23,10 +23,10 @@ public class Reason {
     @ToString.Exclude
     @JsonIgnore
     @JoinTable(
-            name = "TAircraft_Reason", // 中间表的表名
+            name = "TEventReasons", // 中间表的表名
             joinColumns = @JoinColumn(name = "intReasonId"),
-            inverseJoinColumns = @JoinColumn(name = "intAircraftId")
+            inverseJoinColumns = @JoinColumn(name = "intEventId")
     )
-    private List<Aircraft> aircraft;
+    private List<Event> events;
 
 }

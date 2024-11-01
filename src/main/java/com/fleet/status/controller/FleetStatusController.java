@@ -2,22 +2,17 @@ package com.fleet.status.controller;
 
 import java.util.List;
 
-import com.fleet.status.dto.Carrier;
-import com.fleet.status.dto.Reason;
-import com.fleet.status.service.impl.AircraftService;
-import com.fleet.status.service.impl.CarrierService;
-import com.fleet.status.service.impl.ReasonService;
+import com.fleet.status.dto.*;
+import com.fleet.status.service.impl.*;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import com.fleet.status.dto.Aircraft;
 
 @Controller
 @Profile("dev")
@@ -33,6 +28,12 @@ public class FleetStatusController {
     @Autowired
     private CarrierService carrierService;
 
+    @Autowired
+    private EventService eventService;
+
+    @Autowired
+    private TypeService typeService;
+
     @GetMapping({"/", "/start"})
     public String read() {
         return "start";
@@ -43,20 +44,11 @@ public class FleetStatusController {
         return "AircraftStatus";
     }
 
-    @GetMapping("/History")
-    public String History(Model model) {
-        Aircraft aircraftDTO = new Aircraft();
-        model.addAttribute("aircraftDTO", aircraftDTO);
-        List<Aircraft> outOfServiceAircraft = aircraftService.getOutofServiceAircraft();
-        model.addAttribute("outOfServiceAircraft", outOfServiceAircraft);
-        return "History";
-    }
-
     @GetMapping("/getAllAircraft")
     @ResponseBody
-    public ResponseEntity<List<Aircraft>> getHomepageAircraft() {
+    public ResponseEntity<List<Event>> getHomepageAircraft() {
         try {
-            return new ResponseEntity<>(aircraftService.getAllAircraft(), HttpStatus.OK);
+            return new ResponseEntity<>(eventService.getHomepageAircraft(), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -64,32 +56,44 @@ public class FleetStatusController {
 
     @GetMapping("/getOutOfServiceAircraft")
     @ResponseBody
-    public ResponseEntity<List<Aircraft>> getOutOfServiceAircraft() {
+    public ResponseEntity<List<Event>> getOutOfServiceAircraft() {
         try {
-            return new ResponseEntity<>(aircraftService.getOutOfServiceAircraft(), HttpStatus.OK);
+            return new ResponseEntity<>(eventService.getOutOfServiceAircraft(), HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping(value="/addAircraftEvent", consumes = "application/json", produces = "application/json")
+    @PostMapping(value="/saveEvent", consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<String> submitEvent(@RequestBody Aircraft aircraft) {
+    public ResponseEntity<String> submitEvent(@RequestBody Event event) {
         try {
-            aircraftService.save(aircraft);
-            log.info("Tail number {} saved.", aircraft.getTailNumber());
-            return new ResponseEntity<>("Aircraft saved.", HttpStatus.CREATED);
+            // Save aircraft first if needed
+            if (event.getAircraft().getAircraftId() == null) {
+                aircraftService.save(event.getAircraft());
+            }
+
+            eventService.save(event);
+            return new ResponseEntity<>("New event saved.", HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>("Tail number already exists.", HttpStatus.CONFLICT);
         } catch (Exception e) {
-            log.error("Failed to save aircraft with tail number {}", aircraft.getTailNumber(), e);
-            return new ResponseEntity<>("Failed to save aircraft.", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Failed to save event for tail number {}", event.getAircraft().getTailNumber(), e);
+            return new ResponseEntity<>("Failed to save event.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(value = "/calcDowntime", consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public String calcDowntime(@RequestBody int aircraftId) {
-        Aircraft aircraft = aircraftService.fetchById(aircraftId);
-        return aircraft.getDownTime();
+    public String calcDowntime(@RequestBody int eventId) {
+        Event event = eventService.findById(eventId);
+
+        if (event.getEndTime() == null || event.getStartTime() == null) {
+            return "Down time is not available";
+        }
+
+        long hours = eventService.calculateDownTime(event.getStartTime(), event.getEndTime());
+        return hours + " hour(s).";
     }
 
     @PostMapping(value = "/removeAircraft", consumes = "application/json", produces = "application/json")
@@ -97,11 +101,10 @@ public class FleetStatusController {
     public ResponseEntity<String> removeAircraft(@RequestBody int aircraftId) {
         try {
             aircraftService.deleteAircraft(aircraftId);
-            log.info("Removed aircraft with ID {}", aircraftId);
-            return new ResponseEntity<>("Aircraft removed.", HttpStatus.OK);
+            return new ResponseEntity<>("Aircraft deleted.", HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Failed to remove aircraft with tail number {}", aircraftId, e);
-            return new ResponseEntity<>("Failed to remove aircraft." , HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Failed to delete aircraft with ID {}", aircraftId, e);
+            return new ResponseEntity<>("Failed to delete aircraft." , HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -124,13 +127,33 @@ public class FleetStatusController {
     }
 
     @Transactional
-    @RequestMapping(value="showBackInService/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<String> showBackInService (@PathVariable int id) {
+    @RequestMapping(value="showBackInService/{eventId}", method = RequestMethod.PUT)
+    public ResponseEntity<String> showBackInService (@PathVariable int eventId) {
         try {
-            aircraftService.showBackInService(id);
+            eventService.showBackInService(eventId);
             return new ResponseEntity<>("Aircraft back in service.", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to put aircraft back in service.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getAllTypes")
+    @ResponseBody
+    public List<Type> getAllTypes() {
+        return typeService.findAll();
+    }
+
+    @PostMapping(value = "/saveAircraft", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<String> saveAircraft(@RequestBody Aircraft aircraft) {
+        try {
+            aircraftService.save(aircraft);
+            return new ResponseEntity<>("Aircraft saved.", HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>("Tail number already exists.", HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            log.error("Failed to save aircraft {}", aircraft, e);
+            return new ResponseEntity<>("Failed to save aircraft.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

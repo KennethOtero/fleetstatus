@@ -19,7 +19,7 @@ public class AircraftService implements IAircraftService {
     private AircraftDAO aircraftDAO;
 
     @Override
-    public Aircraft fetchById(int id) {
+    public Aircraft findById(int id) {
         return aircraftDAO.findById(id);
     }
 
@@ -29,43 +29,8 @@ public class AircraftService implements IAircraftService {
     }
 
     @Override
-    public List<Aircraft> getOutofServiceAircraft() {
-        return aircraftDAO.getOutOfServiceAircraft();
-    }
-
-    @Override
-    public List<Aircraft> getAllAircraft() {
-        return aircraftDAO.getAllAircraft();
-    }
-
-    @Override
-    public List<Aircraft> getOutOfServiceAircraft() {
-        return aircraftDAO.getOutOfServiceAircraft();
-    }
-
-    @Override
-    public List<Aircraft> getInServiceAircraft() {
-        return aircraftDAO.getInServiceAircraft();
-    }
-
-    @Override
     public List<Aircraft> getAllAircraftFromCarrier(int carrierId) {
         return aircraftDAO.getAllAircraftFromCarrier(carrierId);
-    }
-
-    @Override
-    public List<Aircraft> getAllAircraftFromCarrierOOS(int carrierId) {
-        return aircraftDAO.getAllAircraftFromCarrierOOS(carrierId);
-    }
-
-    @Override
-    public List<Aircraft> getAllAircraftFromCarrierIS(int carrierId) {
-        return aircraftDAO.getAllAircraftFromCarrierIS(carrierId);
-    }
-
-    @Override
-    public Aircraft updateAircraftServiceStatus(int aircraftId, int backInService) {
-        return aircraftDAO.updateAircraftServiceStatus(aircraftId, backInService);
     }
 
     @Override
