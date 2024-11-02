@@ -49,6 +49,10 @@
                     <select id="addAircraftCarrier" class="carrierSelect form-select lg-mb-3">
                         <!-- Options will be populated dynamically -->
                     </select>
+                    <label for="addAircraftType">Select Type</label>
+                    <select id="addAircraftType" class="typeSelect form-select lg-mb-3">
+                        <!-- Options will be populated dynamically -->
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" onclick="addAircraft()">ADD</button>
@@ -105,14 +109,13 @@
                     <label for="strRemark">Enter Remark</label>
                     <input type="text" class="form-control" id="strRemark" placeholder="e.g. Bird strike to the #1 engine">
 
-<!--                    <label for="serviceStatus">Enter Service Status</label>-->
-<!--                    <select id="serviceStatus" class="form-select lg-mb-3">-->
-<!--                        <option value="0">Out of Service</option>-->
-<!--                        <option value="1">In Service</option>-->
-<!--                    </select>-->
-
                     <label for="carrier">Select Carrier</label>
                     <select id="carrier" class="carrierSelect form-select lg-mb-3">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+
+                    <label for="addEventAircraftType">Select Type</label>
+                    <select id="addEventAircraftType" class="typeSelect form-select lg-mb-3">
                         <!-- Options will be populated dynamically -->
                     </select>
 
@@ -138,7 +141,9 @@
                 <th scope="col">Down Time</th>
             </tr>
         </thead>
-        <tbody id="statusDisplay"></tbody>
+        <tbody id="statusDisplay">
+            <!-- Rows will be populated automatically -->
+        </tbody>
     </table>
 
     <div th:replace="~{fragments/footer :: footer}"></div>

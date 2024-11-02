@@ -6,19 +6,19 @@ import lombok.Data;
 
 import java.util.Set;
 
-@Entity
 @Data
-@Table(name = "TCarriers")
-public class Carrier {
+@Entity
+@Table(name = "TTypes")
+public class Type {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "intCarrierId")
-    private Long carrierId;
+    @Column(name = "intTypeId")
+    private Long typeId;
 
-    @Column(name = "strCarrier")
-    private String carrierName;
+    @Column(name = "strType")
+    private String typeName;
 
-    @OneToMany(mappedBy = "carrier")
+    @OneToMany(mappedBy = "type")
     @JsonIgnore
     private Set<Aircraft> aircraft;
 }
