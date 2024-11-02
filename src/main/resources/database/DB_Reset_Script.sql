@@ -486,7 +486,7 @@ AS
 
 BEGIN
 
-DELETE FROM TEventReasons WHERE intEventId = (SELECT intEventId FROM TEvents WHERE intAircraftId = @intAircraftId);
+DELETE FROM TEventReasons WHERE intEventId IN (SELECT intEventId FROM TEvents WHERE intAircraftId = @intAircraftId);
 DELETE FROM TEvents WHERE intAircraftId = @intAircraftId;
 DELETE FROM TAircraft WHERE intAircraftId = @intAircraftId;
 
