@@ -124,15 +124,15 @@ public class EventDAO implements IEventDAO {
         }
     }
 
-    private List<Object[]> getReasonsForAircraft(Long aircraftId) {
+    private List<Object[]> getReasonsForEvent(Long eventId) {
         try {
             // Call a stored procedure to get the reason information
-            Query query = entityManager.createNativeQuery("EXEC uspGetReasonsForAircraft :aircraftId");
-            query.setParameter("aircraftId", aircraftId);
+            Query query = entityManager.createNativeQuery("EXEC uspGetReasonsForEvent :eventId");
+            query.setParameter("eventId", eventId);
 
             return query.getResultList();
         } catch (Exception e) {
-            log.error("An error occurred while fetching reasons for aircraft: ", e);
+            log.error("An error occurred while fetching reasons for event: ", e);
             throw new RuntimeException(e);
         }
     }
@@ -201,7 +201,7 @@ public class EventDAO implements IEventDAO {
             //event.setDowntime(validateEventFields(currentRow.get(12)));
 
             // Set reasons
-            event.setReasonString(getReasons(event.getAircraft().getAircraftId()));
+            event.setReasonString(getReasons(event.getEventId()));
 
             // Add event to list
             events.add(event);
@@ -216,11 +216,11 @@ public class EventDAO implements IEventDAO {
 
     /**
      * Formats reasons into a string
-     * @param aircraftId aircraft
+     * @param eventId aircraft
      * @return comma separated reasons
      */
-    private String getReasons(Long aircraftId) {
-        List<Object[]> reasons = getReasonsForAircraft(aircraftId);
+    private String getReasons(Long eventId) {
+        List<Object[]> reasons = getReasonsForEvent(eventId);
 
         // Object[0] stand for intReasonId
         // Object[1] stand for strReason

@@ -499,8 +499,8 @@ GO
 -- -------------------------------------------------------------------------
 GO
 
-CREATE PROCEDURE uspGetReasonsForAircraft
-    @intAircraftId		AS INTEGER
+CREATE PROCEDURE uspGetReasonsForEvent
+    @intEventId		AS INTEGER
 AS
 
 BEGIN
@@ -509,14 +509,13 @@ SELECT
 	TR.intReasonId,
 	TR.strReason 
 FROM 
-	TEvents as TE JOIN TAircraft as TA
-		ON TA.intAircraftId = TE.intAircraftId
+	TEvents as TE
 	JOIN TEventReasons as TER
 		ON TER.intEventId = TE.intEventId
 	JOIN TReasons as TR
 		ON TR.intReasonId = TER.intReasonId
 WHERE 
-	TE.intAircraftId = @intAircraftId;
+	TE.intEventId = @intEventId;
 
 END;
 
