@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -192,9 +193,12 @@ public class EventDAO implements IEventDAO {
             event.setRemark(validateEventFields(currentRow.get(7)));
             event.setNextUpdate(validateEventFields(currentRow.get(8)));
             event.setBackInService(Integer.valueOf(validateEventFields(currentRow.get(9))));
-            event.setStartTime(validateEventFields(currentRow.get(10)));
-            event.setEndTime(validateEventFields(currentRow.get(11)));
-            event.setDowntime(validateEventFields(currentRow.get(12)));
+            Timestamp startTime = (Timestamp)currentRow.get(10);
+            event.setStartTime(startTime.toInstant());
+            Timestamp endTime = (Timestamp)currentRow.get(11);
+            event.setEndTime(endTime != null ? endTime.toInstant() : null);
+            //event.setEndTime(validateEventFields(currentRow.get(11)));
+            //event.setDowntime(validateEventFields(currentRow.get(12)));
 
             // Set reasons
             event.setReasonString(getReasons(event.getAircraft().getAircraftId()));

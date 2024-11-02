@@ -30,47 +30,12 @@ public class AircraftService implements IAircraftService {
 
     @Override
     public List<Aircraft> getAllAircraftFromCarrier(int carrierId) {
-        return aircraftDAO.getAllAircraftFromCarrier(carrierId);
+        return List.of();
     }
 
     @Override
     public void deleteAircraft(int aircraftId) {
         aircraftDAO.deleteAircraft(aircraftId);
-    }
-
-    @Override
-    public long calculateDownTime(String startTime, String endTime) {
-        // SQL may return decimal point after seconds. Remove if needed.
-        if (startTime.contains(".")) {
-            int period = startTime.indexOf(".");
-            startTime = startTime.substring(0, period);
-        }
-
-        if (endTime.contains(".")) {
-            int period = endTime.indexOf(".");
-            endTime = endTime.substring(0, period);
-        }
-
-        String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-        LocalDateTime start = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
-        LocalDateTime end = LocalDateTime.parse(endTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
-
-        Duration duration = Duration.between(start, end);
-
-        return Math.abs(duration.toHours());
-    }
-
-    @Override
-    public void showBackInService(int aircraftId) {
-        Aircraft aircraft = aircraftDAO.findById(aircraftId);
-        //Instant now = Instant.now();
-        //ZonedDateTime zonedDateTime = now.atZone(ZoneId.of("UTC"));
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        //String formattedDate = zonedDateTime.format(formatter);
-        aircraft.setEndTime(Instant.now());
-        aircraft.setBackInService(1);
-        aircraftDAO.updateAircraft(aircraft);
     }
 
     @Override

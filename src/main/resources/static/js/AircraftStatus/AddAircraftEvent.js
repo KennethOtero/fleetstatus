@@ -51,19 +51,13 @@ function postEvent() {
         aircraft: {
             // Add aircraftId once autocomplete feature is finished. Remove if statement on controller to save
             // aircraft once done.
-            tailNumber: inputs[0].value.trim(),
-            carrier: {
-                carrierId: inputs[4].value.trim()
-            },
-            type: {
-                typeId: inputs[6].value.trim()
-            }
+            aircraftId: inputs[0].value.trim()
         },
         reason:         selectedReasons,
         nextUpdate:     convertDateToSQL(inputs[2].value.trim()),
         remark:         inputs[3].value.trim(),
         backInService:  0,
-        startTime:      convertDateToSQL(inputs[5].value.trim())
+        startTime:      convertDateToSQL(inputs[4].value.trim())
     };
 
     $.ajax({
@@ -108,21 +102,17 @@ function displayResult(alertBoxName, message) {
 function getInputs() {
     // Have to manually do it this way or else it won't add to the array
     let inputs = [];
-    let tailNumber = document.getElementById("tailNumber");
+    let tailNumber = document.getElementById("tailNumberSelect");
     let reason = document.getElementById("reason");
     let nextUpdate = document.getElementById("dtmNextUpdate");
     let remark = document.getElementById("strRemark");
-    let carrier = document.getElementById("carrier");
     let startTime = document.getElementById("startTime");
-    let type = document.getElementById("addEventAircraftType");
 
     inputs.push(tailNumber);
     inputs.push(reason);
     inputs.push(nextUpdate);
     inputs.push(remark);
-    inputs.push(carrier);
     inputs.push(startTime);
-    inputs.push(type);
 
     return inputs;
 }
@@ -137,8 +127,7 @@ function convertDateToSQL(datetime) {
 // Get updated list of carriers, types, and reasons when modal is opened
 $("#addTailEvent").on("show.bs.modal", () => {
     fetchReasons();
-    fetchCarriers();
-    fetchTypes();
+    fetchAircraft("tailNumberSelect");
 });
 
 function fetchReasons() {
@@ -159,21 +148,3 @@ function fetchReasons() {
         .catch(error => console.error('Error fetching reasons:', error));
 }
 
-function fetchCarriers() {
-    fetch('/getAllCarrier')
-        .then(response => response.json())
-        .then(data => {
-            const carrierSelects = document.getElementsByClassName('carrierSelect');
-
-            for (let i = 0; i < carrierSelects.length; i++) {
-                carrierSelects[i].innerHTML = '';
-                data.forEach(carrier => {
-                    const option = document.createElement('option');
-                    option.value = carrier.carrierId;
-                    option.textContent = carrier.carrierName;
-                    carrierSelects[i].appendChild(option);
-                });
-            }
-        })
-        .catch(error => console.error('Error fetching carriers:', error));
-}
