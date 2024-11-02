@@ -197,7 +197,7 @@ public class EventDAO implements IEventDAO {
             event.setDowntime(validateEventFields(currentRow.get(12)));
 
             // Set reasons
-            event.setReasonString(getReasons(event.getAircraft().getAircraftId()));
+            event.setReasonString(getReasons(event.getEventId()));
 
             // Add event to list
             events.add(event);
