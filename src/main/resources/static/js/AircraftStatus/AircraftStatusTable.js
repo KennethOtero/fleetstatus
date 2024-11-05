@@ -5,8 +5,8 @@ getAircraftStatusTable();
 let tableBody = document.getElementById("statusDisplay");
 tableBody.addEventListener("click", function(event) {
     if (event.target && event.target.id.startsWith("backInService-")) {
-        const aircraftId = event.target.id.split("-")[1];
-        showBackInService(aircraftId);
+        const eventId = event.target.id.split("-")[1];
+        showBackInService(eventId);
     }
 });
 
@@ -17,7 +17,7 @@ setInterval(() => {
 
 // Update every 10 seconds
 function getAircraftStatusTable() {
-    fetch("getOutOfServiceAircraft")
+    fetch("/getOutOfServiceAircraft")
         .then(response => response.json())
         .then(data => {
             try {
@@ -35,8 +35,8 @@ function getAircraftStatusTable() {
         .catch(error => console.log(error));
 }
 
-function displayAircraftStatusTable(aircraft) {
-    if (aircraft.length === 0) {
+function displayAircraftStatusTable(events) {
+    if (events.length === 0) {
         tableBody.innerHTML = `
         <tr class="text-white text-center bg-dark">
             <td colspan="7">No current events.</td>
@@ -44,26 +44,15 @@ function displayAircraftStatusTable(aircraft) {
         return;
     }
 
-    for (let i = 0; i < aircraft.length; i++) {
-        let aircraftId = aircraft[i].aircraftId;
+    for (let i = 0; i < events.length; i++) {
+        let eventId = events[i].eventId;
 
         // Get correct aircraft image
         let imagePath = "";
-        if (aircraft[i].backInService) {
+        if (events[i].backInService) {
             imagePath = "/images/SmallGreenAircraft.png";
         } else {
             imagePath = "/images/SmallRedAircraft.png";
-        }
-
-        // Get reasons
-        let reasonString = "";
-        let length = aircraft[i].reason.length;
-        for (let j = 0; j < length; j++) {
-            if (j + 1 < length) {
-                reasonString += aircraft[i].reason[j].reason + ", ";
-            } else {
-                reasonString += aircraft[i].reason[j].reason;
-            }
         }
 
         tableBody.innerHTML += `
@@ -71,14 +60,14 @@ function displayAircraftStatusTable(aircraft) {
                 <td>
                     <img src="${imagePath}" alt="aircraft status image" />
                 </td>
-                <td>${aircraft[i].tailNumber}</td>
-                <td>${reasonString}</td>
-                <td>${aircraft[i].nextUpdate}</td>
-                <td>${aircraft[i].remark}</td>
+                <td>${events[i].aircraft.tailNumber}</td>
+                <td>${events[i].reasonString}</td>
+                <td>${events[i].nextUpdate}</td>
+                <td>${events[i].remark}</td>
                 <td>
-                    <input type="checkbox" id="backInService-${aircraftId}"/>
+                    <input type="checkbox" id="backInService-${eventId}"/>
                 </td>
-                <td id="downtime-${aircraftId}">${updateDowntime(aircraftId)}</td>
+                <td id="downtime-${eventId}">${updateDowntime(eventId)}</td>
             </tr>
         `;
     }

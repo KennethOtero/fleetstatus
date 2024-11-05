@@ -47,24 +47,29 @@ function postEvent() {
         };
     });
 
-    console.log("Selected Reasons:", selectedReasons);
-
-    const aircraft = {
-        tailNumber:     inputs[0].value.trim(),
-        reason:         selectedReasons, // 发送 reasons 对象数组到后端
+    const event = {
+        aircraft: {
+            // Add aircraftId once autocomplete feature is finished. Remove if statement on controller to save
+            // aircraft once done.
+            tailNumber: inputs[0].value.trim(),
+            carrier: {
+                carrierId: inputs[4].value.trim()
+            },
+            type: {
+                typeId: inputs[6].value.trim()
+            }
+        },
+        reason:         selectedReasons,
         nextUpdate:     convertDateToSQL(inputs[2].value.trim()),
         remark:         inputs[3].value.trim(),
-        backInService:  inputs[4].value.trim(),
-        carrier: {
-            carrierId:  inputs[5].value.trim()
-        },
-        startTime:      convertDateToSQL(inputs[6].value.trim())
+        backInService:  0,
+        startTime:      convertDateToSQL(inputs[5].value.trim())
     };
 
     $.ajax({
         type: "POST",
-        url: "/addAircraftEvent",
-        data: JSON.stringify(aircraft),
+        url: "/saveEvent",
+        data: JSON.stringify(event),
         contentType: "application/json",
         statusCode: {
             201: function() {
@@ -73,6 +78,9 @@ function postEvent() {
                 let modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
                 getAircraftStatusTable();
+            },
+            409: function() {
+                displayResult("addAircraftEventAlert", "This tail number already exists.");
             },
             500: function() {
                 // Display error
@@ -104,17 +112,17 @@ function getInputs() {
     let reason = document.getElementById("reason");
     let nextUpdate = document.getElementById("dtmNextUpdate");
     let remark = document.getElementById("strRemark");
-    let serviceStatus = document.getElementById("serviceStatus");
     let carrier = document.getElementById("carrier");
     let startTime = document.getElementById("startTime");
+    let type = document.getElementById("addEventAircraftType");
 
     inputs.push(tailNumber);
     inputs.push(reason);
     inputs.push(nextUpdate);
     inputs.push(remark);
-    inputs.push(serviceStatus);
     inputs.push(carrier);
     inputs.push(startTime);
+    inputs.push(type);
 
     return inputs;
 }
@@ -132,10 +140,11 @@ function convertDateToSQL(datetime) {
     return utcDate;
 }
 
-// Get updated list of carriers and reasons when modal is opened
+// Get updated list of carriers, types, and reasons when modal is opened
 $("#addTailEvent").on("show.bs.modal", () => {
     fetchReasons();
     fetchCarriers();
+    fetchTypes();
 });
 
 function fetchReasons() {
