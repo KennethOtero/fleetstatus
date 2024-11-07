@@ -91,10 +91,7 @@ public class EventService implements IEventService {
     public void showBackInService(int eventId) {
         Event event = eventDAO.findById(eventId);
         Instant now = Instant.now();
-        ZonedDateTime zonedDateTime = now.atZone(ZoneId.of("UTC"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = zonedDateTime.format(formatter);
-        event.setEndTime(formattedDate);
+        event.setEndTime(now);
         event.setBackInService(1);
         eventDAO.updateAircraft(event);
     }

@@ -1,6 +1,6 @@
 // Get updated list of aircraft when modal is opened
 $("#removeAircraft").on("show.bs.modal", () => {
-    fetchAircraft();
+    fetchAircraft("allTails");
 });
 
 function removeAircraft() {
@@ -44,11 +44,11 @@ function postRemoveAircraft() {
     });
 }
 
-function fetchAircraft() {
+function fetchAircraft(selectId) {
     fetch('/findAllAircraft')
         .then(response => response.json())
         .then(data => {
-            const allAircraft = document.getElementById('allTails');
+            const allAircraft = document.getElementById(selectId);
 
             // Clear old results
             allAircraft.innerHTML = "";
