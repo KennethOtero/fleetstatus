@@ -216,7 +216,7 @@ public class EventDAO implements IEventDAO {
 
     /**
      * Formats reasons into a string
-     * @param eventId aircraft
+     * @param eventId eventId
      * @return comma separated reasons
      */
     private String getReasons(Long eventId) {

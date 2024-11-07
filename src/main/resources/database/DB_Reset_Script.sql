@@ -39,7 +39,7 @@ IF OBJECT_ID('uspShowCarrierAircraftOOS')		        IS NOT NULL DROP PROCEDURE us
 IF OBJECT_ID('uspShowCarrierAircraftIS')		        IS NOT NULL DROP PROCEDURE uspShowCarrierAircraftIS;
 IF OBJECT_ID('uspUpdateAircraftServiceStatus')	        IS NOT NULL DROP PROCEDURE uspUpdateAircraftServiceStatus;
 IF OBJECT_ID('uspDeleteAircraft')				        IS NOT NULL DROP PROCEDURE uspDeleteAircraft;
-IF OBJECT_ID('uspGetReasonsForAircraft')				IS NOT NULL DROP PROCEDURE uspGetReasonsForAircraft;
+IF OBJECT_ID('uspGetReasonsForEvent')					IS NOT NULL DROP PROCEDURE uspGetReasonsForEvent;
 
 -- -------------------------------------------------------------------------
 -- Create Tables
@@ -486,7 +486,7 @@ AS
 
 BEGIN
 
-DELETE FROM TEventReasons WHERE intEventId = (SELECT intEventId FROM TEvents WHERE intAircraftId = @intAircraftId);
+DELETE FROM TEventReasons WHERE intEventId IN (SELECT intEventId FROM TEvents WHERE intAircraftId = @intAircraftId);
 DELETE FROM TEvents WHERE intAircraftId = @intAircraftId;
 DELETE FROM TAircraft WHERE intAircraftId = @intAircraftId;
 
@@ -509,8 +509,7 @@ SELECT
 	TR.intReasonId,
 	TR.strReason 
 FROM 
-	TEvents as TE
-	JOIN TEventReasons as TER
+	TEvents as TE JOIN TEventReasons as TER
 		ON TER.intEventId = TE.intEventId
 	JOIN TReasons as TR
 		ON TR.intReasonId = TER.intReasonId
