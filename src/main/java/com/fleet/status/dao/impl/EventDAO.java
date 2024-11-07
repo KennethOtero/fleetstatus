@@ -124,15 +124,15 @@ public class EventDAO implements IEventDAO {
         }
     }
 
-    private List<Object[]> getReasonsForEvent(Long eventId) {
+    private List<Object[]> getReasonsForAircraft(Long aircraftId) {
         try {
             // Call a stored procedure to get the reason information
-            Query query = entityManager.createNativeQuery("EXEC uspGetReasonsForEvent :eventId");
-            query.setParameter("eventId", eventId);
+            Query query = entityManager.createNativeQuery("EXEC uspGetReasonsForAircraft :aircraftId");
+            query.setParameter("aircraftId", aircraftId);
 
             return query.getResultList();
         } catch (Exception e) {
-            log.error("An error occurred while fetching reasons for event: ", e);
+            log.error("An error occurred while fetching reasons for aircraft: ", e);
             throw new RuntimeException(e);
         }
     }
@@ -193,15 +193,12 @@ public class EventDAO implements IEventDAO {
             event.setRemark(validateEventFields(currentRow.get(7)));
             event.setNextUpdate(validateEventFields(currentRow.get(8)));
             event.setBackInService(Integer.valueOf(validateEventFields(currentRow.get(9))));
-            Timestamp startTime = (Timestamp)currentRow.get(10);
-            event.setStartTime(startTime.toInstant());
-            Timestamp endTime = (Timestamp)currentRow.get(11);
-            event.setEndTime(endTime != null ? endTime.toInstant() : null);
-            //event.setEndTime(validateEventFields(currentRow.get(11)));
-            //event.setDowntime(validateEventFields(currentRow.get(12)));
+            event.setStartTime(validateEventFields(currentRow.get(10)));
+            event.setEndTime(validateEventFields(currentRow.get(11)));
+            event.setDowntime(validateEventFields(currentRow.get(12)));
 
             // Set reasons
-            event.setReasonString(getReasons(event.getEventId()));
+            event.setReasonString(getReasons(event.getAircraft().getAircraftId()));
 
             // Add event to list
             events.add(event);
@@ -216,7 +213,7 @@ public class EventDAO implements IEventDAO {
 
     /**
      * Formats reasons into a string
-     * @param eventId aircraft
+     * @param eventId eventId
      * @return comma separated reasons
      */
     private String getReasons(Long eventId) {
