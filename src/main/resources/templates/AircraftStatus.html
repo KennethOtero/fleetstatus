@@ -138,16 +138,62 @@
         </tbody>
     </table>
 
+    <div class="modal fade aircraftModal" id="editEventModal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEventTitle">Edit Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger d-none" id="editEventAlert" role="alert">
+                        This is a danger alert - check it out!
+                    </div>
+                    <label for="editTailNumber">Enter Tail Number</label>
+                    <input type="text" class="form-control" id="editTailNumber" placeholder="e.g. N123XY">
+
+                    <label for="editReason">Select Reason</label>
+                    <select id="editReason" multiple class="form-control">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+
+                    <label for="editDtmNextUpdate">Enter Next Update</label>
+                    <input type="datetime-local" class="form-control" id="editDtmNextUpdate">
+
+                    <label for="editRemark">Enter Remark</label>
+                    <input type="text" class="form-control" id="editRemark" placeholder="e.g. Bird strike to the #1 engine">
+
+                    <label for="editCarrier">Select Carrier</label>
+                    <select id="editCarrier" class="carrierSelect form-select lg-mb-3">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+
+                    <label for="editType">Select Type</label>
+                    <select id="editType" class="typeSelect form-select lg-mb-3">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+
+                    <label for="editStartTime">Enter Start Time</label>
+                    <input type="datetime-local" class="form-control" id="editStartTime">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="editEvent()">ADD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous" type="text/javascript"></script>
     <script src="/js/navbar/SideMenu.js" rel="script"></script>
     <script src="/js/AircraftStatus/AircraftStatusTable.js" rel="script"></script>
-    <script src="/js/AircraftStatus/Downtime.js" rel="script"></script>
+<!--    <script src="/js/AircraftStatus/Downtime.js" rel="script"></script>-->
     <script src="/js/AircraftStatus/AddAircraftEvent.js" rel="script"></script>
     <script src="/js/AircraftStatus/RemoveAircraft.js" rel="script"></script>
     <script src="/js/AircraftStatus/AddAircraft.js" rel="script"></script>
     <script src="/js/AircraftStatus/BackInService.js" rel="script"></script>
+    <script src="/js/AircraftStatus/EditEvent.js"></script>
 </body>
 </html>
