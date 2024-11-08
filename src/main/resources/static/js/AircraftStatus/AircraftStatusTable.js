@@ -68,7 +68,7 @@ function displayAircraftStatusTable(events) {
                     <input type="checkbox" id="backInService-${eventId}"/>
                 </td>
                 <td>
-                    <button class="btn btn-primary" onclick="${editEvent(events[i])}">Update</button>
+                    <button class="btn btn-primary" onclick="${showEditModal(events[i])}">Update</button>
                 </td>
             </tr>
         `;
