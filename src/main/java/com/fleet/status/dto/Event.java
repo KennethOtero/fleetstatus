@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -25,11 +27,11 @@ public class Event {
     @Column(name = "blnBackInService")
     private Integer backInService;
     @Column(name = "dtmStartTime")
-    private String startTime;
+    private Instant startTime;
     @Column(name = "dtmEndTime")
-    private String endTime;
-    @Column(name = "strDowntime")
-    private String downtime;
+    private Instant endTime;
+    //@Column(name = "strDowntime")
+    //private String downtime;
 
     @ManyToOne
     @JoinColumn(name = "intAircraftId", referencedColumnName = "intAircraftId")
@@ -53,5 +55,13 @@ public class Event {
             return nextUpdate.substring(10, 16) + "z";
         }
         return null;
+    }
+
+    public String getDownTime(){
+        if (getEndTime() == null || getStartTime() == null) {
+            return "Down time is not available";
+        }
+        Duration downtime = Duration.between(startTime, endTime);
+        return "Down Time: " + downtime.toDaysPart() + "d " + downtime.toHoursPart() + "h " + downtime.toMinutesPart() + "m";
     }
 }

@@ -88,15 +88,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title">Add a New Tail</h5>
+                    <h5 class="modal-title" id="modal-title">Add a New Event</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger d-none" id="addAircraftEventAlert" role="alert">
                           This is a danger alert - check it out!
                     </div>
-                    <label for="tailNumber">Enter Tail Number</label>
-                    <input type="text" class="form-control" id="tailNumber" placeholder="e.g. N123XY">
+                    <label for="tailNumberSelect">Select Tail Number</label>
+                    <select id="tailNumberSelect" class="form-control">
+                        <!-- Options will be populated dynamically -->
+                    </select>
 
                     <label for="reason">Select Reason</label>
                     <select id="reason" multiple class="form-control">
@@ -108,16 +110,6 @@
 
                     <label for="strRemark">Enter Remark</label>
                     <input type="text" class="form-control" id="strRemark" placeholder="e.g. Bird strike to the #1 engine">
-
-                    <label for="carrier">Select Carrier</label>
-                    <select id="carrier" class="carrierSelect form-select lg-mb-3">
-                        <!-- Options will be populated dynamically -->
-                    </select>
-
-                    <label for="addEventAircraftType">Select Type</label>
-                    <select id="addEventAircraftType" class="typeSelect form-select lg-mb-3">
-                        <!-- Options will be populated dynamically -->
-                    </select>
 
                     <label for="startTime">Enter Start Time</label>
                     <input type="datetime-local" class="form-control" id="startTime">

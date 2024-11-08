@@ -85,6 +85,25 @@ $("#addAircraft").on("show.bs.modal", () => {
     fetchTypes();
 });
 
+function fetchCarriers() {
+    fetch('/getAllCarrier')
+        .then(response => response.json())
+        .then(data => {
+            const carrierSelects = document.getElementsByClassName('carrierSelect');
+            for (let i = 0; i < carrierSelects.length; i++) {
+                carrierSelects[i].innerHTML = '';  // Clear the existing options
+                data.forEach(carrier => {  // Change 'type' to 'carrier' here
+                    const option = document.createElement("option");
+                    option.value = carrier.carrierId;  // Use 'carrierId' from the correct object
+                    option.textContent = carrier.carrierName;  // Use 'carrierName' from the correct object
+                    carrierSelects[i].appendChild(option);
+                });
+            }
+        })
+        .catch(error => console.error('Error fetching carriers:', error));  // Corrected error message
+}
+
+
 function fetchTypes() {
     fetch('/getAllTypes')
         .then(response => response.json())

@@ -30,7 +30,7 @@ public class AircraftService implements IAircraftService {
 
     @Override
     public List<Aircraft> getAllAircraftFromCarrier(int carrierId) {
-        return aircraftDAO.getAllAircraftFromCarrier(carrierId);
+        return List.of();
     }
 
     @Override

@@ -68,11 +68,6 @@ public class FleetStatusController {
     @ResponseBody
     public ResponseEntity<String> submitEvent(@RequestBody Event event) {
         try {
-            // Save aircraft first if needed
-            if (event.getAircraft().getAircraftId() == null) {
-                aircraftService.save(event.getAircraft());
-            }
-
             eventService.save(event);
             return new ResponseEntity<>("New event saved.", HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
@@ -92,7 +87,8 @@ public class FleetStatusController {
             return "Down time is not available";
         }
 
-        long hours = eventService.calculateDownTime(event.getStartTime(), event.getEndTime());
+        //long hours = eventService.calculateDownTime(event.getStartTime(), event.getEndTime());
+        long hours = 0;
         return hours + " hour(s).";
     }
 
