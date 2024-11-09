@@ -8,6 +8,12 @@ tableBody.addEventListener("click", function(event) {
         const eventId = event.target.id.split("-")[1];
         showBackInService(eventId);
     }
+
+    // Open edit event modal on click
+    if (event.target && event.target.id.startsWith("editEvent-")) {
+        const eventId = event.target.id.split("-")[1];
+        editEvent(eventId);
+    }
 });
 
 setInterval(() => {
@@ -68,7 +74,7 @@ function displayAircraftStatusTable(events) {
                     <input type="checkbox" id="backInService-${eventId}"/>
                 </td>
                 <td>
-                    <button class="btn btn-primary" onclick="${showEditModal(events[i])}">Update</button>
+                    <button class="btn btn-primary" id="editEvent-${eventId}">Update</button>
                 </td>
             </tr>
         `;
