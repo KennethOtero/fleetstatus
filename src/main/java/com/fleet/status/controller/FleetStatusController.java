@@ -173,4 +173,21 @@ public class FleetStatusController {
             return new ResponseEntity<>("Failed to save aircraft.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/findEvent/{eventId}")
+    @ResponseBody
+    public Event findEvent(@PathVariable int eventId) {
+        return eventService.findById(eventId);
+    }
+
+    @PostMapping(value = "editEvent", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<String> editEvent(@RequestBody Event event) {
+        try {
+            eventService.updateAircraft(event);
+            return new ResponseEntity<>("Updated event ID " + event.getEventId() + ".", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to edit event.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -1,23 +1,30 @@
-function showEditModal(event) {
-    // Open modal and load fields
+function editEvent(eventId) {
+    // Show modal
     const editModal = document.getElementById("editEventModal");
     const modal = new bootstrap.Modal(editModal);
     modal.show();
 
-    if (validateEditEvent(getEditFields())) {
-        editEvent(event);
-    }
+    // Get current event with ID
+    fetch("/findEvent/" + eventId)
+        .then(response => response.json())
+        .then(data => {
+            // Load data into modal
+            loadEditFields(data);
+
+            // Update event on save
+            sendUpdateEvent(data, modal);
+        })
+        .catch(error => console.error(error));
 }
 
-function editEvent(event) {
-    // fetch("/")
-    //     .then(response => response.json())
-    //     .catch(error => console.error(error));
+function sendUpdateEvent(event, modal) {
+    let fields = getEditFields();
+    if (validateEditEvent(fields)) {
+        // Send update call
 
-    // Close modal
-    const editModal = document.getElementById("editEventModal");
-    const modal = new bootstrap.Modal(editModal);
-    modal.hide();
+        // Close modal
+        modal.hide();
+    }
 }
 
 function validateEditEvent(fields) {
@@ -35,21 +42,23 @@ function validateEditEvent(fields) {
 function getEditFields() {
     const fields = [];
 
-    const editTailNumber = document.getElementById("editTailNumber");
     const editReason = document.getElementById("editReason");
     const editDtmNextUpdate = document.getElementById("editDtmNextUpdate");
     const editRemark = document.getElementById("editRemark");
-    const editCarrier = document.getElementById("editCarrier");
-    const editType = document.getElementById("editType");
-    const editStartTime = document.getElementById("editTailNumber");
+    const editStartTime = document.getElementById("editStartTime");
 
-    fields.push(editTailNumber);
     fields.push(editReason);
     fields.push(editDtmNextUpdate);
     fields.push(editRemark);
-    fields.push(editCarrier);
-    fields.push(editType);
     fields.push(editStartTime);
 
     return fields;
+}
+
+function loadEditFields(event) {
+    let fields = getEditFields();
+    fields[0].value = ""; // Get all reasons and select ones from event
+    fields[1].value = ""; // Turn next update back into date picker format
+    fields[2].value = event.remark;
+    fields[3].value = event.startTime; // Format to date picker as well
 }
