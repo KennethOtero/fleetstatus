@@ -11,19 +11,54 @@ function editEvent(eventId) {
             // Load data into modal
             loadEditFields(data);
 
-            // Update event on save
-            sendUpdateEvent(data, modal);
+            // Update event on save button click
+            const submit = document.getElementById("submitEditEvent");
+            submit.addEventListener("click", () => {
+                sendUpdateEvent(data);
+            });
         })
         .catch(error => console.error(error));
 }
 
-function sendUpdateEvent(event, modal) {
+function sendUpdateEvent(event) {
     let fields = getEditFields();
     if (validateEditEvent(fields)) {
+        // Get the selected reasons and turn them into an object
+        const selectedReasons = Array
+            .from(fields[0].selectedOptions)
+            .map(option => {
+                return {
+                    reasonId: option.value, // Map reasonId to Reason object
+                    reason: option.textContent
+                };
+            });
+
+        const eventObject = {
+            eventId: event.eventId,
+            aircraftId: event.aircraftId,
+            reason: selectedReasons,
+            nextUpdate: convertDateToSQL(fields[1].value.trim()),
+            remark: fields[2].value.trim(),
+            startTime: convertDateToSQL(fields[3].value.trim()),
+        }
+
         // Send update call
+        fetch("/editEvent", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(eventObject)
+        })
+        .then(response => response.json())
+        .catch(error => console.error(error));
 
         // Close modal
+        let modalElement = document.getElementById("editEventModal");
+        let modal = bootstrap.Modal.getInstance(modalElement);
         modal.hide();
+    } else {
+        displayResult("editEventAlert", "Please enter all fields.");
     }
 }
 
@@ -31,8 +66,15 @@ function validateEditEvent(fields) {
     let result = true;
 
     for (let i = 0; i < fields.length; i++) {
-        if (fields[i].value.trim() === "") {
-            result = false;
+        if (i === 0) {
+            // Check if at least one reason is selected
+            if (fields[i].selectedIndex === -1) {
+                result = false;
+            }
+        } else {
+            if (fields[i].value.trim() === "") {
+                result = false;
+            }
         }
     }
 
