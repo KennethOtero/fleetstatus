@@ -82,7 +82,7 @@ function loadEditFields(event) {
             // Select reasons matching the event
             for (const option of fields[0].options) {
                 for (let i = 0; i < event.reason.length; i++) {
-                    if (option.value === event.reason[i].reasonId) {
+                    if (option.value === event.reason[i].reasonId.toString()) {
                         option.selected = true;
                     }
                 }
