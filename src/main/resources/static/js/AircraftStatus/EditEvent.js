@@ -55,10 +55,43 @@ function getEditFields() {
     return fields;
 }
 
+/**
+ * Loads the edit modal with information pertaining to the passed in Event object.
+ * @param event event to be loaded in
+ */
 function loadEditFields(event) {
+    // Add corresponding title
+    const title = document.getElementById("editEventTitle");
+    title.innerText = "Edit Event for " + event.aircraft.tailNumber;
+
     let fields = getEditFields();
-    fields[0].value = ""; // Get all reasons and select ones from event
-    fields[1].value = ""; // Turn next update back into date picker format
-    fields[2].value = event.remark;
-    fields[3].value = event.startTime; // Format to date picker as well
+
+    // Get all reasons
+    fetch("/getAllReason")
+        .then(response => response.json())
+        .then(data => {
+            // Add options to editReason multi-select box
+            fields[0].innerHTML = '';
+            data.forEach(reason => {
+                const option = document.createElement("option");
+                option.value = reason.reasonId;
+                option.textContent = reason.reason;
+                fields[0].appendChild(option);
+            });
+
+            // Select reasons matching the event
+            for (const option of fields[0].options) {
+                for (let i = 0; i < event.reason.length; i++) {
+                    if (option.value === event.reason[i].reasonId) {
+                        option.selected = true;
+                    }
+                }
+            }
+
+            // Populate other fields
+            fields[1].value = convertToDateTimeLocal(event.nextUpdate);
+            fields[2].value = event.remark;
+            fields[3].value = convertToDateTimeLocal(event.startTime);
+        })
+        .catch(error => console.error(error));
 }
