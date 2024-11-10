@@ -114,7 +114,7 @@ public class EventDAO implements IEventDAO {
     }
 
     @Override
-    public void updateAircraft(Event event) {
+    public void updateEvent(Event event) {
         try {
             entityManager.merge(event);
             log.info("Updated event ID {} with aircraft ID {}", event.getEventId() ,event.getAircraft().getAircraftId());
@@ -158,8 +158,7 @@ public class EventDAO implements IEventDAO {
             dtmNextUpdate,
             blnBackInService,
             dtmStartTime,
-            dtmEndTime,
-            strDownTime
+            dtmEndTime
 
        NOTE: Matches order of output from SQL query.
         */
@@ -167,8 +166,8 @@ public class EventDAO implements IEventDAO {
         for (Object[] row : queryResults) {
             List<Object> currentRow = Arrays.stream(row).toList();
 
-            // Exit if query results do not have all 13 columns
-            if (currentRow.size() != 13) {
+            // Exit if query results do not have all 12 columns
+            if (currentRow.size() != 12) {
                 return null;
             }
 
@@ -197,8 +196,6 @@ public class EventDAO implements IEventDAO {
             event.setStartTime(startTime.toInstant());
             Timestamp endTime = (Timestamp)currentRow.get(11);
             event.setEndTime(endTime != null ? endTime.toInstant() : null);
-            //event.setEndTime(validateEventFields(currentRow.get(11)));
-            //event.setDowntime(validateEventFields(currentRow.get(12)));
 
             // Set reasons
             event.setReasonString(getReasons(event.getEventId()));

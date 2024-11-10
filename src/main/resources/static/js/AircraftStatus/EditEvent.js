@@ -33,18 +33,16 @@ function sendUpdateEvent(event) {
                 };
             });
 
-        const eventObject = {
-            eventId: event.eventId,
-            aircraftId: event.aircraftId,
-            reason: selectedReasons,
-            nextUpdate: convertDateToSQL(fields[1].value.trim()),
-            remark: fields[2].value.trim(),
-            startTime: convertDateToSQL(fields[3].value.trim()),
-        }
+        const eventObject = [
+            { op: "replace", path: "/reason", value: selectedReasons },
+            { op: "replace", path: "/nextUpdate", value: convertDateToSQL(fields[1].value.trim()) },
+            { op: "replace", path: "/remark", value: fields[2].value.trim() },
+            { op: "replace", path: "/startTime", value: convertDateToSQL(fields[3].value.trim()) }
+        ];
 
         // Send update call
-        fetch("/editEvent", {
-            method: 'POST',
+        fetch("/editEvent/" + event.eventId, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },

@@ -22,5 +22,5 @@ public interface IEventDAO {
 
     List<Event> getAllAircraftFromCarrierIS(int carrierId);
 
-    void updateAircraft(Event event);
+    void updateEvent(Event event);
 }

@@ -77,7 +77,6 @@ CREATE TABLE TEvents
 	blnBackInService	INTEGER				NOT NULL,
 	dtmStartTime		DATETIME			,
 	dtmEndTime			DATETIME			,
-	strDownTime			NVARCHAR(250)		,
 	CONSTRAINT TEvents_PK PRIMARY KEY (intEventId)
 );
 
@@ -166,10 +165,10 @@ VALUES					('N767AX', 1, 1),
 						('N650GT', 2, 2),
 						('N762CK', 3, 3)
 
-INSERT INTO TEvents		(intAircraftId, strRemark, dtmNextUpdate, blnBackInService, dtmStartTime, dtmEndTime, strDownTime)
-VALUES					(1, 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, DATEADD(hour, -1, GETUTCDATE()), GETUTCDATE(), '0d 1h 0m'),
-						(2, '#1 Generator inop', '2024-10-15 21:00:0', 1, DATEADD(hour, -2, GETUTCDATE()), GETUTCDATE(), '0d 2h 0m'),
-						(3, 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, DATEADD(hour, -3, GETUTCDATE()), GETUTCDATE(), '0d 3h 0m')
+INSERT INTO TEvents		(intAircraftId, strRemark, dtmNextUpdate, blnBackInService, dtmStartTime, dtmEndTime)
+VALUES					(1, 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, DATEADD(hour, -1, GETUTCDATE()), GETUTCDATE()),
+						(2, '#1 Generator inop', '2024-10-15 21:00:0', 1, DATEADD(hour, -2, GETUTCDATE()), GETUTCDATE()),
+						(3, 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, DATEADD(hour, -3, GETUTCDATE()), GETUTCDATE())
 
 INSERT INTO TReasons    (strReason)
 VALUES                  ('Maintenance'),
@@ -211,8 +210,7 @@ SELECT
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
 	TE.dtmStartTime,
-	TE.dtmEndTime,
-	TE.strDownTime
+	TE.dtmEndTime
 FROM 
 	TEvents as TE JOIN
 		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
@@ -242,8 +240,7 @@ SELECT
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
 	TE.dtmStartTime,
-	TE.dtmEndTime,
-	TE.strDownTime
+	TE.dtmEndTime
 FROM 
 	TEvents as TE JOIN
 		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
@@ -275,8 +272,7 @@ SELECT
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
 	TE.dtmStartTime,
-	TE.dtmEndTime,
-	TE.strDownTime
+	TE.dtmEndTime
 FROM 
 	TEvents as TE JOIN
 		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
@@ -364,8 +360,7 @@ SELECT
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
 	TE.dtmStartTime,
-	TE.dtmEndTime,
-	TE.strDownTime
+	TE.dtmEndTime
 FROM 
 	TEvents as TE JOIN
 		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
@@ -404,8 +399,7 @@ SELECT
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
 	TE.dtmStartTime,
-	TE.dtmEndTime,
-	TE.strDownTime
+	TE.dtmEndTime
 FROM 
 	TEvents as TE JOIN
 		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId
@@ -458,8 +452,7 @@ SELECT
 	TE.dtmNextUpdate,
 	TE.blnBackInService,
 	TE.dtmStartTime,
-	TE.dtmEndTime,
-	TE.strDownTime
+	TE.dtmEndTime
 FROM 
 	TEvents as TE JOIN
 		TAircraft as TA ON TA.intAircraftId = TE.intAircraftId

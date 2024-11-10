@@ -1,8 +1,12 @@
 package com.fleet.status.service.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fleet.status.dao.impl.EventDAO;
 import com.fleet.status.dto.Event;
 import com.fleet.status.service.IEventService;
+import com.github.fge.jsonpatch.JsonPatch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -60,8 +64,8 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public void updateAircraft(Event event) {
-        eventDAO.updateAircraft(event);
+    public void updateEvent(Event event) {
+        eventDAO.updateEvent(event);
     }
 
     @Override
@@ -93,6 +97,25 @@ public class EventService implements IEventService {
         Instant now = Instant.now();
         event.setEndTime(now);
         event.setBackInService(1);
-        eventDAO.updateAircraft(event);
+        eventDAO.updateEvent(event);
+    }
+
+    /**
+     * Converts the fields to update within the JsonPatch object to an Event object
+     * @param patch - new fields to update
+     * @param event - original Event
+     * @return - Updated Event object
+     */
+    @Override
+    public Event patchEvent(JsonPatch patch, Event event) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule()); // Needed to handle dates
+            JsonNode patched = patch.apply(mapper.convertValue(event, JsonNode.class));
+            return mapper.treeToValue(patched, Event.class);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }
