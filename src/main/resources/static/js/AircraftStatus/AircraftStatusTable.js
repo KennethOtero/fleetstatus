@@ -3,7 +3,7 @@ getAircraftStatusTable();
 
 // Show back in service on click
 let tableBody = document.getElementById("statusDisplay");
-tableBody.addEventListener("click", function(event) {
+tableBody.addEventListener("click", async function(event) {
     if (event.target && event.target.id.startsWith("backInService-")) {
         const eventId = event.target.id.split("-")[1];
         showBackInService(eventId);
@@ -12,7 +12,7 @@ tableBody.addEventListener("click", function(event) {
     // Open edit event modal on click
     if (event.target && event.target.id.startsWith("editEvent-")) {
         const eventId = event.target.id.split("-")[1];
-        editEvent(eventId);
+        await editEvent(eventId);
     }
 });
 
