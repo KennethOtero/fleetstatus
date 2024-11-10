@@ -48,7 +48,12 @@ function sendUpdateEvent(event) {
             },
             body: JSON.stringify(eventObject)
         })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 200) {
+                // Update table after edit
+                getAircraftStatusTable();
+            }
+        })
         .catch(error => console.error(error));
 
         // Close modal
