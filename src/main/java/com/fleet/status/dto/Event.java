@@ -1,7 +1,9 @@
 package com.fleet.status.dto;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.time.Duration;
@@ -43,6 +45,10 @@ public class Event {
 
     @Transient
     private String reasonString;
+
+    @Transient
+    @Getter(AccessLevel.NONE)
+    private String downTime;
 
     public String getDownTime(){
         if (getEndTime() == null || getStartTime() == null) {

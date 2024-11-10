@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fleet.status.dto.*;
 import com.fleet.status.service.impl.*;
+import com.github.fge.jsonpatch.JsonPatch;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,12 +181,14 @@ public class FleetStatusController {
         return eventService.findById(eventId);
     }
 
-    @PostMapping(value = "editEvent", consumes = "application/json", produces = "application/json")
-    @ResponseBody
-    public ResponseEntity<String> editEvent(@RequestBody Event event) {
+    @Transactional
+    @PatchMapping(value = "editEvent/{eventId}", consumes = "application/json")
+    public ResponseEntity<String> editEvent(@PathVariable String eventId, @RequestBody JsonPatch patch) {
         try {
-            eventService.updateAircraft(event);
-            return new ResponseEntity<>("Updated event ID " + event.getEventId() + ".", HttpStatus.OK);
+            Event eventToUpdate = eventService.findById(Integer.parseInt(eventId));
+            Event patchedEvent = eventService.patchEvent(patch, eventToUpdate);
+            eventService.updateEvent(patchedEvent);
+            return new ResponseEntity<>("Updated event ID " + eventId + ".", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to edit event.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
