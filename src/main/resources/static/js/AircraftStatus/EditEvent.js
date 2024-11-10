@@ -1,26 +1,23 @@
-function editEvent(eventId) {
+async function editEvent(eventId) {
     // Show modal
     const editModal = document.getElementById("editEventModal");
     const modal = new bootstrap.Modal(editModal);
     modal.show();
 
     // Get current event with ID
-    fetch("/findEvent/" + eventId)
-        .then(response => response.json())
-        .then(data => {
-            // Load data into modal
-            loadEditFields(data);
+    const response = await fetch("/findEvent/" + eventId);
+    const event = await response.json();
+    await loadEditFields(event);
 
-            // Update event on save button click
-            const submit = document.getElementById("submitEditEvent");
-            submit.addEventListener("click", () => {
-                sendUpdateEvent(data);
-            });
-        })
-        .catch(error => console.error(error));
+    // Update event on save button click
+    const submit = document.getElementById("submitEditEvent");
+    submit.addEventListener("click", () => {
+        console.log("Sending...")
+        sendUpdateEvent(event);
+    });
 }
 
-function sendUpdateEvent(event) {
+async function sendUpdateEvent(event) {
     let fields = getEditFields();
     if (validateEditEvent(fields)) {
         // Get the selected reasons and turn them into an object
@@ -41,25 +38,25 @@ function sendUpdateEvent(event) {
         ];
 
         // Send update call
-        fetch("/editEvent/" + event.eventId, {
+        let response = await fetch("/editEvent/" + event.eventId, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(eventObject)
-        })
-        .then(response => {
-            if (response.status === 200) {
-                // Update table after edit
-                getAircraftStatusTable();
-            }
-        })
-        .catch(error => console.error(error));
+        });
 
-        // Close modal
-        let modalElement = document.getElementById("editEventModal");
-        let modal = bootstrap.Modal.getInstance(modalElement);
-        modal.hide();
+        if (response.status === 200) {
+            // Update table after edit
+            getAircraftStatusTable();
+
+            // Close modal
+            let modalElement = document.getElementById("editEventModal");
+            let modal = bootstrap.Modal.getInstance(modalElement);
+            modal.hide();
+        } else {
+            displayResult("editEventAlert", "Failed to update event for tail number " + event.aircraft.tailNumber);
+        }
     } else {
         displayResult("editEventAlert", "Please enter all fields.");
     }
@@ -104,7 +101,7 @@ function getEditFields() {
  * Loads the edit modal with information pertaining to the passed in Event object.
  * @param event event to be loaded in
  */
-function loadEditFields(event) {
+async function loadEditFields(event) {
     // Add corresponding title
     const title = document.getElementById("editEventTitle");
     title.innerText = "Edit Event for " + event.aircraft.tailNumber;
@@ -112,31 +109,32 @@ function loadEditFields(event) {
     let fields = getEditFields();
 
     // Get all reasons
-    fetch("/getAllReason")
-        .then(response => response.json())
-        .then(data => {
-            // Add options to editReason multi-select box
-            fields[0].innerHTML = '';
-            data.forEach(reason => {
-                const option = document.createElement("option");
-                option.value = reason.reasonId;
-                option.textContent = reason.reason;
-                fields[0].appendChild(option);
-            });
+    let response = await fetch("/getAllReason");
 
-            // Select reasons matching the event
-            for (const option of fields[0].options) {
-                for (let i = 0; i < event.reason.length; i++) {
-                    if (option.value === event.reason[i].reasonId.toString()) {
-                        option.selected = true;
-                    }
+    let json = await response.json();
+
+    if (json !== null) {
+        // Load in reasons
+        fields[0].innerHTML = '';
+        json.forEach(reason => {
+            const option = document.createElement("option");
+            option.value = reason.reasonId;
+            option.textContent = reason.reason;
+            fields[0].appendChild(option);
+        });
+
+        // Select reasons matching the event
+        for (const option of fields[0].options) {
+            for (let i = 0; i < event.reason.length; i++) {
+                if (option.value === event.reason[i].reasonId.toString()) {
+                    option.selected = true;
                 }
             }
+        }
 
-            // Populate other fields
-            fields[1].value = convertToDateTimeLocal(event.nextUpdate);
-            fields[2].value = event.remark;
-            fields[3].value = convertToDateTimeLocal(event.startTime);
-        })
-        .catch(error => console.error(error));
+        // Populate other fields
+        fields[1].value = convertToDateTimeLocal(event.nextUpdate);
+        fields[2].value = event.remark;
+        fields[3].value = convertToDateTimeLocal(event.startTime);
+    }
 }
