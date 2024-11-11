@@ -25,11 +25,12 @@ IF OBJECT_ID('TRoles')	            	IS NOT NULL DROP TABLE TRoles;
 -- -------------------------------------------------------------------------
 -- Drop Views
 -- -------------------------------------------------------------------------
-IF OBJECT_ID('vAllAircraft')			IS NOT NULL DROP VIEW vAllAircraft;
-IF OBJECT_ID('vOutOfServiceAircraft')	IS NOT NULL DROP VIEW vOutOfServiceAircraft;
-IF OBJECT_ID('vInServiceAircraft')		IS NOT NULL DROP VIEW vInServiceAircraft;
-IF OBJECT_ID('vAllReason')		    	IS NOT NULL DROP VIEW vAllReason;
-IF OBJECT_ID('vAllCarrier')		    	IS NOT NULL DROP VIEW vAllCarrier;
+IF OBJECT_ID('vAllAircraft')			    IS NOT NULL DROP VIEW vAllAircraft;
+IF OBJECT_ID('vOutOfServiceAircraft')	    IS NOT NULL DROP VIEW vOutOfServiceAircraft;
+IF OBJECT_ID('vInServiceAircraft')		    IS NOT NULL DROP VIEW vInServiceAircraft;
+IF OBJECT_ID('vAllReason')		    	    IS NOT NULL DROP VIEW vAllReason;
+IF OBJECT_ID('vAllCarrier')		        	IS NOT NULL DROP VIEW vAllCarrier;
+IF OBJECT_ID('vEventHistory')		    	IS NOT NULL DROP VIEW vEventHistory;
 
 -- -------------------------------------------------------------------------
 -- Drop Stored Procedures
@@ -308,6 +309,38 @@ GO
 CREATE VIEW vAllCarrier
 AS
 SELECT * FROM TCarriers
+
+GO
+
+-- -------------------------------------------------------------------------
+-- View to show all events as history
+-- -------------------------------------------------------------------------
+GO
+
+CREATE VIEW vEventHistory AS
+SELECT
+    TC.intCarrierId,
+    TC.strCarrier,
+    TT.intTypeId,
+    TT.strType,
+    TA.intAircraftId,
+    TA.strTailNumber,
+    TE.intEventid,
+    TE.strRemark,
+    TE.dtmNextUpdate,
+    TE.blnBackInService,
+    TE.dtmStartTime,
+    TE.dtmEndTime,
+    TE.strDownTime
+FROM
+    TEvents AS TE
+        JOIN
+    TAircraft AS TA ON TE.intAircraftId = TA.intAircraftId
+        JOIN TCarriers as TC
+             ON TC.intCarrierId = TA.intCarrierId
+        JOIN TTypes as TT
+             ON TT.intTypeId = TA.intTypeId
+
 
 GO
 

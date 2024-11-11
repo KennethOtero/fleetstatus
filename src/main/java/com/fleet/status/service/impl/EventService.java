@@ -95,4 +95,9 @@ public class EventService implements IEventService {
         event.setBackInService(1);
         eventDAO.updateAircraft(event);
     }
+
+    @Override
+    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
+        return eventDAO.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+    }
 }

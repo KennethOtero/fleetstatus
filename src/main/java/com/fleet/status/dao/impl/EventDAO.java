@@ -124,6 +124,55 @@ public class EventDAO implements IEventDAO {
         }
     }
 
+    @Override
+    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
+        try {
+            StringBuilder queryBuilder = new StringBuilder("SELECT * FROM vEventHistory WHERE 1=1");
+
+            if (carrierId != null) {
+                queryBuilder.append(" AND intCarrierId = :carrierId");
+            }
+            if (typeId != null) {
+                queryBuilder.append(" AND intTypeId = :typeId");
+            }
+            if (tailNumber != null && !tailNumber.isEmpty()) {
+                queryBuilder.append(" AND strTailNumber LIKE :tailNumber");
+            }
+
+            // By using GROUP BY and HAVING in the sub-query, only those event ID records are kept whose number of intReasonId is equal to the number of reasons in the reasonIds list.
+            if (reasonIds != null && !reasonIds.isEmpty()) {
+                queryBuilder.append(" AND intEventId IN (")
+                        .append("SELECT intEventId FROM TEventReasons ")
+                        .append("WHERE intReasonId IN :reasonIds ")
+                        .append("GROUP BY intEventId ")
+                        .append("HAVING COUNT(DISTINCT intReasonId) = :reasonCount)");
+            }
+
+            Query query = entityManager.createNativeQuery(queryBuilder.toString());
+
+            if (carrierId != null) {
+                query.setParameter("carrierId", carrierId);
+            }
+            if (typeId != null) {
+                query.setParameter("typeId", typeId);
+            }
+            if (tailNumber != null && !tailNumber.isEmpty()) {
+                query.setParameter("tailNumber", "%" + tailNumber + "%");
+            }
+            if (reasonIds != null && !reasonIds.isEmpty()) {
+                query.setParameter("reasonIds", reasonIds);
+                query.setParameter("reasonCount", reasonIds.size()); // Pass the reason number for comparison
+            }
+
+            List<Object[]> results = query.getResultList();
+            return setEventList(results);
+        } catch (Exception e) {
+            log.error("An error occurred while selecting all event history ", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+
     private List<Object[]> getReasonsForEvent(Long eventId) {
         try {
             // Call a stored procedure to get the reason information
