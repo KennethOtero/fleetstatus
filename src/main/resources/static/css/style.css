@@ -65,7 +65,7 @@ a,
 
 /* MENU CONTAINER ----- */
 	.side_menu {
-		background: #080353;
+		background: #DAAE00; /*#080353*/
 		height: 100vh;
 		left: -250px;
 		position: absolute;
