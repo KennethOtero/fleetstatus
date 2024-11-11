@@ -11,8 +11,9 @@ async function editEvent(eventId) {
 
     // Update event on save button click
     const submit = document.getElementById("submitEditEvent");
-    submit.addEventListener("click", () => {
-        console.log("Sending...")
+    const newSubmit = submit.cloneNode(true);
+    submit.parentNode.replaceChild(newSubmit, submit); // Removes existing eventListeners to avoid multiple calls of sendUpdateEvent
+    newSubmit.addEventListener("click", () => {
         sendUpdateEvent(event);
     });
 }
