@@ -26,4 +26,6 @@ public interface IEventService {
     long calculateDownTime(String startTime, String endTime);
 
     void showBackInService(int aircraftId);
+
+    List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds);
 }
