@@ -326,8 +326,7 @@ SELECT
     TE.dtmNextUpdate,
     TE.blnBackInService,
     TE.dtmStartTime,
-    TE.dtmEndTime,
-    TE.strDownTime
+    TE.dtmEndTime
 FROM
     TEvents AS TE
         JOIN
