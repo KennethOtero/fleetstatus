@@ -20,7 +20,7 @@ public class Event {
     private Long eventId;
 
     @Column(name = "dtmNextUpdate")
-    private String nextUpdate;
+    private Instant nextUpdate;
     @Column(name = "strRemark")
     private String remark;
     @Column(name = "blnBackInService")

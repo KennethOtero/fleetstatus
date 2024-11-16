@@ -239,7 +239,8 @@ public class EventDAO implements IEventDAO {
 
             event.setEventId(Long.valueOf(validateEventFields(currentRow.get(6))));
             event.setRemark(validateEventFields(currentRow.get(7)));
-            event.setNextUpdate(validateEventFields(currentRow.get(8)));
+            Timestamp nextUpdate = (Timestamp) currentRow.get(8);
+            event.setNextUpdate(nextUpdate.toInstant());
             event.setBackInService(Integer.valueOf(validateEventFields(currentRow.get(9))));
             Timestamp startTime = (Timestamp)currentRow.get(10);
             event.setStartTime(startTime.toInstant());
