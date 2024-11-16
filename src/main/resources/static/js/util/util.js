@@ -62,8 +62,7 @@ function toDateTimeLocalString(date) {
  */
 function formatZuluTime(date) {
     if (date !== null) {
-        return date;
-        //return date.substring(11, 16) + "z";
+        return date.substring(11, 16) + "z";
     }
     return null;
 }
