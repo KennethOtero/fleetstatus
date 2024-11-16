@@ -43,7 +43,7 @@ function displayOutOfServiceAircraft(events) {
                 <h5 class="card-title">${events[i].aircraft.tailNumber}</h5>
                 <p class="card-text">${events[i].reasonString}</p>
                 <p class="card-text">${events[i].remark}</p>
-                <p class="card-text">${events[i].backInService == 0 ? formatZuluTime(events[i].nextUpdate) : events[i].downTime}</p>
+                <p class="card-text">${events[i].backInService === 0 ? formatZuluTime(events[i].nextUpdate) : events[i].downTime}</p>
             </div>
         </div>
         `;
