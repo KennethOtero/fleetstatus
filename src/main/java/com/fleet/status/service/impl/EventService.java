@@ -118,4 +118,9 @@ public class EventService implements IEventService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
+        return eventDAO.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+    }
 }

@@ -22,5 +22,7 @@ public interface IEventDAO {
 
     List<Event> getAllAircraftFromCarrierIS(int carrierId);
 
+    List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds);
+
     void updateEvent(Event event);
 }

@@ -45,6 +45,11 @@ public class FleetStatusController {
         return "AircraftStatus";
     }
 
+    @GetMapping("/History")
+    public String History() {
+        return "History";
+    }
+
     @GetMapping("/getAllAircraft")
     @ResponseBody
     public ResponseEntity<List<Event>> getHomepageAircraft() {
@@ -64,6 +69,22 @@ public class FleetStatusController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/getHistory")
+    @ResponseBody
+    public ResponseEntity<List<Event>> getHistory(
+            @RequestParam(required = false) Integer carrierId,
+            @RequestParam(required = false) Integer typeId,
+            @RequestParam(required = false) String tailNumber,
+            @RequestParam(required = false) List<Integer> reasonIds) {
+        try {
+            List<Event> events = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+            return new ResponseEntity<>(events, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @PostMapping(value="/saveEvent", consumes = "application/json", produces = "application/json")
     @ResponseBody

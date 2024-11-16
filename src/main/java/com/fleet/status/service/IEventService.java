@@ -28,5 +28,7 @@ public interface IEventService {
 
     void showBackInService(int aircraftId);
 
+    List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds);
+
     Event patchEvent(JsonPatch patch, Event event);
 }
