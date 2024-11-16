@@ -13,6 +13,9 @@ tableBody.addEventListener("click", async function(event) {
     if (event.target && event.target.id.startsWith("editEvent-")) {
         const eventId = event.target.id.split("-")[1];
         await editEvent(eventId);
+
+        // Remove any highlighted text fields
+        removeEditErrors();
     }
 });
 
@@ -74,7 +77,7 @@ function displayAircraftStatusTable(events) {
                     <input type="checkbox" id="backInService-${eventId}"/>
                 </td>
                 <td>
-                    <button class="btn btn-primary" id="editEvent-${eventId}">Update</button>
+                    <button class="btn btn-primary" id="editEvent-${eventId}">Edit</button>
                 </td>
             </tr>
         `;
