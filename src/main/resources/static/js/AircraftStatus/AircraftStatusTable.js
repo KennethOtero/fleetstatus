@@ -3,10 +3,19 @@ getAircraftStatusTable();
 
 // Show back in service on click
 let tableBody = document.getElementById("statusDisplay");
-tableBody.addEventListener("click", function(event) {
+tableBody.addEventListener("click", async function(event) {
     if (event.target && event.target.id.startsWith("backInService-")) {
         const eventId = event.target.id.split("-")[1];
         showBackInService(eventId);
+    }
+
+    // Open edit event modal on click
+    if (event.target && event.target.id.startsWith("editEvent-")) {
+        const eventId = event.target.id.split("-")[1];
+        await editEvent(eventId);
+
+        // Remove any highlighted text fields
+        removeEditErrors();
     }
 });
 
@@ -62,12 +71,14 @@ function displayAircraftStatusTable(events) {
                 </td>
                 <td>${events[i].aircraft.tailNumber}</td>
                 <td>${events[i].reasonString}</td>
-                <td>${events[i].nextUpdate}</td>
+                <td>${formatZuluTime(events[i].nextUpdate)}</td>
                 <td>${events[i].remark}</td>
                 <td>
                     <input type="checkbox" id="backInService-${eventId}"/>
                 </td>
-                <td id="downtime-${eventId}">${updateDowntime(eventId)}</td>
+                <td>
+                    <button class="btn btn-primary" id="editEvent-${eventId}">Edit</button>
+                </td>
             </tr>
         `;
     }

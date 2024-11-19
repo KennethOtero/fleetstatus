@@ -120,8 +120,7 @@ function getInputs() {
 // Convert HTML date format to SQL
 function convertDateToSQL(datetime) {
     // Convert local timezone to UTC
-    let utcDate = new Date(datetime).toISOString();
-    return utcDate;
+    return new Date(datetime).toISOString();
 }
 
 // Get updated list of carriers, types, and reasons when modal is opened

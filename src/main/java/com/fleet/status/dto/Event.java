@@ -20,8 +20,7 @@ public class Event {
     private Long eventId;
 
     @Column(name = "dtmNextUpdate")
-    @Getter(AccessLevel.NONE)
-    private String nextUpdate;
+    private Instant nextUpdate;
     @Column(name = "strRemark")
     private String remark;
     @Column(name = "blnBackInService")
@@ -30,8 +29,6 @@ public class Event {
     private Instant startTime;
     @Column(name = "dtmEndTime")
     private Instant endTime;
-    //@Column(name = "strDowntime")
-    //private String downtime;
 
     @ManyToOne
     @JoinColumn(name = "intAircraftId", referencedColumnName = "intAircraftId")
@@ -49,13 +46,9 @@ public class Event {
     @Transient
     private String reasonString;
 
-    public String getNextUpdate() {
-        // Preserve old formatting of nextUpdate
-        if (nextUpdate != null) {
-            return nextUpdate.substring(10, 16) + "z";
-        }
-        return null;
-    }
+    @Transient
+    @Getter(AccessLevel.NONE)
+    private String downTime;
 
     public String getDownTime(){
         if (getEndTime() == null || getStartTime() == null) {
