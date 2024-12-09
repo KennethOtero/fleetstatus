@@ -123,4 +123,19 @@ public class EventService implements IEventService {
     public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
         return eventDAO.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
     }
+
+    public void updateBackInService(int eventId, String backInServiceDate) {
+        // 使用 Instant 解析 ISO 8601 格式的日期时间字符串
+        Instant endTime = Instant.parse(backInServiceDate);
+
+        // 从数据库中获取事件并更新
+        Event event = eventDAO.findById(eventId);
+        if (event != null) {
+            event.setEndTime(endTime); // 设置结束时间
+            event.setBackInService(1); // 设置回服务状态
+            eventDAO.updateEvent(event); // 更新数据库
+        } else {
+            throw new IllegalArgumentException("Event with ID " + eventId + " not found");
+        }
+    }
 }

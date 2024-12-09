@@ -31,4 +31,6 @@ public interface IEventService {
     List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds);
 
     Event patchEvent(JsonPatch patch, Event event);
+
+    void updateBackInService(int eventId, String backInServiceDate);
 }

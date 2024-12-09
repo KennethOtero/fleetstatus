@@ -73,13 +73,39 @@ function displayAircraftStatusTable(events) {
                 <td>${events[i].reasonString}</td>
                 <td>${formatZuluTime(events[i].nextUpdate)}</td>
                 <td>${events[i].remark}</td>
-                <td>
-                    <input type="checkbox" id="backInService-${eventId}"/>
-                </td>
+                <td style="display: flex; align-items: center; gap: 10px;">
+                    <!-- input type="checkbox" id="backInService-${eventId}"/ -->
+                    <label for="backInServiceData" style="margin-right: 10px;">Back in Service Date:</label>
+                    <input type="datetime-local" class="form-control" id="backInServiceDate" name="backInServiceDate">
+                    <button id="updateBackInService" onclick="updateBackInService(${eventId})">Update</button>
                 <td>
                     <button class="btn btn-primary" id="editEvent-${eventId}">Edit</button>
                 </td>
             </tr>
         `;
     }
+}
+
+function updateBackInService(eventId) {
+    const backInServiceDate = document.getElementById('backInServiceDate').value;
+
+    if (!backInServiceDate) {
+        alert('Please select a valid date.');
+        return;
+    }
+
+    $.ajax({
+        url: '/updateBackInService/' + eventId,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ backInServiceDate: new Date(backInServiceDate).toISOString() }),
+        success: function () {
+            // Reload aircraft status table
+            getAircraftStatusTable();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error updating back in service date:', error);
+            alert('Failed to update back in service date.');
+        }
+    });
 }

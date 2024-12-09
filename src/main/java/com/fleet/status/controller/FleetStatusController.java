@@ -1,6 +1,7 @@
 package com.fleet.status.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fleet.status.dto.*;
 import com.fleet.status.service.impl.*;
@@ -152,6 +153,25 @@ public class FleetStatusController {
             return new ResponseEntity<>("Aircraft back in service.", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to put aircraft back in service.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Transactional
+    @ResponseBody
+    @RequestMapping(value = "updateBackInService/{eventId}", method = RequestMethod.PUT)
+    public ResponseEntity<String> updateBackInService(
+            @PathVariable int eventId,
+            @RequestBody Map<String, String> payload) {
+        try {
+            String backInServiceDate = payload.get("backInServiceDate");
+            if (backInServiceDate == null || backInServiceDate.isEmpty()) {
+                return new ResponseEntity<>("Invalid date provided.", HttpStatus.BAD_REQUEST);
+            }
+
+            eventService.updateBackInService(eventId, backInServiceDate);
+            return new ResponseEntity<>("Aircraft back in service date updated.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to update back in service date.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
