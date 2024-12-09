@@ -125,15 +125,15 @@ public class EventService implements IEventService {
     }
 
     public void updateBackInService(int eventId, String backInServiceDate) {
-        // 使用 Instant 解析 ISO 8601 格式的日期时间字符串
+        // Parsing date and time strings using Instant
         Instant endTime = Instant.parse(backInServiceDate);
 
-        // 从数据库中获取事件并更新
+        // Get events from the database and update
         Event event = eventDAO.findById(eventId);
         if (event != null) {
-            event.setEndTime(endTime); // 设置结束时间
-            event.setBackInService(1); // 设置回服务状态
-            eventDAO.updateEvent(event); // 更新数据库
+            event.setEndTime(endTime); // Set end time
+            event.setBackInService(1); // Set back to service status
+            eventDAO.updateEvent(event); // Update the database
         } else {
             throw new IllegalArgumentException("Event with ID " + eventId + " not found");
         }
