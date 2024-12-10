@@ -92,10 +92,9 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public void showBackInService(int eventId) {
+    public void showBackInService(int eventId, Instant backInServiceDate) {
         Event event = eventDAO.findById(eventId);
-        Instant now = Instant.now();
-        event.setEndTime(now);
+        event.setEndTime(backInServiceDate);
         event.setBackInService(1);
         eventDAO.updateEvent(event);
     }

@@ -3,6 +3,7 @@ package com.fleet.status.service;
 import com.fleet.status.dto.Event;
 import com.github.fge.jsonpatch.JsonPatch;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface IEventService {
@@ -26,7 +27,7 @@ public interface IEventService {
 
     long calculateDownTime(String startTime, String endTime);
 
-    void showBackInService(int aircraftId);
+    void showBackInService(int aircraftId, Instant backInServiceDate);
 
     Event patchEvent(JsonPatch patch, Event event);
 }
