@@ -1,4 +1,4 @@
-package com.fleet.status.dto;
+package com.fleet.status.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 

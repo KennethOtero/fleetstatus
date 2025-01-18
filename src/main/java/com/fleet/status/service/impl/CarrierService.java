@@ -1,7 +1,7 @@
 package com.fleet.status.service.impl;
 
 import com.fleet.status.dao.ICarrierDAO;
-import com.fleet.status.dto.Carrier;
+import com.fleet.status.entity.Carrier;
 import com.fleet.status.service.ICarrierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

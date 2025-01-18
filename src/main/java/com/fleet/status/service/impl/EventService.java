@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fleet.status.dao.impl.EventDAO;
-import com.fleet.status.dto.Event;
+import com.fleet.status.entity.Event;
 import com.fleet.status.service.IEventService;
 import com.github.fge.jsonpatch.JsonPatch;
 import lombok.extern.slf4j.Slf4j;

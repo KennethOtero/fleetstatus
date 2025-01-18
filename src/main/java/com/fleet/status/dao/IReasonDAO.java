@@ -1,6 +1,6 @@
 package com.fleet.status.dao;
 
-import com.fleet.status.dto.Reason;
+import com.fleet.status.entity.Reason;
 
 import java.util.List;
 

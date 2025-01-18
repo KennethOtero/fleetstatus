@@ -2,7 +2,7 @@ package com.fleet.status.dao.impl;
 
 import com.fleet.status.dao.ITypeDAO;
 import com.fleet.status.dao.repository.TypeRepository;
-import com.fleet.status.dto.Type;
+import com.fleet.status.entity.Type;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

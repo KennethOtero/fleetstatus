@@ -1,7 +1,7 @@
 package com.fleet.status.service.impl;
 
 import com.fleet.status.dao.IReasonDAO;
-import com.fleet.status.dto.Reason;
+import com.fleet.status.entity.Reason;
 import com.fleet.status.service.IReasonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

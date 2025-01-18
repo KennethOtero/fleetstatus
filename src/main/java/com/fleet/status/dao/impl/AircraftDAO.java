@@ -2,7 +2,7 @@ package com.fleet.status.dao.impl;
 
 import com.fleet.status.dao.repository.AircraftRepository;
 import com.fleet.status.dao.IAircraftDAO;
-import com.fleet.status.dto.Aircraft;
+import com.fleet.status.entity.Aircraft;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

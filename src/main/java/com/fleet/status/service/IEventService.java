@@ -1,6 +1,6 @@
 package com.fleet.status.service;
 
-import com.fleet.status.dto.Event;
+import com.fleet.status.entity.Event;
 import com.github.fge.jsonpatch.JsonPatch;
 
 import java.util.List;

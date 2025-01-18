@@ -1,7 +1,7 @@
 package com.fleet.status.service.impl;
 
 import com.fleet.status.dao.impl.TypeDAO;
-import com.fleet.status.dto.Type;
+import com.fleet.status.entity.Type;
 import com.fleet.status.service.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

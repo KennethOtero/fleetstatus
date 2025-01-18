@@ -2,7 +2,7 @@ package com.fleet.status.controller;
 
 import java.util.List;
 
-import com.fleet.status.dto.*;
+import com.fleet.status.entity.*;
 import com.fleet.status.service.impl.*;
 import com.github.fge.jsonpatch.JsonPatch;
 import jakarta.transaction.Transactional;

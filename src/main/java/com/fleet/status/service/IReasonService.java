@@ -1,5 +1,5 @@
 package com.fleet.status.service;
-import com.fleet.status.dto.Reason;
+import com.fleet.status.entity.Reason;
 
 import java.util.List;
 

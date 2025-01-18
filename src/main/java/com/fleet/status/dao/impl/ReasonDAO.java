@@ -2,8 +2,7 @@ package com.fleet.status.dao.impl;
 
 import com.fleet.status.dao.IReasonDAO;
 import com.fleet.status.dao.repository.ReasonRepository;
-import com.fleet.status.dto.Aircraft;
-import com.fleet.status.dto.Reason;
+import com.fleet.status.entity.Reason;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.extern.slf4j.Slf4j;

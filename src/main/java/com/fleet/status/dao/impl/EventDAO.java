@@ -2,10 +2,10 @@ package com.fleet.status.dao.impl;
 
 import com.fleet.status.dao.IEventDAO;
 import com.fleet.status.dao.repository.EventRepository;
-import com.fleet.status.dto.Aircraft;
-import com.fleet.status.dto.Carrier;
-import com.fleet.status.dto.Event;
-import com.fleet.status.dto.Type;
+import com.fleet.status.entity.Aircraft;
+import com.fleet.status.entity.Carrier;
+import com.fleet.status.entity.Event;
+import com.fleet.status.entity.Type;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;

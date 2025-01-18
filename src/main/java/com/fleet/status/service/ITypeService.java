@@ -1,6 +1,6 @@
 package com.fleet.status.service;
 
-import com.fleet.status.dto.Type;
+import com.fleet.status.entity.Type;
 
 import java.util.List;
 
