@@ -1,22 +1,20 @@
 package com.fleet.status.service.impl;
 
 import com.fleet.status.dao.impl.AircraftDAO;
-import com.fleet.status.dto.Aircraft;
+import com.fleet.status.entity.Aircraft;
 import com.fleet.status.service.IAircraftService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 @Profile("dev")
+@RequiredArgsConstructor
 public class AircraftService implements IAircraftService {
 
-    @Autowired
-    private AircraftDAO aircraftDAO;
+    private final AircraftDAO aircraftDAO;
 
     @Override
     public Aircraft findById(int id) {

@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fleet.status.dao.impl.EventDAO;
-import com.fleet.status.dto.Event;
+import com.fleet.status.entity.Event;
 import com.fleet.status.service.IEventService;
 import com.github.fge.jsonpatch.JsonPatch;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 @Slf4j
 @Profile("dev")
+@RequiredArgsConstructor
 public class EventService implements IEventService {
-    @Autowired
-    private EventDAO eventDAO;
+    private final EventDAO eventDAO;
 
     @Override
     public void save(Event event) throws Exception {

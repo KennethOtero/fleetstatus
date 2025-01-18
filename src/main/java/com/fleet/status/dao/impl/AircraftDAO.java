@@ -2,7 +2,7 @@ package com.fleet.status.dao.impl;
 
 import com.fleet.status.dao.repository.AircraftRepository;
 import com.fleet.status.dao.IAircraftDAO;
-import com.fleet.status.dto.Aircraft;
+import com.fleet.status.entity.Aircraft;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AircraftDAO implements IAircraftDAO {
 
-    @Autowired
-    private AircraftRepository aircraftRepository;
-
-    @Autowired
-    private EntityManager entityManager;
+    private final AircraftRepository aircraftRepository;
+    private final EntityManager entityManager;
 
     public void save(Aircraft aircraft) throws Exception {
         try {

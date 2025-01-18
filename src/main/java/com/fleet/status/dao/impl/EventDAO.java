@@ -2,15 +2,14 @@ package com.fleet.status.dao.impl;
 
 import com.fleet.status.dao.IEventDAO;
 import com.fleet.status.dao.repository.EventRepository;
-import com.fleet.status.dto.Aircraft;
-import com.fleet.status.dto.Carrier;
-import com.fleet.status.dto.Event;
-import com.fleet.status.dto.Type;
+import com.fleet.status.entity.Aircraft;
+import com.fleet.status.entity.Carrier;
+import com.fleet.status.entity.Event;
+import com.fleet.status.entity.Type;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -26,11 +25,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventDAO implements IEventDAO {
 
-    @Autowired
-    private EventRepository eventRepository;
-
-    @Autowired
-    private EntityManager entityManager;
+    private final EventRepository eventRepository;
+    private final EntityManager entityManager;
 
     @Override
     public void save(Event event) throws Exception {

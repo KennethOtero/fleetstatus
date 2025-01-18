@@ -1,6 +1,6 @@
 package com.fleet.status.dao;
 
-import com.fleet.status.dto.Aircraft;
+import com.fleet.status.entity.Aircraft;
 
 import java.util.List;
 

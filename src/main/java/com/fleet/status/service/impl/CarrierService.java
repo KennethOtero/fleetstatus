@@ -1,9 +1,9 @@
 package com.fleet.status.service.impl;
 
 import com.fleet.status.dao.ICarrierDAO;
-import com.fleet.status.dto.Carrier;
+import com.fleet.status.entity.Carrier;
 import com.fleet.status.service.ICarrierService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import java.util.List;
 
 @Service
 @Profile("dev")
+@RequiredArgsConstructor
 public class CarrierService implements ICarrierService {
 
-    @Autowired
-    private ICarrierDAO carrierDAO;
+    private final ICarrierDAO carrierDAO;
 
     @Override
     public void save(Carrier carrier) throws Exception {
