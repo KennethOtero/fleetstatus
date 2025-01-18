@@ -126,23 +126,23 @@ CREATE TABLE TEventReasons
 
 -- 1
 ALTER TABLE TAircraft ADD CONSTRAINT TAircraft_TCarriers_FK
-FOREIGN KEY (intCarrierId) REFERENCES TCarriers (intCarrierId)
+FOREIGN KEY (intCarrierId) REFERENCES TCarriers (intCarrierId);
 
 -- 2
 ALTER TABLE TAircraft ADD CONSTRAINT TAircraft_TTypes_FK
-FOREIGN KEY (intTypeId) REFERENCES TTypes (intTypeId)
+FOREIGN KEY (intTypeId) REFERENCES TTypes (intTypeId);
 
 -- 3
 ALTER TABLE TEvents ADD CONSTRAINT TEvents_TAircraft_FK
-FOREIGN KEY (intAircraftId) REFERENCES TAircraft (intAircraftId)
+FOREIGN KEY (intAircraftId) REFERENCES TAircraft (intAircraftId);
 
 -- 4
 ALTER TABLE TEventReasons ADD CONSTRAINT TEventReasons_TEvents_FK
-FOREIGN KEY (intEventId) REFERENCES TEvents (intEventId)
+FOREIGN KEY (intEventId) REFERENCES TEvents (intEventId);
 
 -- 5
 ALTER TABLE TEventReasons ADD CONSTRAINT TEventReasons_TReasons_FK
-FOREIGN KEY (intReasonId) REFERENCES TReasons (intReasonId)
+FOREIGN KEY (intReasonId) REFERENCES TReasons (intReasonId);
 
 -- -------------------------------------------------------------------------
 -- Insert Data
@@ -154,39 +154,39 @@ VALUES					('Cargojet'),
 						('ABX Air'),
 						('Atlas Air'),
 						('Swift Air'),
-						('Kalitta Air')
+						('Kalitta Air');
 
 INSERT INTO TTypes		(strType)
 VALUES					('767'),
 						('650'),
-						('762')
+						('762');
 
 INSERT INTO TAircraft	(strTailNumber, intTypeId, intCarrierId)
 VALUES					('N767AX', 1, 1),
 						('N650GT', 2, 2),
-						('N762CK', 3, 3)
+						('N762CK', 3, 3);
 
 INSERT INTO TEvents		(intAircraftId, strRemark, dtmNextUpdate, blnBackInService, dtmStartTime, dtmEndTime)
 VALUES					(1, 'Bird strike to the #1 engine', '2024-10-15 21:00:00', 0, DATEADD(hour, -1, GETUTCDATE()), GETUTCDATE()),
 						(2, '#1 Generator inop', '2024-10-15 21:00:0', 1, DATEADD(hour, -2, GETUTCDATE()), GETUTCDATE()),
-						(3, 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, DATEADD(hour, -3, GETUTCDATE()), GETUTCDATE())
+						(3, 'Awaiting replacement FMC and required engineering order from Boeing', '2024-10-15 21:00:0', 0, DATEADD(hour, -3, GETUTCDATE()), GETUTCDATE());
 
 INSERT INTO TReasons    (strReason)
 VALUES                  ('Maintenance'),
                         ('AOG'),
-                        ('Damage')
+                        ('Damage');
 
 INSERT INTO TEventReasons	(intEventId, intReasonId)
 VALUES						(1, 1),
 							(1, 2),
 							(2, 2),
-							(3, 3)
+							(3, 3);
 
 INSERT INTO TRoles		(strRole)
-VALUES					('Admin')
+VALUES					('Admin');
 
 INSERT INTO TUsers		(strUsername, strPassword, strRoles)
-VALUES					('admin', 'password', 'admin,user')
+VALUES					('admin', 'password', 'admin,user');
 
 -- -------------------------------------------------------------------------
 -- Create Stored Procedures, Views, and Functions
@@ -218,7 +218,7 @@ FROM
 	JOIN TCarriers as TC
 		ON TC.intCarrierId = TA.intCarrierId
 	JOIN TTypes as TT
-		ON TT.intTypeId = TA.intTypeId
+		ON TT.intTypeId = TA.intTypeId;
 
 GO
 
@@ -250,7 +250,7 @@ FROM
 	JOIN TTypes as TT
 		ON TT.intTypeId = TA.intTypeId
 WHERE 
-	TE.blnBackInService = 0
+	TE.blnBackInService = 0;
 
 GO
 
@@ -282,7 +282,7 @@ FROM
 	JOIN TTypes as TT
 		ON TT.intTypeId = TA.intTypeId
 WHERE 
-	TE.blnBackInService = 1
+	TE.blnBackInService = 1;
 
 GO
 
@@ -293,7 +293,7 @@ GO
 
 CREATE VIEW vAllReason
 AS
-SELECT * FROM TReasons
+SELECT * FROM TReasons;
 
 GO
 
@@ -304,7 +304,7 @@ GO
 
 CREATE VIEW vAllCarrier
 AS
-SELECT * FROM TCarriers
+SELECT * FROM TCarriers;
 
 GO
 
@@ -334,7 +334,7 @@ FROM
         JOIN TCarriers as TC
              ON TC.intCarrierId = TA.intCarrierId
         JOIN TTypes as TT
-             ON TT.intTypeId = TA.intTypeId
+             ON TT.intTypeId = TA.intTypeId;
 
 
 GO
@@ -363,7 +363,7 @@ FROM
 	JOIN TTypes as TT
 		ON TT.intTypeId = TA.intTypeId
 WHERE
-	TC.intCarrierId = @intCarrierId
+	TC.intCarrierId = @intCarrierId;
 
 END;
 
@@ -402,7 +402,7 @@ FROM
 		ON TT.intTypeId = TA.intTypeId
 WHERE
 	TC.intCarrierId = @intCarrierId
-	AND TE.blnBackInService = 0
+	AND TE.blnBackInService = 0;
 
 END;
 
@@ -441,7 +441,7 @@ FROM
 		ON TT.intTypeId = TA.intTypeId
 WHERE
 	TC.intCarrierId = @intCarrierId
-	AND TE.blnBackInService = 1
+	AND TE.blnBackInService = 1;
 
 END;
 
@@ -469,7 +469,7 @@ SET
 	dtmEndTime = GETUTCDATE()
 WHERE 
 	intAircraftId = @intAircraftId
-	AND intEventId = @intEventId
+	AND intEventId = @intEventId;
 
 -- Return the aircraft
 SELECT 
