@@ -20,11 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AircraftDAO implements IAircraftDAO {
 
-    @Autowired
-    private AircraftRepository aircraftRepository;
-
-    @Autowired
-    private EntityManager entityManager;
+    private final AircraftRepository aircraftRepository;
+    private final EntityManager entityManager;
 
     public void save(Aircraft aircraft) throws Exception {
         try {

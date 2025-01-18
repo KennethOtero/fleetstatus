@@ -6,8 +6,8 @@ import com.fleet.status.entity.Type;
 import com.fleet.status.service.impl.AircraftService;
 import com.fleet.status.service.impl.CarrierService;
 import com.fleet.status.service.impl.TypeService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -22,16 +22,12 @@ import java.util.List;
 @RestController
 @Slf4j
 @Profile("dev")
+@RequiredArgsConstructor
 public class AircraftController {
 
-    @Autowired
-    private AircraftService aircraftService;
-
-    @Autowired
-    private CarrierService carrierService;
-
-    @Autowired
-    private TypeService typeService;
+    private final AircraftService aircraftService;
+    private final CarrierService carrierService;
+    private final TypeService typeService;
 
     @PostMapping(value = "/removeAircraft", consumes = "application/json", produces = "application/json")
     @ResponseBody

@@ -6,8 +6,8 @@ import com.fleet.status.service.impl.EventService;
 import com.fleet.status.service.impl.ReasonService;
 import com.github.fge.jsonpatch.JsonPatch;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -22,13 +22,11 @@ import java.util.List;
 @RestController
 @Slf4j
 @Profile("dev")
+@RequiredArgsConstructor
 public class EventController {
 
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private ReasonService reasonService;
+    private final EventService eventService;
+    private final ReasonService reasonService;
 
     @GetMapping("/getAllAircraft")
     @ResponseBody

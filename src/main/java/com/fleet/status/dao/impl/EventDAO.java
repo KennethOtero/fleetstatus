@@ -10,7 +10,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -26,11 +25,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventDAO implements IEventDAO {
 
-    @Autowired
-    private EventRepository eventRepository;
-
-    @Autowired
-    private EntityManager entityManager;
+    private final EventRepository eventRepository;
+    private final EntityManager entityManager;
 
     @Override
     public void save(Event event) throws Exception {

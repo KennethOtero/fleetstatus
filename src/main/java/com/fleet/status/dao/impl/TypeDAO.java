@@ -3,8 +3,8 @@ package com.fleet.status.dao.impl;
 import com.fleet.status.dao.ITypeDAO;
 import com.fleet.status.dao.repository.TypeRepository;
 import com.fleet.status.entity.Type;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -13,10 +13,10 @@ import java.util.List;
 @Slf4j
 @Repository
 @Profile("dev")
+@RequiredArgsConstructor
 public class TypeDAO implements ITypeDAO {
 
-    @Autowired
-    private TypeRepository typeRepository;
+    private final TypeRepository typeRepository;
 
     @Override
     public void save(Type type) {
