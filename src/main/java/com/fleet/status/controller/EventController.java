@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -80,9 +81,9 @@ public class EventController {
 
     @Transactional
     @RequestMapping(value="showBackInService/{eventId}", method = RequestMethod.PUT)
-    public ResponseEntity<String> showBackInService (@PathVariable int eventId) {
+    public ResponseEntity<String> showBackInService (@PathVariable int eventId, @RequestBody String backInServiceDate) {
         try {
-            eventService.showBackInService(eventId);
+            eventService.showBackInService(eventId, Instant.parse(backInServiceDate));
             return new ResponseEntity<>("Aircraft back in service.", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to put aircraft back in service.", HttpStatus.INTERNAL_SERVER_ERROR);
