@@ -33,9 +33,11 @@ If you wish to access the application using
 the remote Azure database, uncomment the following lines in `application.yml` (located in src > main > resources):
 ```yaml
 # Azure database connection
-url: jdbc:sqlserver://dhlfleetstatus.database.windows.net;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
-username: fleetstatus_admin
-password: P@$$w0rd2!
+spring:
+  datasource:
+    url: jdbc:sqlserver://dhlfleetstatus.database.windows.net;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
+    username: fleetstatus_admin
+    password: P@$$w0rd2!
 ```
 
 If running the application using a local MS SQL Server database, adjust these settings to match your local configuration. In addition,
