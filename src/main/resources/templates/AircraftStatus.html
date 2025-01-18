@@ -171,6 +171,30 @@
         </div>
     </div>
 
+    <div class="modal fade aircraftModal" id="backInServiceModal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input id="BISEventId" type="hidden"/>
+                    <h5 class="modal-title" id="editBackInServiceTitle">Back In Service Time</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger d-none" id="backInServiceAlert" role="alert">
+                        This is a danger alert - check it out!
+                    </div>
+
+                    <label for="enterBackInService">Enter Time</label>
+                    <input type="datetime-local" class="form-control" id="enterBackInService">
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="submitBackInService">SUBMIT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
