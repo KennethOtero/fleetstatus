@@ -1,7 +1,5 @@
-# Title of Pull Request
-
-## Description
-[Jira Link]()
+## Changes
+JIRA Story: [FS-X]()
 
 ## Testing Details
 
