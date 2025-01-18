@@ -1,7 +1,6 @@
 package com.fleet.status.dao;
 
-import com.fleet.status.dto.Aircraft;
-import com.fleet.status.dto.Event;
+import com.fleet.status.entity.Event;
 
 import java.util.List;
 
@@ -22,5 +21,7 @@ public interface IEventDAO {
 
     List<Event> getAllAircraftFromCarrierIS(int carrierId);
 
-    void updateAircraft(Event event);
+    List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds);
+
+    void updateEvent(Event event);
 }

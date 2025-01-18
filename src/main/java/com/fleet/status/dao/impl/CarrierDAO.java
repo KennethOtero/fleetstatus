@@ -2,12 +2,11 @@ package com.fleet.status.dao.impl;
 
 import com.fleet.status.dao.repository.CarrierRepository;
 import com.fleet.status.dao.ICarrierDAO;
-import com.fleet.status.dto.Carrier;
-import com.fleet.status.dto.Reason;
+import com.fleet.status.entity.Carrier;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -17,13 +16,11 @@ import java.util.Optional;
 @Slf4j
 @Repository
 @Profile("dev")
+@RequiredArgsConstructor
 public class CarrierDAO implements ICarrierDAO {
 
-    @Autowired
-    private CarrierRepository carrierRepository;
-
-    @Autowired
-    private EntityManager entityManager;
+    private final CarrierRepository carrierRepository;
+    private final EntityManager entityManager;
 
     @Override
     public void save(Carrier carrier) throws Exception {

@@ -24,20 +24,20 @@ DHL Network even though they are being flown by up to 16 different Airlines.
 
 ## Weekly Meeting
 
-Mondays at 2:00 PM on Teams.
+Thursdays at 5:15 PM on Teams.
 
 ## Running the Application
-TBD
+Ensure that your MS SQL Server database connection is working before running the application. 
 
-## Testing Details
-TBD
+If you wish to access the application using
+the remote Azure database, uncomment the following lines in `application.yml` (located in src > main > resources):
+```yaml
+# Azure database connection
+spring:
+  datasource:
+    url: jdbc:sqlserver://dhlfleetstatus.database.windows.net;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
+    username: fleetstatus_admin
+    password: P@$$w0rd2!
+```
 
-## Storyboard
-
-![Picture5](https://user-images.githubusercontent.com/82166772/217597169-b7fde1f4-ee17-46a1-a8b5-c465cacbdb88.png)
-
-![Picture6](https://user-images.githubusercontent.com/82166772/217597195-fce1e5aa-fb67-44c3-aae7-916009e5de01.png)
-
-![Picture7](https://user-images.githubusercontent.com/82166772/217597226-3249c1aa-aa3b-4371-9052-434aab95decb.png)
-
-![Picture8](https://user-images.githubusercontent.com/82166772/217597246-b849f2b8-a409-468c-a3b8-d75a02c22e8d.png)
+If running the application using a local MS SQL Server database, adjust these settings to match your local configuration.

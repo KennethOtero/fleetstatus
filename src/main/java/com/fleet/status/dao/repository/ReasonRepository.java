@@ -1,6 +1,6 @@
 package com.fleet.status.dao.repository;
 
-import com.fleet.status.dto.Reason;
+import com.fleet.status.entity.Reason;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.CrudRepository;
 
