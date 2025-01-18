@@ -24,7 +24,7 @@ DHL Network even though they are being flown by up to 16 different Airlines.
 
 ## Weekly Meeting
 
-Mondays at 2:00 PM on Teams.
+Thursdays at 5:15 PM on Teams.
 
 ## Running the Application
 Ensure that your MS SQL Server database connection is working before running the application. 
