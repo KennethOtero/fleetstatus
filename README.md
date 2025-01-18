@@ -40,6 +40,4 @@ spring:
     password: P@$$w0rd2!
 ```
 
-If running the application using a local MS SQL Server database, adjust these settings to match your local configuration. In addition,
-run the `DB_Reset_Script.sql` script (located in src > main > resources > database) to create the database schema and 
-test data.
+If running the application using a local MS SQL Server database, adjust these settings to match your local configuration.
