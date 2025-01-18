@@ -8,7 +8,7 @@
 -- Options
 -- -------------------------------------------------------------------------
 USE dhl_fleetstatus;	-- Specify our database name
-SET NOCOUNT ON;			-- Report only errors
+-- SET NOCOUNT ON;			-- Report only errors
 
 -- -------------------------------------------------------------------------
 -- Drop Tables
