@@ -1,5 +1,8 @@
 package com.fleet.status.entity;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvDate;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -8,6 +11,7 @@ import lombok.ToString;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -22,10 +26,13 @@ public class Event {
     @Column(name = "dtmNextUpdate")
     private Instant nextUpdate;
     @Column(name = "strRemark")
+    @CsvBindByName(column = "Remark")
     private String remark;
     @Column(name = "blnBackInService")
     private Integer backInService;
     @Column(name = "dtmStartTime")
+    @CsvBindByName(column = "Event Date")
+    @CsvDate("MM/dd/yyyy")
     private Instant startTime;
     @Column(name = "dtmEndTime")
     private Instant endTime;
@@ -44,9 +51,11 @@ public class Event {
     private List<Reason> reason;
 
     @Transient
+    @CsvBindByName(column = "Reason")
     private String reasonString;
 
     @Transient
+    @CsvBindByName(column = "Downtime")
     @Getter(AccessLevel.NONE)
     private String downTime;
 
@@ -57,4 +66,13 @@ public class Event {
         Duration downtime = Duration.between(startTime, endTime);
         return "Down Time: " + downtime.toDaysPart() + "d " + downtime.toHoursPart() + "h " + downtime.toMinutesPart() + "m";
     }
+
+    @Transient
+    @CsvBindByName(column = "Tail #")
+    private String csvTailNumber;
+
+    public void populateCsvFields() {
+        csvTailNumber = aircraft.getTailNumber();
+    }
+
 }
