@@ -69,7 +69,7 @@ function loadAircrafts() {
         .catch(error => console.error("Error loading aircrafts:", error));
 }
 
-function getEventHistory() {
+function filterEventHistory(baseUrl){
     const carrierId = document.getElementById("carrierSelect").value;
     const typeId = document.getElementById("typeSelect").value;
     const tailNumber = document.getElementById("tailSelect").value;
@@ -81,7 +81,7 @@ function getEventHistory() {
         .map(option => option.value);
 
     // Constructs a URL and adds selected query parameters to the URL
-    const url = new URL("/getHistory", window.location.origin);
+    const url = new URL(baseUrl, window.location.origin);
 
     if (carrierId) url.searchParams.append("carrierId", carrierId);
     if (typeId) url.searchParams.append("typeId", typeId);
@@ -89,6 +89,12 @@ function getEventHistory() {
     selectedReasons.forEach(reasonId => {
         url.searchParams.append("reasonIds", reasonId);
     });
+    return url;
+}
+
+function getEventHistory() {
+
+    const url =filterEventHistory("/getHistory");
 
     // Send a request to get data
     fetch(url)
@@ -133,6 +139,9 @@ function generateReport() {
 }
 
 function exportData() {
-    // Placeholder for export functionality
+        const url = filterEventHistory('/csv');
+        const link = document.createElement('a');
+        link.href = url.toString();  // The endpoint for exporting CSV
+        link.click();
     alert("Exporting data...");
 }

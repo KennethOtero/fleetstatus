@@ -5,15 +5,24 @@ import com.fleet.status.entity.Reason;
 import com.fleet.status.service.impl.EventService;
 import com.fleet.status.service.impl.ReasonService;
 import com.github.fge.jsonpatch.JsonPatch;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.time.Instant;
 import java.util.List;
 
@@ -114,4 +123,42 @@ public class EventController {
     public List<Reason> getReasons() {
         return reasonService.getAllReason();
     }
+
+    @GetMapping("/csv")
+    public ResponseEntity<byte[]> exportCsv(@RequestParam(required = false) Integer carrierId,
+                                            @RequestParam(required = false) Integer typeId,
+                                            @RequestParam(required = false) String tailNumber,
+                                            @RequestParam(required = false) List<Integer> reasonIds) throws IOException {
+        List<Event> data = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+
+        for (Event event : data) {
+            event.populateCsvFields();
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        CSVWriter writer = new CSVWriter(new OutputStreamWriter(outputStream));
+
+        StatefulBeanToCsv<Event> sbc = new StatefulBeanToCsvBuilder<Event>(writer)
+                .withQuotechar('\'')
+                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                .build();
+
+        try {
+            sbc.write(data);
+        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+            throw new RuntimeException(e);
+        }
+        writer.close();
+
+        byte[] csvData = outputStream.toByteArray();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=data.csv");
+        headers.add(HttpHeaders.CONTENT_TYPE, "text/csv");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(csvData);
+    }
+
 }

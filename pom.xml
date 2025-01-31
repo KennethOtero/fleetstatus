@@ -71,6 +71,11 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>5.10</version>
+		</dependency>
 
 		<!-- Additional Dependencies -->
 		<dependency>
@@ -90,6 +95,7 @@
 			<artifactId>jackson-core</artifactId>
 			<version>2.18.1</version>
 		</dependency>
+
 	</dependencies>
 
 	<!-- Build Information and Plugins -->
