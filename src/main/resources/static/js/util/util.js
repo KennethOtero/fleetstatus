@@ -66,3 +66,31 @@ function formatZuluTime(date) {
     }
     return null;
 }
+
+/**
+ * Display error
+ * @param alertBoxName
+ * @param message
+ */
+function displayResult(alertBoxName, message) {
+    const alert = document.getElementById(alertBoxName);
+    alert.classList.remove("d-none");
+    alert.innerText = message;
+
+    // Hide alert after 5 seconds
+    setTimeout(() => {
+        if (!alert.classList.contains("d-none")) {
+            alert.classList.add("d-none");
+        }
+    }, 5000);
+}
+
+/**
+ * Convert HTML date format to SQL
+ * @param datetime
+ * @returns {string}
+ */
+function convertDateToSQL(datetime) {
+    // Convert local timezone to UTC
+    return new Date(datetime).toISOString();
+}
