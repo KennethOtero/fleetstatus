@@ -1,0 +1,65 @@
+package com.fleet.status.config;
+
+import com.fleet.status.service.impl.user.CustomOAuth2UserService;
+import com.fleet.status.service.impl.user.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    private final UserService userDetailsService;
+    private final CustomOAuth2UserService oauth2UserService;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequests -> {
+                    authorizeRequests.requestMatchers("/", "/start", "/History", "/css/**", "/js/**", "/images/**").permitAll();
+                    authorizeRequests.requestMatchers("/v1/**", "/AircraftStatus").authenticated();
+                    authorizeRequests.anyRequest().authenticated();
+                })
+                .httpBasic(httpBasic -> {
+                    httpBasic.realmName("API Realm");
+                    httpBasic.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint());
+                })
+                .formLogin(Customizer.withDefaults()) // TODO: Use our own login/logout page
+                .oauth2Login(oauth2 -> {
+                    oauth2.userInfoEndpoint(userInfo -> userInfo.userService(oauth2UserService));
+                })
+                .sessionManagement(session -> {
+                    session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                })
+                .build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(encoder());
+
+        return provider;
+    }
+
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+}

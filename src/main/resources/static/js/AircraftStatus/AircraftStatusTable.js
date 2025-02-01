@@ -26,7 +26,8 @@ setInterval(() => {
 
 // Update every 10 seconds
 function getAircraftStatusTable() {
-    fetch("/getOutOfServiceAircraft")
+    const headers = getBasicAuthHeader("GET");
+    fetch("/v1/getOutOfServiceAircraft", headers)
         .then(response => response.json())
         .then(data => {
             try {

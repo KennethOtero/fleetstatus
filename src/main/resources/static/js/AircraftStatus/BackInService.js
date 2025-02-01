@@ -24,7 +24,10 @@ function submitBackInService(){
         return;
     }
     $.ajax({
-        url: '/showBackInService/' + eventID,
+        url: '/v1/showBackInService/' + eventID,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Authorization", getBasicAuthString())
+        },
         data: new Date(dateString).toISOString(),
         contentType: "application/json",
         type: 'PUT',

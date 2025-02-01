@@ -7,7 +7,8 @@ setInterval(() => {
 }, 10000);
 
 function getAllAircraft() {
-    fetch("/getAllAircraft")
+    const headers = getBasicAuthHeader("GET");
+    fetch("/v1/getAllAircraft", headers)
         .then(response => response.json())
         .then((data) => {
             // Remove old data

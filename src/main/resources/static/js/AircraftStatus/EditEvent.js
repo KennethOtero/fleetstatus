@@ -44,9 +44,10 @@ async function sendUpdateEvent(event) {
             ];
 
             // Send update call
-            let response = await fetch("/editEvent/" + event.eventId, {
+            let response = await fetch("/v1/editEvent/" + event.eventId, {
                 method: 'PATCH',
                 headers: {
+                    'Authorization': getBasicAuthString(),
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(eventObject)

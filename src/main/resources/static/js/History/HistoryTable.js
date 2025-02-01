@@ -7,7 +7,8 @@ window.onload = function() {
 
 // Loading carrier list
 function loadCarriers() {
-    fetch("/getAllCarrier")
+    const headers = getBasicAuthHeader("GET");
+    fetch("/v1/getAllCarrier", headers)
         .then(response => response.json())
         .then(data => {
             const carrierSelect = document.getElementById("carrierSelect");
@@ -23,7 +24,8 @@ function loadCarriers() {
 
 // Load Type List
 function loadTypes() {
-    fetch("/getAllTypes")
+    const headers = getBasicAuthHeader("GET");
+    fetch("/v1/getAllTypes", headers)
         .then(response => response.json())
         .then(data => {
             const typeSelect = document.getElementById("typeSelect");
@@ -39,7 +41,8 @@ function loadTypes() {
 
 // Loading Reason List
 function loadReasons() {
-    fetch("/getAllReason")
+    const headers = getBasicAuthHeader("GET");
+    fetch("/v1/getAllReason", headers)
         .then(response => response.json())
         .then(data => {
             const reasonSelect = document.getElementById("reasonIds");
@@ -55,7 +58,8 @@ function loadReasons() {
 
 // Load aircraft list (tail numbers)
 function loadAircrafts() {
-    fetch("/findAllAircraft")
+    const headers = getBasicAuthHeader("GET");
+    fetch("/v1/findAllAircraft", headers)
         .then(response => response.json())
         .then(data => {
             const tailSelect = document.getElementById("tailSelect");
@@ -94,10 +98,11 @@ function filterEventHistory(baseUrl){
 
 function getEventHistory() {
 
-    const url =filterEventHistory("/getHistory");
+    const url =filterEventHistory("/v1/getHistory");
+    const headers = getBasicAuthHeader("GET");
 
     // Send a request to get data
-    fetch(url)
+    fetch(url, headers)
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById("statusDisplay");
@@ -139,7 +144,7 @@ function generateReport() {
 }
 
 function exportData() {
-        const url = filterEventHistory('/csv');
+        const url = filterEventHistory('/v1/csv');
         const link = document.createElement('a');
         link.href = url.toString();  // The endpoint for exporting CSV
         link.click();

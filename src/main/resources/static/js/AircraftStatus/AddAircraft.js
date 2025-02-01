@@ -43,7 +43,10 @@ function postAddAircraft() {
 
     $.ajax({
         type: "POST",
-        url: "/saveAircraft",
+        url: "/v1/saveAircraft",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Authorization", getBasicAuthString())
+        },
         data: JSON.stringify(aircraft),
         contentType: "application/json",
         statusCode: {
@@ -86,7 +89,8 @@ $("#addAircraft").on("show.bs.modal", () => {
 });
 
 function fetchCarriers() {
-    fetch('/getAllCarrier')
+    const headers = getBasicAuthHeader("GET");
+    fetch('/v1/getAllCarrier', headers)
         .then(response => response.json())
         .then(data => {
             const carrierSelects = document.getElementsByClassName('carrierSelect');
@@ -105,7 +109,8 @@ function fetchCarriers() {
 
 
 function fetchTypes() {
-    fetch('/getAllTypes')
+    const headers = getBasicAuthHeader("GET");
+    fetch('/v1/getAllTypes', headers)
         .then(response => response.json())
         .then(data => {
             const typeSelects = document.getElementsByClassName('typeSelect');

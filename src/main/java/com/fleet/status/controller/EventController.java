@@ -33,6 +33,7 @@ import java.util.List;
 @Slf4j
 @Profile("dev")
 @RequiredArgsConstructor
+@RequestMapping("/v1")
 public class EventController {
 
     private final EventService eventService;
