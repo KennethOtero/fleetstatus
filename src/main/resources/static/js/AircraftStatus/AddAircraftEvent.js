@@ -87,20 +87,6 @@ function postEvent() {
     });
 }
 
-// Display error
-function displayResult(alertBoxName, message) {
-    const alert = document.getElementById(alertBoxName);
-    alert.classList.remove("d-none");
-    alert.innerText = message;
-
-    // Hide alert after 5 seconds
-    setTimeout(() => {
-        if (!alert.classList.contains("d-none")) {
-            alert.classList.add("d-none");
-        }
-    }, 5000);
-}
-
 // Get inputs
 function getInputs() {
     // Have to manually do it this way or else it won't add to the array
@@ -118,12 +104,6 @@ function getInputs() {
     inputs.push(startTime);
 
     return inputs;
-}
-
-// Convert HTML date format to SQL
-function convertDateToSQL(datetime) {
-    // Convert local timezone to UTC
-    return new Date(datetime).toISOString();
 }
 
 // Get updated list of carriers, types, and reasons when modal is opened
