@@ -1,6 +1,5 @@
 package com.fleet.status.config;
 
-import com.fleet.status.service.impl.user.CustomOAuth2UserService;
 import com.fleet.status.service.impl.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +23,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final UserService userDetailsService;
-    private final CustomOAuth2UserService oauth2UserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -40,9 +38,6 @@ public class SecurityConfig {
                     httpBasic.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint());
                 })
                 .formLogin(Customizer.withDefaults()) // TODO: Use our own login/logout page
-                .oauth2Login(oauth2 -> {
-                    oauth2.userInfoEndpoint(userInfo -> userInfo.userService(oauth2UserService));
-                })
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
                 })

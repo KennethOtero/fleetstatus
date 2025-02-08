@@ -21,21 +21,6 @@ spring:
         url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
         username: sa
         password: password
-    security:
-        oauth2:
-          client:
-            registration:
-                github:
-                    client-id: Ov23liCYYuCyjrKsKybO
-                    client-secret: 95562529098c66841ace12d9eac664d438f023de
-                    scope: read:user
-                    redirect-uri: "{baseUrl}/"
-                    client-name: GitHub
-            provider:
-                github:
-                    authorization-uri: https://github.com/login/oauth/authorize
-                    token-uri: https://hithub.com/login/oauth/access_token
-                    user-info-uri: https://api.github.com/user
 
 server:
     error:
