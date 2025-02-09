@@ -1,5 +1,7 @@
-Fleet Status
+# Fleet Status
+
 ---
+
 ## Project Summary
 
 Fleet Status will be a web-based application to track fleet status and provide real time information in regard to broken
@@ -27,17 +29,4 @@ DHL Network even though they are being flown by up to 16 different Airlines.
 Thursdays at 5:15 PM on Teams.
 
 ## Running the Application
-Ensure that your MS SQL Server database connection is working before running the application. 
-
-If you wish to access the application using
-the remote Azure database, uncomment the following lines in `application.yml` (located in src > main > resources):
-```yaml
-# Azure database connection
-spring:
-  datasource:
-    url: jdbc:sqlserver://dhlfleetstatus.database.windows.net;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
-    username: fleetstatus_admin
-    password: P@$$w0rd2!
-```
-
-If running the application using a local MS SQL Server database, adjust these settings to match your local configuration.
+If you're running the application using a local MS SQL Server database, adjust the YAML database settings to match your local configuration.
