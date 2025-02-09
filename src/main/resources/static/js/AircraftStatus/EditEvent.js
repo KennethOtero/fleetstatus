@@ -6,7 +6,7 @@ async function editEvent(eventId) {
         modal.show();
 
         // Get current event with ID
-        const response = await fetch("/findEvent/" + eventId);
+        const response = await fetch("/v1/findEvent/" + eventId);
         const event = await response.json();
         await loadEditFields(event);
 
@@ -124,7 +124,7 @@ async function loadEditFields(event) {
         let fields = getEditFields();
 
         // Get all reasons
-        let response = await fetch("/getAllReason");
+        let response = await fetch("/v1/getAllReason");
 
         let json = await response.json();
 

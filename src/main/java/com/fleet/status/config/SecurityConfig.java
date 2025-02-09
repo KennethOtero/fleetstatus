@@ -30,7 +30,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests.requestMatchers("/", "/start", "/History", "/css/**", "/js/**", "/images/**").permitAll();
-                    authorizeRequests.requestMatchers("/v1/**", "/AircraftStatus").authenticated();
+                    authorizeRequests.requestMatchers("/v1/**").authenticated();
+                    authorizeRequests.requestMatchers("/AircraftStatus").hasRole("Admin");
                     authorizeRequests.anyRequest().authenticated();
                 })
                 .httpBasic(httpBasic -> {
