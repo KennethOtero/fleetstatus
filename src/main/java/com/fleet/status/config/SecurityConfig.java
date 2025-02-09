@@ -36,11 +36,19 @@ public class SecurityConfig {
                             "/css/**",
                             "/js/**",
                             "/images/**",
-                            "/v1/**").permitAll();
+                            "/v1/**",
+                            "/login")
+                            .permitAll();
                     authorizeRequests.requestMatchers("/AircraftStatus").hasRole("Admin");
                     authorizeRequests.anyRequest().authenticated();
                 })
-                .formLogin(Customizer.withDefaults()) // TODO: Use our own login/logout page
+                .formLogin(form -> {
+                    form.loginPage("/login");
+                    form.loginProcessingUrl("/login");
+                    form.defaultSuccessUrl("/");
+                    form.failureUrl("/login?error=true");
+                    form.permitAll();
+                })
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
                 })
