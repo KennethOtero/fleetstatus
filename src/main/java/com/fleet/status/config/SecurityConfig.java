@@ -29,13 +29,16 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> {
-                    authorizeRequests.requestMatchers("/", "/start", "/History", "/css/**", "/js/**", "/images/**", "/v1/**").permitAll();
+                    authorizeRequests.requestMatchers(
+                            "/",
+                            "/start",
+                            "/History",
+                            "/css/**",
+                            "/js/**",
+                            "/images/**",
+                            "/v1/**").permitAll();
                     authorizeRequests.requestMatchers("/AircraftStatus").hasRole("Admin");
                     authorizeRequests.anyRequest().authenticated();
-                })
-                .httpBasic(httpBasic -> {
-                    httpBasic.realmName("API Realm");
-                    httpBasic.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint());
                 })
                 .formLogin(Customizer.withDefaults()) // TODO: Use our own login/logout page
                 .sessionManagement(session -> {
