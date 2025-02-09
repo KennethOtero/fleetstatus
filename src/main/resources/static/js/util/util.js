@@ -94,29 +94,3 @@ function convertDateToSQL(datetime) {
     // Convert local timezone to UTC
     return new Date(datetime).toISOString();
 }
-
-/**
- * API basic auth
- * @param method
- * @returns {{headers: {Authorization: string, "Content-Type": string}, method}}
- */
-function getBasicAuthHeader(method) {
-    return {
-        method: method,
-        headers: {
-            'Authorization': getBasicAuthString(),
-            'Content-Type': 'application/json'
-        }
-    };
-}
-
-/**
- * String conversion of basic auth for endpoints
- * @returns {string}
- */
-function getBasicAuthString() {
-    const username = "admin";
-    const password = "password";
-
-    return `Basic ${btoa(`${username}:${password}`)}`;
-}

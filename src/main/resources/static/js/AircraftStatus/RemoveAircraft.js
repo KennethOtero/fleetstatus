@@ -26,9 +26,6 @@ function postRemoveAircraft() {
     $.ajax({
         type: "POST",
         url: "/v1/removeAircraft",
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("Authorization", getBasicAuthString())
-        },
         data: aircraftId,
         contentType: "application/json",
         statusCode: {
@@ -48,8 +45,7 @@ function postRemoveAircraft() {
 }
 
 function fetchAircraft(selectId) {
-    const headers = getBasicAuthHeader("GET");
-    fetch('/v1/findAllAircraft', headers)
+    fetch('/v1/findAllAircraft')
         .then(response => response.json())
         .then(data => {
             const allAircraft = document.getElementById(selectId);

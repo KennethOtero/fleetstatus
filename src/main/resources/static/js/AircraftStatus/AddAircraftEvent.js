@@ -63,9 +63,6 @@ function postEvent() {
     $.ajax({
         type: "POST",
         url: "/v1/saveEvent",
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("Authorization", getBasicAuthString())
-        },
         data: JSON.stringify(event),
         contentType: "application/json",
         statusCode: {
@@ -113,8 +110,7 @@ $("#addTailEvent").on("show.bs.modal", () => {
 });
 
 function fetchReasons() {
-    const headers = getBasicAuthHeader("GET");
-    fetch('/v1/getAllReason', headers)
+    fetch('/v1/getAllReason')
         .then(response => response.json())
         .then(data => {
             const reasonSelect = document.getElementById('reason');

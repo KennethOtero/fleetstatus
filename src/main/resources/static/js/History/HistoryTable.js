@@ -7,8 +7,7 @@ window.onload = function() {
 
 // Loading carrier list
 function loadCarriers() {
-    const headers = getBasicAuthHeader("GET");
-    fetch("/v1/getAllCarrier", headers)
+    fetch("/v1/getAllCarrier")
         .then(response => response.json())
         .then(data => {
             const carrierSelect = document.getElementById("carrierSelect");
@@ -24,8 +23,7 @@ function loadCarriers() {
 
 // Load Type List
 function loadTypes() {
-    const headers = getBasicAuthHeader("GET");
-    fetch("/v1/getAllTypes", headers)
+    fetch("/v1/getAllTypes")
         .then(response => response.json())
         .then(data => {
             const typeSelect = document.getElementById("typeSelect");
@@ -41,8 +39,7 @@ function loadTypes() {
 
 // Loading Reason List
 function loadReasons() {
-    const headers = getBasicAuthHeader("GET");
-    fetch("/v1/getAllReason", headers)
+    fetch("/v1/getAllReason")
         .then(response => response.json())
         .then(data => {
             const reasonSelect = document.getElementById("reasonIds");
@@ -58,8 +55,7 @@ function loadReasons() {
 
 // Load aircraft list (tail numbers)
 function loadAircrafts() {
-    const headers = getBasicAuthHeader("GET");
-    fetch("/v1/findAllAircraft", headers)
+    fetch("/v1/findAllAircraft")
         .then(response => response.json())
         .then(data => {
             const tailSelect = document.getElementById("tailSelect");
@@ -99,10 +95,9 @@ function filterEventHistory(baseUrl){
 function getEventHistory() {
 
     const url =filterEventHistory("/v1/getHistory");
-    const headers = getBasicAuthHeader("GET");
 
     // Send a request to get data
-    fetch(url, headers)
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById("statusDisplay");
