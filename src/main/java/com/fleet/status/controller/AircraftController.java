@@ -23,6 +23,7 @@ import java.util.List;
 @Slf4j
 @Profile("dev")
 @RequiredArgsConstructor
+@RequestMapping("/v1")
 public class AircraftController {
 
     private final AircraftService aircraftService;

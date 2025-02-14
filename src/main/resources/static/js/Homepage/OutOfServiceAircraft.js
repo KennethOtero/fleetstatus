@@ -7,7 +7,7 @@ setInterval(() => {
 }, 10000);
 
 function getAllAircraft() {
-    fetch("/getAllAircraft")
+    fetch("/v1/getAllAircraft")
         .then(response => response.json())
         .then((data) => {
             // Remove old data

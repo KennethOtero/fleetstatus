@@ -25,4 +25,9 @@ public class FleetStatusController {
     public String History() {
         return "History";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "Login";
+    }
 }

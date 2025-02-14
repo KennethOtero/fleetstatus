@@ -25,7 +25,7 @@ function postRemoveAircraft() {
 
     $.ajax({
         type: "POST",
-        url: "/removeAircraft",
+        url: "/v1/removeAircraft",
         data: aircraftId,
         contentType: "application/json",
         statusCode: {
@@ -45,7 +45,7 @@ function postRemoveAircraft() {
 }
 
 function fetchAircraft(selectId) {
-    fetch('/findAllAircraft')
+    fetch('/v1/findAllAircraft')
         .then(response => response.json())
         .then(data => {
             const allAircraft = document.getElementById(selectId);

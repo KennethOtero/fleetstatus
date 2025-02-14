@@ -7,7 +7,7 @@ window.onload = function() {
 
 // Loading carrier list
 function loadCarriers() {
-    fetch("/getAllCarrier")
+    fetch("/v1/getAllCarrier")
         .then(response => response.json())
         .then(data => {
             const carrierSelect = document.getElementById("carrierSelect");
@@ -23,7 +23,7 @@ function loadCarriers() {
 
 // Load Type List
 function loadTypes() {
-    fetch("/getAllTypes")
+    fetch("/v1/getAllTypes")
         .then(response => response.json())
         .then(data => {
             const typeSelect = document.getElementById("typeSelect");
@@ -39,7 +39,7 @@ function loadTypes() {
 
 // Loading Reason List
 function loadReasons() {
-    fetch("/getAllReason")
+    fetch("/v1/getAllReason")
         .then(response => response.json())
         .then(data => {
             const reasonSelect = document.getElementById("reasonIds");
@@ -55,7 +55,7 @@ function loadReasons() {
 
 // Load aircraft list (tail numbers)
 function loadAircrafts() {
-    fetch("/findAllAircraft")
+    fetch("/v1/findAllAircraft")
         .then(response => response.json())
         .then(data => {
             const tailSelect = document.getElementById("tailSelect");
@@ -94,7 +94,7 @@ function filterEventHistory(baseUrl){
 
 function getEventHistory() {
 
-    const url =filterEventHistory("/getHistory");
+    const url =filterEventHistory("/v1/getHistory");
 
     // Send a request to get data
     fetch(url)
@@ -139,7 +139,7 @@ function generateReport() {
 }
 
 function exportData() {
-        const url = filterEventHistory('/csv');
+        const url = filterEventHistory('/v1/csv');
         const link = document.createElement('a');
         link.href = url.toString();  // The endpoint for exporting CSV
         link.click();

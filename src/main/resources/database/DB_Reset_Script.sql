@@ -183,10 +183,12 @@ VALUES						(1, 1),
 							(3, 3);
 
 INSERT INTO TRoles		(strRole)
-VALUES					('Admin');
+VALUES					('ROLE_Admin'),
+                        ('ROLE_User');
 
 INSERT INTO TUsers		(strUsername, strPassword, strRoles)
-VALUES					('admin', 'password', 'admin,user');
+VALUES					('admin', '$2a$10$ci0jIZ.atngw0kgESVpr3OuK5rg7YvlnP.2TnSeBy9JGk4DEWjQIK', 'ROLE_Admin,ROLE_User'),
+                        ('user', '$2a$12$pxog/SkowL.TfN51pf.Gp.nG5cd/2IBK5rDu.0JDJcm8cUPcTPClO', 'ROLE_User');
 
 -- -------------------------------------------------------------------------
 -- Create Stored Procedures, Views, and Functions

@@ -43,7 +43,7 @@ function postAddAircraft() {
 
     $.ajax({
         type: "POST",
-        url: "/saveAircraft",
+        url: "/v1/saveAircraft",
         data: JSON.stringify(aircraft),
         contentType: "application/json",
         statusCode: {
@@ -86,7 +86,7 @@ $("#addAircraft").on("show.bs.modal", () => {
 });
 
 function fetchCarriers() {
-    fetch('/getAllCarrier')
+    fetch('/v1/getAllCarrier')
         .then(response => response.json())
         .then(data => {
             const carrierSelects = document.getElementsByClassName('carrierSelect');
@@ -105,7 +105,7 @@ function fetchCarriers() {
 
 
 function fetchTypes() {
-    fetch('/getAllTypes')
+    fetch('/v1/getAllTypes')
         .then(response => response.json())
         .then(data => {
             const typeSelects = document.getElementsByClassName('typeSelect');
