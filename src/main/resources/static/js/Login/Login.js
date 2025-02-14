@@ -28,8 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         } else {
                             window.location.href = "/";
                         }
+                    } else if (response.status === 403) {
+                        displayResult("loginAlert", "Login failed. You do not have access to this resource.");
                     } else {
-                        displayResult("loginAlert", "Login failed. Please check your username and password.")
+                        displayResult("loginAlert", "Login failed. Please check your username and password.");
                     }
                 })
                 .catch(error => {
