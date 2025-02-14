@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.getElementById("loginForm");
 
+    // Store the previous URL
+    sessionStorage.setItem("previousUrl", document.referrer);
+
     // Handle login
     if (loginForm) {
         loginForm.addEventListener("submit", function (event) {
@@ -18,7 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then(response => {
                     if (response.ok) {
-                        window.location.href = "/";
+                        // Retrieve the previous URL from session storage
+                        const previousUrl = sessionStorage.getItem("previousUrl");
+                        if (previousUrl) {
+                            window.location.href = previousUrl;
+                        } else {
+                            window.location.href = "/";
+                        }
                     } else {
                         displayResult("loginAlert", "Login failed. Please check your username and password.")
                     }

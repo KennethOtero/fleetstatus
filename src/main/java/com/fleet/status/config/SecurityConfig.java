@@ -22,7 +22,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final UserService userDetailsService;
-    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final CustomLogoutSuccessHandler logoutSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,9 +46,12 @@ public class SecurityConfig {
                 .formLogin(form -> {
                     form.loginPage("/login");
                     form.loginProcessingUrl("/login");
-                    form.defaultSuccessUrl("/");
-                    form.failureHandler(customAuthenticationFailureHandler);
+                    form.failureHandler(authenticationFailureHandler);
                     form.permitAll();
+                })
+                .logout(logout -> {
+                    logout.logoutSuccessHandler(logoutSuccessHandler);
+                    logout.permitAll();
                 })
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
