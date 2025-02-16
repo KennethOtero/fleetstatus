@@ -1,8 +1,7 @@
 package com.fleet.status.service.impl;
 
-import com.fleet.status.dao.ICarrierDAO;
+import com.fleet.status.dao.repository.CarrierRepository;
 import com.fleet.status.entity.Carrier;
-import com.fleet.status.service.ICarrierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -12,22 +11,15 @@ import java.util.List;
 @Service
 @Profile("dev")
 @RequiredArgsConstructor
-public class CarrierService implements ICarrierService {
+public class CarrierService {
 
-    private final ICarrierDAO carrierDAO;
+    private final CarrierRepository carrierRepository;
 
-    @Override
     public void save(Carrier carrier) throws Exception {
-        carrierDAO.save(carrier);
+        carrierRepository.save(carrier);
     }
 
-    @Override
-    public Carrier findById(int id) {
-        return carrierDAO.findById(id);
-    }
-
-    @Override
     public List<Carrier> getAllCarrier() {
-        return carrierDAO.getAllCarrier();
+        return (List<Carrier>) carrierRepository.findAll();
     }
 }
