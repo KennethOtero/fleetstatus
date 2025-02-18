@@ -1,6 +1,5 @@
-package com.fleet.status.dao.impl;
+package com.fleet.status.dao;
 
-import com.fleet.status.dao.IEventDAO;
 import com.fleet.status.dao.repository.EventRepository;
 import com.fleet.status.entity.Aircraft;
 import com.fleet.status.entity.Carrier;
@@ -23,104 +22,39 @@ import java.util.stream.Collectors;
 @Profile("dev")
 @Slf4j
 @RequiredArgsConstructor
-public class EventDAO implements IEventDAO {
+public class EventDAO {
 
     private final EventRepository eventRepository;
     private final EntityManager entityManager;
 
-    @Override
-    public void save(Event event) throws Exception {
+    public void save(Event event) {
         eventRepository.save(event);
     }
 
-    @Override
     public Event findById(int id) {
         return eventRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public List<Event> findAll() {
-        return (List<Event>) eventRepository.findAll();
-    }
-
-    @Override
     public List<Event> getHomepageAircraft() {
-        try {
-            String query = "SELECT * FROM vAllAircraft WHERE [blnBackInService] = 0 " +
-                    "OR (dtmEndTime IS NOT NULL AND DATEDIFF(minute, dtmEndTime, GETUTCDATE()) < 30)";
-            Query allAircraft = entityManager.createNativeQuery(query);
-            List<Object[]> aircraftList = allAircraft.getResultList();
-            return setEventList(aircraftList);
-        } catch (Exception e) {
-            log.error("An error occurred while selecting all aircraft: ", e);
-            throw new RuntimeException(e);
+        List<Event> homepageAircraft = eventRepository.getHomepageAircraft();
+
+        for (Event event : homepageAircraft) {
+            event.setReasonString(getReasons(event.getEventId()));
         }
+
+        return homepageAircraft;
     }
 
-    @Override
     public List<Event> getOutOfServiceAircraft() {
-        try {
-            String query = "SELECT * FROM vOutOfServiceAircraft";
-            Query allAircraft = entityManager.createNativeQuery(query);
-            List<Object[]> aircraftList = allAircraft.getResultList();
-            return setEventList(aircraftList);
-        } catch (Exception e) {
-            log.error("An error occurred while selecting all out of service aircraft: ", e);
-            throw new RuntimeException(e);
+        List<Event> outOfServiceAircraft = eventRepository.getOutOfServiceAircraft();
+
+        for (Event event : outOfServiceAircraft) {
+            event.setReasonString(getReasons(event.getEventId()));
         }
+
+        return outOfServiceAircraft;
     }
 
-    @Override
-    public List<Event> getInServiceAircraft() {
-        try {
-            String query = "SELECT * FROM vInServiceAircraft";
-            Query allAircraft = entityManager.createNativeQuery(query);
-            List<Object[]> aircraftList = allAircraft.getResultList();
-            return setEventList(aircraftList);
-        } catch (Exception e) {
-            log.error("An error occurred while selecting all in service aircraft: ", e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public List<Event> getAllAircraftFromCarrierOOS(int carrierId) {
-        try {
-            String query = "EXEC uspShowCarrierAircraftOOS @intCarrierId = " + carrierId;
-            Query allAircraft = entityManager.createNativeQuery(query);
-            List<Object[]> aircraftList = allAircraft.getResultList();
-            return setEventList(aircraftList);
-        } catch (Exception e) {
-            log.error("An error occurred while selecting out of service aircraft from carrier with ID {}: ", carrierId, e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public List<Event> getAllAircraftFromCarrierIS(int carrierId) {
-        try {
-            String query = "EXEC uspShowCarrierAircraftIS @intCarrierId = " + carrierId;
-            Query allAircraft = entityManager.createNativeQuery(query);
-            List<Object[]> aircraftList = allAircraft.getResultList();
-            return setEventList(aircraftList);
-        } catch (Exception e) {
-            log.error("An error occurred while selecting in service aircraft from carrier with ID {}: ", carrierId, e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateEvent(Event event) {
-        try {
-            entityManager.merge(event);
-            log.info("Updated event ID {} with aircraft ID {}", event.getEventId() ,event.getAircraft().getAircraftId());
-        } catch (Exception e) {
-            log.error("An error occurred while updating aircraft: ", e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
         try {
             StringBuilder queryBuilder = new StringBuilder("SELECT * FROM vEventHistory WHERE 1=1");
@@ -161,33 +95,19 @@ public class EventDAO implements IEventDAO {
             }
 
             List<Object[]> results = query.getResultList();
-            return setEventList(results);
+            return mapEvents(results);
         } catch (Exception e) {
             log.error("An error occurred while selecting all event history ", e);
             throw new RuntimeException(e);
         }
     }
 
-
-    private List<Object[]> getReasonsForEvent(Long eventId) {
-        try {
-            // Call a stored procedure to get the reason information
-            Query query = entityManager.createNativeQuery("EXEC uspGetReasonsForEvent :eventId");
-            query.setParameter("eventId", eventId);
-
-            return query.getResultList();
-        } catch (Exception e) {
-            log.error("An error occurred while fetching reasons for event: ", e);
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
-     * Creates an Event object from the query results
+     * Creates a list of Event objects from the query results
      * @param queryResults result
      * @return list of Event objects
      */
-    private List<Event> setEventList(List<Object[]> queryResults) {
+    public List<Event> mapEvents(List<Object[]> queryResults) {
         List<Event> events = new ArrayList<>();
 
         /*
@@ -263,7 +183,7 @@ public class EventDAO implements IEventDAO {
      * @return comma separated reasons
      */
     private String getReasons(Long eventId) {
-        List<Object[]> reasons = getReasonsForEvent(eventId);
+        List<Object[]> reasons = eventRepository.getReasonsForEvent(eventId);
 
         // Object[0] stand for intReasonId
         // Object[1] stand for strReason

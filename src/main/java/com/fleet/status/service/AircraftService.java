@@ -1,13 +1,13 @@
-package com.fleet.status.service.impl;
+package com.fleet.status.service;
 
 import com.fleet.status.dao.repository.AircraftRepository;
 import com.fleet.status.entity.Aircraft;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Profile("dev")
@@ -16,19 +16,11 @@ public class AircraftService {
 
     private final AircraftRepository aircraftRepository;
 
-    public Aircraft findById(int id) {
-        Optional<Aircraft> foundAircraft = aircraftRepository.findById(id);
-        return foundAircraft.orElse(null);
-    }
-
-    public void save(Aircraft aircraft) throws Exception {
+    public void save(Aircraft aircraft) {
         aircraftRepository.save(aircraft);
     }
 
-    public List<Aircraft> getAllAircraftFromCarrier(int carrierId) {
-        return aircraftRepository.getAllAircraftFromCarrier(carrierId);
-    }
-
+    @Transactional
     public void deleteAircraft(int aircraftId) {
         aircraftRepository.deleteAircraft(aircraftId);
     }

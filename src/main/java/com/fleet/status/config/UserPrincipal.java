@@ -1,4 +1,4 @@
-package com.fleet.status.service.impl.user;
+package com.fleet.status.config;
 
 import com.fleet.status.entity.User;
 import lombok.RequiredArgsConstructor;

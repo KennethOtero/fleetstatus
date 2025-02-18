@@ -1,4 +1,4 @@
-package com.fleet.status.service.impl;
+package com.fleet.status.service;
 
 import com.fleet.status.dao.repository.ReasonRepository;
 import com.fleet.status.entity.Reason;

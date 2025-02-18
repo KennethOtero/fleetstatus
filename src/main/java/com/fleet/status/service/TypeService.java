@@ -1,4 +1,4 @@
-package com.fleet.status.service.impl;
+package com.fleet.status.service;
 
 import com.fleet.status.dao.repository.TypeRepository;
 import com.fleet.status.entity.Type;
@@ -14,10 +14,6 @@ import java.util.List;
 public class TypeService {
 
     private final TypeRepository typeRepository;
-
-    public void save(Type type) {
-        typeRepository.save(type);
-    }
 
     public List<Type> findAll() {
         return (List<Type>) typeRepository.findAll();

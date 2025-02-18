@@ -1,6 +1,6 @@
 package com.fleet.status;
 
-import com.fleet.status.service.impl.EventService;
+import com.fleet.status.service.EventService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
