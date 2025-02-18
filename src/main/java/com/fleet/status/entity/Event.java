@@ -5,6 +5,7 @@ import com.opencsv.bean.CsvDate;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -56,4 +57,12 @@ public class Event {
     @Transient
     @CsvBindByName(column = "Tail #")
     private String csvTailNumber;
+
+    public String getDownTime() {
+        if (getEndTime() == null || getStartTime() == null) {
+            return "Down time is not available";
+        }
+        Duration downtime = Duration.between(startTime, endTime);
+        return "Down Time: " + downtime.toDaysPart() + "d " + downtime.toHoursPart() + "h " + downtime.toMinutesPart() + "m";
+    }
 }

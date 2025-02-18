@@ -47,6 +47,7 @@ public class EventService {
         return eventDAO.getHomepageAircraft();
     }
 
+    @Transactional
     public List<Event> getOutOfServiceAircraft() {
         return eventDAO.getOutOfServiceAircraft();
     }

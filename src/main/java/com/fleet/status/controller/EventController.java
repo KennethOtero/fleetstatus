@@ -85,7 +85,7 @@ public class EventController {
     }
 
     @Transactional
-    @RequestMapping(value="showBackInService/{eventId}", method = RequestMethod.PUT)
+    @RequestMapping(value="/showBackInService/{eventId}", method = RequestMethod.PUT)
     public ResponseEntity<String> showBackInService (@PathVariable int eventId, @RequestBody String backInServiceDate) {
         try {
             eventService.showBackInService(eventId, Instant.parse(backInServiceDate));
@@ -103,7 +103,7 @@ public class EventController {
     }
 
     @Transactional
-    @PatchMapping(value = "editEvent/{eventId}", consumes = "application/json")
+    @PatchMapping(value = "/editEvent/{eventId}", consumes = "application/json")
     public ResponseEntity<String> editEvent(@PathVariable String eventId, @RequestBody JsonPatch patch) {
         try {
             eventService.updateEvent(patch, eventId);
