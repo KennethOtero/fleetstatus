@@ -1,6 +1,7 @@
 package com.fleet.status.dao;
 
 import com.fleet.status.dao.repository.EventRepository;
+import com.fleet.status.dao.repository.ReasonRepository;
 import com.fleet.status.entity.Aircraft;
 import com.fleet.status.entity.Carrier;
 import com.fleet.status.entity.Event;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class EventDAO {
 
     private final EventRepository eventRepository;
+    private final ReasonRepository reasonRepository;
     private final EntityManager entityManager;
 
     public void save(Event event) {
@@ -36,23 +38,11 @@ public class EventDAO {
     }
 
     public List<Event> getHomepageAircraft() {
-        List<Event> homepageAircraft = eventRepository.getHomepageAircraft();
-
-        for (Event event : homepageAircraft) {
-            event.setReasonString(getReasons(event.getEventId()));
-        }
-
-        return homepageAircraft;
+        return eventRepository.getHomepageAircraft();
     }
 
     public List<Event> getOutOfServiceAircraft() {
-        List<Event> outOfServiceAircraft = eventRepository.getOutOfServiceAircraft();
-
-        for (Event event : outOfServiceAircraft) {
-            event.setReasonString(getReasons(event.getEventId()));
-        }
-
-        return outOfServiceAircraft;
+        return eventRepository.getOutOfServiceAircraft();
     }
 
     public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
@@ -164,7 +154,7 @@ public class EventDAO {
             event.setEndTime(endTime != null ? endTime.toInstant() : null);
 
             // Set reasons
-            event.setReasonString(getReasons(event.getAircraft().getAircraftId()));
+            event.setReason(reasonRepository.getReasonsForEvent(event.getEventId()));
 
             // Add event to list
             events.add(event);
@@ -175,23 +165,5 @@ public class EventDAO {
 
     private String validateEventFields(Object item) {
         return (item != null) ? item.toString() : null;
-    }
-
-    /**
-     * Formats reasons into a string
-     * @param eventId eventId
-     * @return comma separated reasons
-     */
-    private String getReasons(Long eventId) {
-        List<Object[]> reasons = eventRepository.getReasonsForEvent(eventId);
-
-        // Object[0] stand for intReasonId
-        // Object[1] stand for strReason
-        if (reasons != null && !reasons.isEmpty()) {
-            return reasons.stream()
-                    .map(result -> (String) result[1])
-                    .collect(Collectors.joining(", "));
-        }
-        return "";
     }
 }

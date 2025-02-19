@@ -3,9 +3,7 @@ package com.fleet.status.dao.repository;
 import com.fleet.status.entity.Event;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -16,7 +14,4 @@ public interface EventRepository extends CrudRepository<Event, Integer> {
 
     @Query(value = "SELECT * FROM vOutOfServiceAircraft", nativeQuery = true)
     List<Event> getOutOfServiceAircraft();
-
-    @Procedure(procedureName = "uspGetReasonsForEvent")
-    List<Object[]> getReasonsForEvent(@Param("intEventId") Long eventId);
 }

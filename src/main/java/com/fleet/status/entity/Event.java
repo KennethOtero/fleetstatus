@@ -8,6 +8,7 @@ import lombok.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -47,6 +48,7 @@ public class Event {
 
     @Transient
     @CsvBindByName(column = "Reason")
+    @Getter(AccessLevel.NONE)
     private String reasonString;
 
     @Transient
@@ -64,5 +66,14 @@ public class Event {
         }
         Duration downtime = Duration.between(startTime, endTime);
         return "Down Time: " + downtime.toDaysPart() + "d " + downtime.toHoursPart() + "h " + downtime.toMinutesPart() + "m";
+    }
+
+    public String getReasonString() {
+        if (reason != null && !reason.isEmpty()) {
+            return reason.stream()
+                    .map(Reason::getReason)
+                    .collect(Collectors.joining(", "));
+        }
+        return "N/A";
     }
 }
