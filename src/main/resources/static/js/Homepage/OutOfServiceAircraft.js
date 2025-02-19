@@ -37,7 +37,7 @@ function displayOutOfServiceAircraft(events) {
 
         // Display card
         card.innerHTML = `
-        <div class="card text-white bg-dark mb-3">
+        <div class="card text-white bg-dark mb-3" style="max-width: 250px">
             <img src="${imagePath}" alt="aircraft status image" class="card-img-top"/>
             <div class="card-body">
                 <h5 class="card-title">${events[i].aircraft.tailNumber}</h5>
