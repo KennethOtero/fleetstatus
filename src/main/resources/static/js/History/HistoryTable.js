@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // 获取元素
+    // Get elements
     const startTimeInput = document.getElementById("startTime");
     const endTimeInput = document.getElementById("endTime");
 
-    // 设置默认值为今天
+    // Set the default value to today
     const now = new Date();
     const formattedDate = now.toISOString().slice(0, 16); // 'yyyy-MM-ddTHH:mm'
     startTimeInput.value = formattedDate;
