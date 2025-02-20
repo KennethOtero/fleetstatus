@@ -154,7 +154,7 @@ function displayEventHistory(events) {
             <td>${event.aircraft.tailNumber}</td>
             <td>${event.reasonString}</td>
             <td>${event.remark}</td>
-            <td>${formatZuluTime(event.nextUpdate)}</td>
+            <td>${formatZuluTime(event.downTime)}</td>
         `;
         tableBody.appendChild(row);
     });
