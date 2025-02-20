@@ -2,14 +2,9 @@ package com.fleet.status.controller;
 
 import com.fleet.status.entity.Event;
 import com.fleet.status.entity.Reason;
-import com.fleet.status.service.impl.EventService;
-import com.fleet.status.service.impl.ReasonService;
+import com.fleet.status.service.EventService;
+import com.fleet.status.service.ReasonService;
 import com.github.fge.jsonpatch.JsonPatch;
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.time.Instant;
 import java.util.List;
 
@@ -45,6 +37,7 @@ public class EventController {
         try {
             return new ResponseEntity<>(eventService.getHomepageAircraft(), HttpStatus.OK);
         } catch(Exception e) {
+            log.error("Failed to fetch aircraft: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -55,6 +48,7 @@ public class EventController {
         try {
             return new ResponseEntity<>(eventService.getOutOfServiceAircraft(), HttpStatus.OK);
         } catch(Exception e) {
+            log.error("Failed to fetch out-of-service aircraft: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -70,6 +64,7 @@ public class EventController {
             List<Event> events = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
             return new ResponseEntity<>(events, HttpStatus.OK);
         } catch (Exception e) {
+            log.error("Failed to get history: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -90,12 +85,13 @@ public class EventController {
     }
 
     @Transactional
-    @RequestMapping(value="showBackInService/{eventId}", method = RequestMethod.PUT)
+    @RequestMapping(value="/showBackInService/{eventId}", method = RequestMethod.PUT)
     public ResponseEntity<String> showBackInService (@PathVariable int eventId, @RequestBody String backInServiceDate) {
         try {
             eventService.showBackInService(eventId, Instant.parse(backInServiceDate));
             return new ResponseEntity<>("Aircraft back in service.", HttpStatus.OK);
         } catch (Exception e) {
+            log.error("Failed to put aircraft back in service: {}", e.getMessage());
             return new ResponseEntity<>("Failed to put aircraft back in service.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -107,14 +103,13 @@ public class EventController {
     }
 
     @Transactional
-    @PatchMapping(value = "editEvent/{eventId}", consumes = "application/json")
+    @PatchMapping(value = "/editEvent/{eventId}", consumes = "application/json")
     public ResponseEntity<String> editEvent(@PathVariable String eventId, @RequestBody JsonPatch patch) {
         try {
-            Event eventToUpdate = eventService.findById(Integer.parseInt(eventId));
-            Event patchedEvent = eventService.patchEvent(patch, eventToUpdate);
-            eventService.updateEvent(patchedEvent);
+            eventService.updateEvent(patch, eventId);
             return new ResponseEntity<>("Updated event ID " + eventId + ".", HttpStatus.OK);
         } catch (Exception e) {
+            log.error("Failed to update event ID {}", eventId, e);
             return new ResponseEntity<>("Failed to edit event.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -129,28 +124,9 @@ public class EventController {
     public ResponseEntity<byte[]> exportCsv(@RequestParam(required = false) Integer carrierId,
                                             @RequestParam(required = false) Integer typeId,
                                             @RequestParam(required = false) String tailNumber,
-                                            @RequestParam(required = false) List<Integer> reasonIds) throws IOException {
-        List<Event> data = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
-
-        for (Event event : data) {
-            event.populateCsvFields();
-        }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        CSVWriter writer = new CSVWriter(new OutputStreamWriter(outputStream));
-
-        StatefulBeanToCsv<Event> sbc = new StatefulBeanToCsvBuilder<Event>(writer)
-                .withQuotechar('\'')
-                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                .build();
-
-        try {
-            sbc.write(data);
-        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-            throw new RuntimeException(e);
-        }
-        writer.close();
-
-        byte[] csvData = outputStream.toByteArray();
+                                            @RequestParam(required = false) List<Integer> reasonIds)
+    {
+        byte[] csvData = eventService.generateCsv(carrierId, typeId, tailNumber, reasonIds);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=data.csv");

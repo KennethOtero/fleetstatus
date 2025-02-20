@@ -1,6 +1,6 @@
 package com.fleet.status.config;
 
-import com.fleet.status.service.impl.user.UserService;
+import com.fleet.status.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

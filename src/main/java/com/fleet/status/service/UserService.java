@@ -1,7 +1,8 @@
-package com.fleet.status.service.impl.user;
+package com.fleet.status.service;
 
 import com.fleet.status.dao.repository.UserRepository;
 import com.fleet.status.entity.User;
+import com.fleet.status.config.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

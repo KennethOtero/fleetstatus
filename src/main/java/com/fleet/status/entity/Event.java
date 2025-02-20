@@ -1,18 +1,14 @@
 package com.fleet.status.entity;
 
 import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvDate;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -52,6 +48,7 @@ public class Event {
 
     @Transient
     @CsvBindByName(column = "Reason")
+    @Getter(AccessLevel.NONE)
     private String reasonString;
 
     @Transient
@@ -59,7 +56,11 @@ public class Event {
     @Getter(AccessLevel.NONE)
     private String downTime;
 
-    public String getDownTime(){
+    @Transient
+    @CsvBindByName(column = "Tail #")
+    private String csvTailNumber;
+
+    public String getDownTime() {
         if (getEndTime() == null || getStartTime() == null) {
             return "Down time is not available";
         }
@@ -67,12 +68,12 @@ public class Event {
         return "Down Time: " + downtime.toDaysPart() + "d " + downtime.toHoursPart() + "h " + downtime.toMinutesPart() + "m";
     }
 
-    @Transient
-    @CsvBindByName(column = "Tail #")
-    private String csvTailNumber;
-
-    public void populateCsvFields() {
-        csvTailNumber = aircraft.getTailNumber();
+    public String getReasonString() {
+        if (reason != null && !reason.isEmpty()) {
+            return reason.stream()
+                    .map(Reason::getReason)
+                    .collect(Collectors.joining(", "));
+        }
+        return "N/A";
     }
-
 }
