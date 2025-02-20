@@ -1,3 +1,16 @@
+document.addEventListener("DOMContentLoaded", function() {
+    // 获取元素
+    const startTimeInput = document.getElementById("startTime");
+    const endTimeInput = document.getElementById("endTime");
+
+    // 设置默认值为今天
+    const now = new Date();
+    const formattedDate = now.toISOString().slice(0, 16); // 'yyyy-MM-ddTHH:mm'
+    startTimeInput.value = formattedDate;
+    endTimeInput.value = formattedDate;
+});
+
+
 window.onload = function() {
     loadCarriers();
     loadTypes();
@@ -74,11 +87,21 @@ function filterEventHistory(baseUrl){
     const typeId = document.getElementById("typeSelect").value;
     const tailNumber = document.getElementById("tailSelect").value;
 
+    const startTime = document.getElementById("startTime").value;
+    const endTime = document.getElementById("endTime").value;
+
     // Get the selected reason ID in the multi-select drop-down box
     const reasonSelect = document.getElementById("reasonIds");
     const selectedReasons = Array.from(reasonSelect.options)
         .filter(option => option.selected)
         .map(option => option.value);
+
+    const startTimeDate = new Date(startTime);
+    const endTimeDate = new Date(endTime);
+    if (startTimeDate > endTimeDate) {
+        alert("Start time cannot be later than end time.");
+        return null;  // If time is invalid, return null to stop the request
+    }
 
     // Constructs a URL and adds selected query parameters to the URL
     const url = new URL(baseUrl, window.location.origin);
@@ -89,6 +112,10 @@ function filterEventHistory(baseUrl){
     selectedReasons.forEach(reasonId => {
         url.searchParams.append("reasonIds", reasonId);
     });
+
+    if (startTime) url.searchParams.append("startDate", startTime);
+    if (endTime) url.searchParams.append("endDate", endTime);
+
     return url;
 }
 

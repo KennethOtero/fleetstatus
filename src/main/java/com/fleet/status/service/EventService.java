@@ -95,9 +95,9 @@ public class EventService {
     }
 
     @Transactional
-    public  byte[] generateCsv(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
+    public  byte[] generateCsv(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds, LocalDateTime startDate, LocalDateTime endDate) {
         try {
-            List<Event> data = getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+            List<Event> data = getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
 
             for (Event event : data) {
                 event.setCsvTailNumber(event.getAircraft().getTailNumber());
@@ -122,8 +122,8 @@ public class EventService {
     }
 
     @Transactional
-    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
-        return eventDAO.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds, LocalDateTime startDate, LocalDateTime endDate) {
+        return eventDAO.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
     }
 
     /**

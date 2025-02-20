@@ -10,12 +10,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -59,9 +61,12 @@ public class EventController {
             @RequestParam(required = false) Integer carrierId,
             @RequestParam(required = false) Integer typeId,
             @RequestParam(required = false) String tailNumber,
-            @RequestParam(required = false) List<Integer> reasonIds) {
+            @RequestParam(required = false) List<Integer> reasonIds,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+            ) {
         try {
-            List<Event> events = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+            List<Event> events = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
             return new ResponseEntity<>(events, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Failed to get history: {}", e.getMessage());
@@ -124,9 +129,11 @@ public class EventController {
     public ResponseEntity<byte[]> exportCsv(@RequestParam(required = false) Integer carrierId,
                                             @RequestParam(required = false) Integer typeId,
                                             @RequestParam(required = false) String tailNumber,
-                                            @RequestParam(required = false) List<Integer> reasonIds)
+                                            @RequestParam(required = false) List<Integer> reasonIds,
+                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate)
     {
-        byte[] csvData = eventService.generateCsv(carrierId, typeId, tailNumber, reasonIds);
+        byte[] csvData = eventService.generateCsv(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=data.csv");
