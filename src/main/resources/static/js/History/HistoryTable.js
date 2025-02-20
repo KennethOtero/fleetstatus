@@ -172,3 +172,11 @@ function exportData() {
         link.click();
     alert("Exporting data...");
 }
+
+function exportDowntimeReport() {
+    const url = filterEventHistory('/v1/getDowntimeReport');
+    const link = document.createElement('a');
+    link.href = url.toString();  // The endpoint for exporting CSV
+    link.click();
+    alert("Exporting data...");
+}

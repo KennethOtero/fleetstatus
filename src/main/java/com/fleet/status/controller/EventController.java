@@ -145,4 +145,24 @@ public class EventController {
                 .body(csvData);
     }
 
+    @GetMapping("/getDowntimeReport")
+    public ResponseEntity<byte[]> getDowntimeReport(@RequestParam(required = false) Integer carrierId,
+                                            @RequestParam(required = false) Integer typeId,
+                                            @RequestParam(required = false) String tailNumber,
+                                            @RequestParam(required = false) List<Integer> reasonIds,
+                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate)
+    {
+        byte[] csvData = eventService.generateDowntimeReport(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=DowntimeReport.csv");
+        headers.add(HttpHeaders.CONTENT_TYPE, "text/csv");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(csvData);
+    }
+
 }
