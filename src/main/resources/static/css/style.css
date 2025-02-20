@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,700);
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
 .background {
 	background-color: rgb(54, 52, 52);
@@ -42,7 +42,7 @@
 body {
 	background: rgb(54, 52, 52);
 	color: #fff;
-	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	font-family: 'Poppins', Helvetica, Arial, sans-serif;
 	font-size: 18px;
 	font-weight: 300;
 	line-height: 140%;

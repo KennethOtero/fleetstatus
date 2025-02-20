@@ -6,17 +6,14 @@ async function checkLoginStatus() {
 
         if (data.authenticated) {
             const loginStatus = document.getElementById("loginStatus");
-            loginStatus.innerText = "Sign Out";
+            const loginStatusText = document.getElementById("loginStatusText");
+            loginStatusText.innerText = "Sign Out";
             loginStatus.href = "/logout";
 
             // Hide AircraftStatus page if the user isn't an Admin
             if (data.roles && data.roles.includes("ROLE_Admin")) {
-                aircraftStatusPage.style.display = "block";
-            } else {
-                aircraftStatusPage.style.display = "none";
+                aircraftStatusPage.classList.toggle('hidden');
             }
-        } else {
-            aircraftStatusPage.style.display = "none";
         }
     } catch (error) {
         console.error('Error checking login status:', error);

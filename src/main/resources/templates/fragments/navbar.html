@@ -1,27 +1,34 @@
-<div class="side_menu" th:fragment="sideMenu">
-    <div class="burger_box">
-        <div class="menu-icon-container">
-            <a href="#" class="menu-icon js-menu_toggle closed">
-          <span class="menu-icon_box">
-            <span class="menu-icon_line menu-icon_line--1"></span>
-            <span class="menu-icon_line menu-icon_line--2"></span>
-            <span class="menu-icon_line menu-icon_line--3"></span>
-          </span>
-            </a>
-        </div>
-    </div>
-    <div class="logo_background">
-        <img src="/images/AirlineLogoCopy.jpg" alt="DHL Logo" class="logo">
-    </div>
+<div id="sideMenu" th:fragment="sideMenu">
 
-    <div class="px-5">
-        <ul class="list_load">
-            <li class="list_item"><a href="/start">Fleet Overview</a></li>
-            <li class="list_item" id="aircraftStatusPage"><a href="/AircraftStatus">Aircraft Status</a></li>
-            <li class="list_item"><a href="/History">History</a></li>
-            <li class="list_item"><a href="/login" id="loginStatus">Sign In</a></li>
-        </ul>
-        <div class="spacer_box"><p></p></div>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <div class="l-navbar" id="navbar">
+        <nav class="nav">
+            <div>
+                <div class="nav__brand">
+                    <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+                    <a href="/start" class="nav__logo">Fleet Status</a>
+                </div>
+                <div class="nav__list">
+                    <a href="/start" class="nav__link active">
+                        <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+                        <span class="nav__name">Fleet Overview</span>
+                    </a>
+                    <a href="/AircraftStatus" class="nav__link hidden" id="aircraftStatusPage">
+                        <ion-icon name="airplane-outline" class="nav__icon"></ion-icon>
+                        <span class="nav__name" id="aircraftStatusText">Aircraft Status</span>
+                    </a>
+                    <a href="/History" class="nav__link">
+                        <ion-icon name="reader-outline" class="nav__icon"></ion-icon>
+                        <span class="nav__name">History</span>
+                    </a>
+                </div>
+            </div>
+
+            <a href="/login" class="nav__link" id="loginStatus">
+                <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+                <span class="nav__name" id="loginStatusText">Sign In</span>
+            </a>
+        </nav>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -29,4 +36,8 @@
     <script src="/js/util/util.js"></script>
     <script src="/js/navbar/SideMenu.js" rel="script"></script>
     <script src="/js/Login/LoginStatus.js" rel="script"></script>
+
+    <!-- Navbar icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </div>
