@@ -50,3 +50,15 @@ for (let i = 0; i < linkCollapse.length; i++) {
         rotate.classList.toggle('rotate');
     });
 }
+
+// Close the sidebar when clicking outside of it
+const closeSidebar = (event) => {
+    const navbar = document.getElementById('navbar');
+    const toggle = document.getElementById('nav-toggle');
+
+    if (!navbar.contains(event.target) && !toggle.contains(event.target)) {
+        navbar.classList.remove('expander');
+    }
+};
+
+document.addEventListener('click', closeSidebar);
