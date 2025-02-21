@@ -1,0 +1,21 @@
+/* Add Tail Modal Styles */
+.aircraftModal h5 {
+    color: black;
+}
+
+.aircraftModal label {
+    color: black;
+    padding: 5px;
+}
+
+.formTitle {
+    margin-top: 50px;
+    color: aliceblue;
+    padding-left: 15px;
+}
+
+#table {
+    background-color: beige;
+    margin-left: 30px;
+    margin-right: 30px;
+}
