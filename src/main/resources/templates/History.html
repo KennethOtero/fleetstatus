@@ -9,76 +9,78 @@
 </head>
 <body class="p-3 mb-2 bg-dark text-white">
 
-<div th:replace="~{fragments/navbar :: sideMenu}"></div>
+  <div th:replace="~{fragments/navbar :: sideMenu}"></div>
 
-<div>
-  <h2 class="AOSText">Event History:</h2>
-</div>
-<br>
+  <div class="container">
+    <div>
+      <h2 class="AOSText">Event History:</h2>
+    </div>
+    <br>
 
-<!-- Filter form -->
-<div class="container mb-4">
-  <div class="row">
-    <div class="col-sm-3">
-      <label for="carrierSelect" class="form-label">Carrier:</label>
-      <select id="carrierSelect" class="form-select">
-        <option value="">Select Carrier</option>
-      </select>
+    <!-- Filter form -->
+    <div class="container mb-4">
+      <div class="row">
+        <div class="col-sm-3">
+          <label for="carrierSelect" class="form-label">Carrier:</label>
+          <select id="carrierSelect" class="form-select">
+            <option value="">Select Carrier</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="typeSelect" class="form-label">Type:</label>
+          <select id="typeSelect" class="form-select">
+            <option value="">Select Type</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="tailSelect" class="form-label">Tail Number:</label>
+          <select id="tailSelect" class="form-select">
+            <option value="">Select Tail Number</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="reasonIds" class="form-label">Reason:</label>
+          <select id="reasonIds" class="form-select" multiple>
+            <!-- Dynamically loading reason options -->
+          </select>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-sm-3">
+          <button class="btn btn-primary" onclick="getEventHistory()">Filter</button>
+        </div>
+      </div>
     </div>
-    <div class="col-sm-3">
-      <label for="typeSelect" class="form-label">Type:</label>
-      <select id="typeSelect" class="form-select">
-        <option value="">Select Type</option>
-      </select>
+
+    <!-- Export and Report Buttons -->
+    <div class="row" id="addAircraftForm">
+      <div class="col-sm">
+        <button type="button" class="btn btn-primary" onclick="generateReport()">Aircraft Down Time Report</button>
+        <button type="button" class="btn btn-primary" onclick="exportData()">Export</button>
+      </div>
     </div>
-    <div class="col-sm-3">
-      <label for="tailSelect" class="form-label">Tail Number:</label>
-      <select id="tailSelect" class="form-select">
-        <option value="">Select Tail Number</option>
-      </select>
-    </div>
-    <div class="col-sm-3">
-      <label for="reasonIds" class="form-label">Reason:</label>
-      <select id="reasonIds" class="form-select" multiple>
-        <!-- Dynamically loading reason options -->
-      </select>
+
+    <!-- Event History Table -->
+    <div class="container">
+      <table class="table text-white">
+        <thead>
+        <tr>
+          <th scope="col">Event Date</th>
+          <th scope="col">Tail #</th>
+          <th scope="col">Reason</th>
+          <th scope="col">Remark</th>
+          <th scope="col">Next Update</th>
+        </tr>
+        </thead>
+        <tbody id="statusDisplay">
+        <!-- Dynamic event data will be inserted here -->
+        </tbody>
+      </table>
     </div>
   </div>
-  <div class="row mt-3">
-    <div class="col-sm-3">
-      <button class="btn btn-primary" onclick="getEventHistory()">Filter</button>
-    </div>
-  </div>
-</div>
 
-<!-- Export and Report Buttons -->
-<div class="row" id="addAircraftForm">
-  <div class="col-sm">
-    <button type="button" class="btn btn-primary" onclick="generateReport()">Aircraft Down Time Report</button>
-    <button type="button" class="btn btn-primary" onclick="exportData()">Export</button>
-  </div>
-</div>
+  <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- Event History Table -->
-<div class="container">
-  <table class="table text-white">
-    <thead>
-    <tr>
-      <th scope="col">Event Date</th>
-      <th scope="col">Tail #</th>
-      <th scope="col">Reason</th>
-      <th scope="col">Remark</th>
-      <th scope="col">Next Update</th>
-    </tr>
-    </thead>
-    <tbody id="statusDisplay">
-    <!-- Dynamic event data will be inserted here -->
-    </tbody>
-  </table>
-</div>
-
-<div th:replace="~{fragments/footer :: footer}"></div>
-
-<script src="/js/History/HistoryTable.js" rel="script"></script>
+  <script src="/js/History/HistoryTable.js" rel="script"></script>
 </body>
 </html>

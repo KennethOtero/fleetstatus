@@ -11,25 +11,44 @@
 
     <div th:replace="~{fragments/navbar :: sideMenu}"></div>
 
-    <h2 class="AOSText">ABC Fleet Status: </h2>
+    <div class="container">
+        <h2 class="AOSText">ABC Fleet Status: </h2>
 
-    <div class="row">
-        <div class="col-sm">
-            <h5 class="formTitle">Add MX/AOG/Damage Event:</h5>
+        <div class="row">
+            <div class="col-sm">
+                <h5 class="formTitle">Add MX/AOG/Damage Event:</h5>
+            </div>
+            <div class="col-sm">
+                <h5 class="formTitle">Add or Remove Aircraft:</h5>
+            </div>
         </div>
-        <div class="col-sm">
-            <h5 class="formTitle">Add or Remove Aircraft:</h5>
-        </div>
-    </div>
 
-    <div class="row" id="addAircraftForm">
-        <div class="col-sm">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTailEvent">Add New Tail Event</button>
+        <div class="row" id="addAircraftForm">
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTailEvent">Add New Tail Event</button>
+            </div>
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAircraft">Add Aircraft</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#removeAircraft">Remove Aircraft</button>
+            </div>
         </div>
-        <div class="col-sm">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAircraft">Add Aircraft</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#removeAircraft">Remove Aircraft</button>
-        </div>
+
+        <table class="table" id="tableDisplay">
+            <thead>
+            <tr class="text-white bg-dark">
+                <th scope="col">Status</th>
+                <th scope="col">Tail #</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Next Update</th>
+                <th scope="col">Remark</th>
+                <th scope="col">Back in Service</th>
+                <th scope="col">Edit</th>
+            </tr>
+            </thead>
+            <tbody id="statusDisplay">
+            <!-- Rows will be populated automatically -->
+            </tbody>
+        </table>
     </div>
 
     <div class="modal fade aircraftModal" id="addAircraft" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
@@ -120,23 +139,6 @@
             </div>
         </div>
     </div>
-
-    <table class="table" id="tableDisplay">
-        <thead>
-            <tr class="text-white bg-dark">
-                <th scope="col">Status</th>
-                <th scope="col">Tail #</th>
-                <th scope="col">Reason</th>
-                <th scope="col">Next Update</th>
-                <th scope="col">Remark</th>
-                <th scope="col">Back in Service</th>
-                <th scope="col">Edit</th>
-            </tr>
-        </thead>
-        <tbody id="statusDisplay">
-            <!-- Rows will be populated automatically -->
-        </tbody>
-    </table>
 
     <div class="modal fade aircraftModal" id="editEventModal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-dialog">
