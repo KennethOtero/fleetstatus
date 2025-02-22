@@ -65,7 +65,7 @@ function displayAircraftStatusTable(events) {
         }
 
         tableBody.innerHTML += `
-            <tr class="text-white bg-dark">
+            <tr>
                 <td>
                     <img src="${imagePath}" alt="aircraft status image" />
                 </td>
@@ -74,10 +74,10 @@ function displayAircraftStatusTable(events) {
                 <td>${formatZuluTime(events[i].nextUpdate)}</td>
                 <td>${events[i].remark}</td>
                 <td>
-                    <input type="checkbox" id="backInService-${eventId}"/>
+                    <input class="form-check-input" type="checkbox" id="backInService-${eventId}"/>
                 </td>
                 <td>
-                    <button class="btn btn-primary" id="editEvent-${eventId}">Edit</button>
+                    <button class="btn btn-primary border-0" id="editEvent-${eventId}">Edit</button>
                 </td>
             </tr>
         `;

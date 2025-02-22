@@ -1,21 +1,3 @@
-/*===== VARIABLES CSS =====*/
-:root {
-    --nav-width: 92px;
-
-    /*===== Colors =====*/
-    --first-color: #d40511;
-    --bg-color: #363434;
-    --sub-color: #B6CEFC;
-    --white-color: #FFF;
-
-    --body-font: 'Poppins', sans-serif;
-    --normal-font-size: 1rem;
-    --small-font-size: .875rem;
-
-    /*===== z index =====*/
-    --z-fixed: 100;
-}
-
 /*===== BASE =====*/
 #sideMenu *, ::before, ::after {
     box-sizing: border-box;
