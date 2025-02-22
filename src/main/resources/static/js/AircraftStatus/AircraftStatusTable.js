@@ -71,7 +71,7 @@ function displayAircraftStatusTable(events) {
                 </td>
                 <td>${events[i].aircraft.tailNumber}</td>
                 <td>${events[i].reasonString}</td>
-                <td>${formatZuluTime(events[i].nextUpdate)}</td>
+                <td>${formatTime(events[i].nextUpdate)}</td>
                 <td>${events[i].remark}</td>
                 <td>
                     <input class="form-check-input" type="checkbox" id="backInService-${eventId}"/>
