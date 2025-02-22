@@ -13,16 +13,35 @@
     background-color: var(--bg-color);
 }
 
-.dark-modal-content select {
+.dark-modal-content select,
+.dark-modal-content input[type="text"],
+.dark-modal-content input[type="datetime-local"]{
     background-color: var(--sub-color);
     border: 0;
     color: white;
 }
 
-.dark-modal-content input[type="text"],
-.dark-modal-content input[type="datetime-local"] {
+/* For select dropdowns */
+.dark-modal-content select option {
     background-color: var(--sub-color);
-    border: 0;
+    color: white;
+}
+
+/* For multi-select dropdowns */
+.dark-modal-content select[multiple] option {
+    background-color: var(--sub-color);
+    color: white;
+}
+
+/* Ensure the select box remains dark when clicked */
+.dark-modal-content select:focus {
+    background-color: var(--sub-color);
+    color: white;
+}
+
+/* Ensure the multi-select dropdown remains dark when selecting */
+.dark-modal-content select[multiple]:focus {
+    background-color: var(--sub-color);
     color: white;
 }
 
