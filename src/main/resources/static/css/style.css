@@ -6,7 +6,7 @@
 
 	--first-color: #d40511;
 	--bg-color: #363434;
-	--sub-color: #B6CEFC;
+	--sub-color: rgb(31, 31, 31);
 	--white-color: #FFF;
 
 	--body-font: 'Poppins', sans-serif;
@@ -18,7 +18,7 @@
 
 /* Override Bootstrap defaults */
 .bg-dark {
-	background-color: #363434 !important;
+	background-color: var(--bg-color) !important;
 }
 
 .btn-primary {
@@ -34,7 +34,7 @@
 }
 
 body {
-	background: rgb(31, 31, 31);
+	background: var(--sub-color);
 	color: #fff;
 	font-family: 'Poppins', Helvetica, Arial, sans-serif;
 	font-size: 18px;
