@@ -26,9 +26,11 @@
 }
 
 /* Custom CSS */
-.AOSText {
+.PageTitle {
 	padding-top: 100px;
-	padding-left: 15px;
+	padding-bottom: 25px;
+	text-align: center;
+	border-bottom: 1px solid lightgray;
 }
 
 body {
