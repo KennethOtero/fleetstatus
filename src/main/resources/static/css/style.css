@@ -46,9 +46,7 @@ body {
 	width: 100%;
 }
 
-#addAircraftForm {
-	background-color: beige;
-	color: black;
-	padding: 20px;
-	margin-right: auto;
+.table-buttons {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
