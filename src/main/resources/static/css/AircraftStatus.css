@@ -13,15 +13,3 @@
     color: aliceblue;
     padding-left: 15px;
 }
-
-.custom-table {
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-.custom-table th,
-.custom-table td {
-    padding: 12px;
-}

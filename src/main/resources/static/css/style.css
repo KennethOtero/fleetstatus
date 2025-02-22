@@ -46,6 +46,11 @@ body {
 	width: 100%;
 }
 
+.custom-table td {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
 .table-buttons {
 	padding-top: 15px;
 	padding-bottom: 15px;

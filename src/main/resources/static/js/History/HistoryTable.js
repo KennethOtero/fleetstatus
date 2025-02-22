@@ -121,7 +121,6 @@ function displayEventHistory(events) {
 
     events.forEach(event => {
         const row = document.createElement('tr');
-        row.classList.add("text-white", "bg-dark");
         row.innerHTML = `
             <td>${new Date(event.startTime).toLocaleDateString()}</td>
             <td>${event.aircraft.tailNumber}</td>
