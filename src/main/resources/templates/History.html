@@ -18,21 +18,21 @@
     <br>
 
     <!-- Filter form -->
-    <div class="container mb-4">
-      <div class="row">
-        <div class="col-sm-3">
+    <div class="container mb-3">
+      <div class="row g-2 align-items-end">
+        <div class="col-md-2">
           <label for="carrierSelect" class="form-label">Carrier:</label>
           <select id="carrierSelect" class="form-select">
             <option value="">Select Carrier</option>
           </select>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-2">
           <label for="typeSelect" class="form-label">Type:</label>
           <select id="typeSelect" class="form-select">
             <option value="">Select Type</option>
           </select>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-2">
           <label for="tailSelect" class="form-label">Tail Number:</label>
           <select id="tailSelect" class="form-select">
             <option value="">Select Tail Number</option>
@@ -45,18 +45,12 @@
           </select>
         </div>
       </div>
-      <div class="row mt-3">
-        <div class="col-sm-3">
-          <button class="btn btn-primary border-0" onclick="getEventHistory()">Filter</button>
+      <div class="row mt-2 text-end">
+        <div class="col">
+          <button class="btn btn-primary border-0 me-2" onclick="getEventHistory()">Filter</button>
+          <button type="button" class="btn btn-primary border-0 me-2" onclick="generateReport()">Aircraft Down Time Report</button>
+          <button type="button" class="btn btn-primary border-0" onclick="exportData()">Export</button>
         </div>
-      </div>
-    </div>
-
-    <!-- Export and Report Buttons -->
-    <div class="row table-buttons">
-      <div class="col-sm">
-        <button type="button" class="btn btn-primary border-0" onclick="generateReport()">Aircraft Down Time Report</button>
-        <button type="button" class="btn btn-primary border-0" onclick="exportData()">Export</button>
       </div>
     </div>
 
