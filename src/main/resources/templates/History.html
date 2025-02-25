@@ -16,46 +16,48 @@
 </div>
 <br>
 
-<!-- Filter form -->
-<div class="container mb-4">
-  <div class="row">
-    <div class="col-sm-3">
+<!-- Optimized Filter form -->
+<div class="container mb-3">
+  <div class="row g-2 align-items-end">
+    <div class="col-md-2">
       <label for="carrierSelect" class="form-label">Carrier:</label>
       <select id="carrierSelect" class="form-select">
         <option value="">Select Carrier</option>
       </select>
     </div>
-    <div class="col-sm-3">
+    <div class="col-md-2">
       <label for="typeSelect" class="form-label">Type:</label>
       <select id="typeSelect" class="form-select">
         <option value="">Select Type</option>
       </select>
     </div>
-    <div class="col-sm-3">
-      <label for="tailSelect" class="form-label">Tail Number:</label>
+    <div class="col-md-2">
+      <label for="tailSelect" class="form-label">Tail #:</label>
       <select id="tailSelect" class="form-select">
-        <option value="">Select Tail Number</option>
+        <option value="">Select Tail</option>
       </select>
     </div>
-    <div class="col-sm-3">
+    <div class="col-md-2">
       <label for="reasonIds" class="form-label">Reason:</label>
-      <select id="reasonIds" class="form-select" multiple>
-        <!-- Dynamically loading reason options -->
+      <select id="reasonIds" class="form-select">
+        <option value="">All</option>
       </select>
     </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col-sm-3">
-      <button class="btn btn-primary" onclick="getEventHistory()">Filter</button>
+    <div class="col-md-2">
+      <label for="startTime" class="form-label">Start Time:</label>
+      <input type="datetime-local" id="startTime" class="form-control">
+    </div>
+    <div class="col-md-2">
+      <label for="endTime" class="form-label">End Time:</label>
+      <input type="datetime-local" id="endTime" class="form-control">
     </div>
   </div>
-</div>
-
-<!-- Export and Report Buttons -->
-<div class="row" id="addAircraftForm">
-  <div class="col-sm">
-    <button type="button" class="btn btn-primary" onclick="generateReport()">Aircraft Down Time Report</button>
-    <button type="button" class="btn btn-primary" onclick="exportData()">Export</button>
+  <div class="row mt-2 text-end">
+    <div class="col">
+      <button class="btn btn-primary me-2" onclick="getEventHistory()">Filter</button>
+      <button type="button" class="btn btn-secondary me-2" onclick="exportDowntimeReport()">Aircraft Down Time Report</button>
+      <button type="button" class="btn btn-success" onclick="exportData()">Export</button>
+    </div>
   </div>
 </div>
 
@@ -68,7 +70,7 @@
       <th scope="col">Tail #</th>
       <th scope="col">Reason</th>
       <th scope="col">Remark</th>
-      <th scope="col">Next Update</th>
+      <th scope="col">DownTime</th>
     </tr>
     </thead>
     <tbody id="statusDisplay">

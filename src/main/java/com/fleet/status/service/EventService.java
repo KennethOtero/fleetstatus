@@ -95,9 +95,9 @@ public class EventService {
     }
 
     @Transactional
-    public  byte[] generateCsv(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
+    public  byte[] generateCsv(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds, LocalDateTime startDate, LocalDateTime endDate) {
         try {
-            List<Event> data = getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+            List<Event> data = getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
 
             for (Event event : data) {
                 event.setCsvTailNumber(event.getAircraft().getTailNumber());
@@ -122,8 +122,50 @@ public class EventService {
     }
 
     @Transactional
-    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
-        return eventDAO.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds);
+    public  byte[] generateDowntimeReport(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds, LocalDateTime startDate, LocalDateTime endDate) {
+        try {
+            List<Event> data = getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
+
+            // Processing data fields
+            for (Event event : data) {
+                event.setCsvTailNumber(event.getAircraft().getTailNumber());
+            }
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+            CSVWriter csvWriter = new CSVWriter(writer);
+
+            // Custom CSV Header
+            String[] header = {"Tail #", "Event Date", "End Time", "Downtime", "Reason", "Remark", "Back in Service", "Next Update"};
+            csvWriter.writeNext(header);
+
+            // Writing Data
+            for (Event event : data) {
+                String[] rowData = new String[]{
+                        event.getCsvTailNumber(),
+                        event.getStartTime().toString(),
+                        event.getEndTime() != null ? event.getEndTime().toString() : "N/A",
+                        event.getDownTime(),
+                        event.getReasonString(),
+                        event.getRemark(),
+                        event.getBackInService() != null && event.getBackInService() == 1 ? "Yes" : "No",
+                        event.getNextUpdate() != null ? event.getNextUpdate().toString() : "N/A"
+                };
+                csvWriter.writeNext(rowData);
+            }
+
+            writer.flush();
+            writer.close();
+            return outputStream.toByteArray();
+        } catch (IOException e) {
+            log.error("Failed to generate CSV: {}", e.getMessage());
+            throw new RuntimeException("Error generating CSV", e);
+        }
+    }
+
+    @Transactional
+    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds, LocalDateTime startDate, LocalDateTime endDate) {
+        return eventDAO.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
     }
 
     /**

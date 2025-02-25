@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +46,7 @@ public class EventDAO {
         return eventRepository.getOutOfServiceAircraft();
     }
 
-    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds) {
+    public List<Event> getFilteredEvents(Integer carrierId, Integer typeId, String tailNumber, List<Integer> reasonIds, LocalDateTime startDate, LocalDateTime endDate) {
         try {
             StringBuilder queryBuilder = new StringBuilder("SELECT * FROM vEventHistory WHERE 1=1");
 
@@ -57,6 +58,13 @@ public class EventDAO {
             }
             if (tailNumber != null && !tailNumber.isEmpty()) {
                 queryBuilder.append(" AND strTailNumber LIKE :tailNumber");
+            }
+            if (startDate != null && endDate != null) {
+                queryBuilder.append(" AND (")
+                        .append("(dtmStartTime BETWEEN :startDate AND :endDate) OR ") // The shutdown start time is within the range
+                        .append("(dtmEndTime BETWEEN :startDate AND :endDate) OR ")   // The shutdown end time is within the range
+                        .append("(dtmStartTime <= :startDate AND dtmEndTime >= :endDate)") // Downtime covers the entire range
+                        .append(")");
             }
 
             // By using GROUP BY and HAVING in the sub-query, only those event ID records are kept whose number of intReasonId is equal to the number of reasons in the reasonIds list.
@@ -82,6 +90,12 @@ public class EventDAO {
             if (reasonIds != null && !reasonIds.isEmpty()) {
                 query.setParameter("reasonIds", reasonIds);
                 query.setParameter("reasonCount", reasonIds.size()); // Pass the reason number for comparison
+            }
+            if (startDate != null) {
+                query.setParameter("startDate", startDate);
+            }
+            if (endDate != null) {
+                query.setParameter("endDate", endDate);
             }
 
             List<Object[]> results = query.getResultList();
