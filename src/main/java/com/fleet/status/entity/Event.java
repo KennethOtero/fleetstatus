@@ -65,7 +65,7 @@ public class Event {
             return "Down time is not available";
         }
         Duration downtime = Duration.between(startTime, endTime);
-        return "Down Time: " + downtime.toDaysPart() + "d " + downtime.toHoursPart() + "h " + downtime.toMinutesPart() + "m";
+        return downtime.toDaysPart() + "d " + downtime.toHoursPart() + "h " + downtime.toMinutesPart() + "m";
     }
 
     public String getReasonString() {

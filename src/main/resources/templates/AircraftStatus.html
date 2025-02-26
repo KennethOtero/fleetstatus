@@ -2,42 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="ISO-8859-1"/>
-	<title>Aircraft Status</title>
+	<title>Manage Fleet Status</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/aircraftModal.css">
+    <link rel="stylesheet" href="/css/AircraftStatus.css">
 </head>
-<body class="p-3 mb-2 bg-dark text-white">
+<body class="p-3 mb-2 text-white">
 
     <div th:replace="~{fragments/navbar :: sideMenu}"></div>
 
-    <h2 class="AOSText">ABC Fleet Status: </h2>
+    <div class="container">
+        <h2 class="PageTitle">Manage Fleet Status</h2>
 
-    <div class="row">
-        <div class="col-sm">
-            <h5 class="formTitle">Add MX/AOG/Damage Event:</h5>
-        </div>
-        <div class="col-sm">
-            <h5 class="formTitle">Add or Remove Aircraft:</h5>
+        <div class="row table-buttons">
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary border-0" data-bs-toggle="modal" data-bs-target="#addTailEvent">Add New Tail Event</button>
+            </div>
+            <div class="col-sm text-end">
+                <button type="button" class="btn btn-primary border-0" data-bs-toggle="modal" data-bs-target="#addAircraft">Add Aircraft</button>
+                <button type="button" class="btn btn-primary border-0" data-bs-toggle="modal" data-bs-target="#removeAircraft">Remove Aircraft</button>
+            </div>
         </div>
     </div>
 
-    <div class="row" id="addAircraftForm">
-        <div class="col-sm">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTailEvent">Add New Tail Event</button>
-        </div>
-        <div class="col-sm">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAircraft">Add Aircraft</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#removeAircraft">Remove Aircraft</button>
-        </div>
+    <div class="container">
+        <table class="table text-white custom-table">
+            <thead>
+                <tr>
+                    <th scope="col">Status</th>
+                    <th scope="col">Tail #</th>
+                    <th scope="col">Reason</th>
+                    <th scope="col">Next Update</th>
+                    <th scope="col">Remark</th>
+                    <th scope="col">Back in Service</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody id="statusDisplay">
+                <!-- Rows will be populated automatically -->
+            </tbody>
+        </table>
     </div>
 
     <div class="modal fade aircraftModal" id="addAircraft" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content dark-modal-content text-white">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addAircraftTitle">Add an Aircraft</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close modal-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger d-none" id="addAircraftAlert" role="alert">
@@ -55,7 +67,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="addAircraft()">ADD</button>
+                    <button class="btn btn-primary border-0" onclick="addAircraft()">ADD</button>
                 </div>
             </div>
         </div>
@@ -63,10 +75,10 @@
 
     <div class="modal fade aircraftModal" id="removeAircraft" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content dark-modal-content text-white">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="removeTailTitle">Remove a Tail</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="removeTailTitle">Remove an Aircraft</h5>
+                    <button type="button" class="btn-close modal-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger d-none" id="removeAircraftAlert" role="alert">
@@ -78,7 +90,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="removeAircraft()">REMOVE</button>
+                    <button class="btn btn-primary border-0" onclick="removeAircraft()">REMOVE</button>
                 </div>
             </div>
         </div>
@@ -86,10 +98,10 @@
 
     <div class="modal fade aircraftModal" id="addTailEvent" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content dark-modal-content text-white">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Add a New Event</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close modal-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger d-none" id="addAircraftEventAlert" role="alert">
@@ -115,35 +127,18 @@
                     <input type="datetime-local" class="form-control" id="startTime">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="saveAircraft()">ADD</button>
+                    <button class="btn btn-primary border-0" onclick="saveAircraft()">ADD</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <table class="table" id="tableDisplay">
-        <thead>
-            <tr class="text-white bg-dark">
-                <th scope="col">Status</th>
-                <th scope="col">Tail #</th>
-                <th scope="col">Reason</th>
-                <th scope="col">Next Update</th>
-                <th scope="col">Remark</th>
-                <th scope="col">Back in Service</th>
-                <th scope="col">Edit</th>
-            </tr>
-        </thead>
-        <tbody id="statusDisplay">
-            <!-- Rows will be populated automatically -->
-        </tbody>
-    </table>
-
     <div class="modal fade aircraftModal" id="editEventModal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content dark-modal-content text-white">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editEventTitle">Edit Event</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close modal-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger d-none" id="editEventAlert" role="alert">
@@ -165,7 +160,7 @@
                     <input type="datetime-local" class="form-control" id="editStartTime">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" id="submitEditEvent">UPDATE</button>
+                    <button class="btn btn-primary border-0" id="submitEditEvent">UPDATE</button>
                 </div>
             </div>
         </div>
@@ -173,11 +168,11 @@
 
     <div class="modal fade aircraftModal" id="backInServiceModal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content dark-modal-content text-white">
                 <div class="modal-header">
                     <input id="BISEventId" type="hidden"/>
                     <h5 class="modal-title" id="editBackInServiceTitle">Back In Service Time</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close modal-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger d-none" id="backInServiceAlert" role="alert">
@@ -189,13 +184,11 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" id="submitBackInService">SUBMIT</button>
+                    <button class="btn btn-primary border-0" id="submitBackInService">SUBMIT</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script src="/js/AircraftStatus/AircraftStatusTable.js" rel="script"></script>
     <script src="/js/AircraftStatus/AddEvent.js" rel="script"></script>

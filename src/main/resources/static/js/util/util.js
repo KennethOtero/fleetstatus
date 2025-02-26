@@ -56,15 +56,21 @@ function toDateTimeLocalString(date) {
 }
 
 /**
- * Format the nextUpdate DATETIME variable to Zulu
+ * Format the nextUpdate DATETIME variable to MM-DD-YYYY HH:MMZ
  * @param date
  * @returns {null|string}
  */
-function formatZuluTime(date) {
-    if (date !== null) {
-        return date.substring(11, 16) + "z";
-    }
-    return null;
+function formatTime(date) {
+    if (date === null || date === undefined) return null;
+
+    const newDate = new Date(date);
+    const year = newDate.getUTCFullYear();
+    const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(newDate.getUTCDate()).padStart(2, '0');
+    const hours = String(newDate.getUTCHours()).padStart(2, '0');
+    const minutes = String(newDate.getUTCMinutes()).padStart(2, '0');
+
+    return `${month}/${day}/${year} ${hours}:${minutes}Z`;
 }
 
 /**

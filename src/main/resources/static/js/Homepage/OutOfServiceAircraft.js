@@ -25,7 +25,7 @@ function displayOutOfServiceAircraft(events) {
 
     for (let i = 0; i < events.length; i++) {
         const card = document.createElement("div");
-        card.classList.add("col-4");
+        card.classList.add("col-3");
 
         // Get correct aircraft image
         let imagePath = "";
@@ -39,14 +39,26 @@ function displayOutOfServiceAircraft(events) {
         card.innerHTML = `
         <div class="card text-white bg-dark mb-3">
             <img src="${imagePath}" alt="aircraft status image" class="card-img-top"/>
+            <hr>
             <div class="card-body">
-                <h5 class="card-title">${events[i].aircraft.tailNumber}</h5>
+                <p class="card-title">${events[i].aircraft.tailNumber}</p>
+                <hr>
                 <p class="card-text">${events[i].reasonString}</p>
-                <p class="card-text">${events[i].remark}</p>
-                <p class="card-text">${events[i].backInService === 0 ? `<strong>Next Update:</strong> ${events[i].nextUpdate}`: events[i].downTime}</p>
+                <hr>
+                <p class="card-text">${truncateText(events[i].remark)}</p>
+                <hr>
+                <p>${events[i].backInService === 0 ? "Next Update:" : "Down Time:"}</p>
+                <p class="card-text">${events[i].backInService === 0 ? formatTime(events[i].nextUpdate) : events[i].downTime}</p>
             </div>
         </div>
         `;
         table.appendChild(card);
     }
+}
+
+function truncateText(text) {
+    if (text.length <= 100) {
+        return text;
+    }
+    return text.substring(0, 100) + '...';
 }

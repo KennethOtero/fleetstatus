@@ -65,19 +65,19 @@ function displayAircraftStatusTable(events) {
         }
 
         tableBody.innerHTML += `
-            <tr class="text-white bg-dark">
+            <tr>
                 <td>
                     <img src="${imagePath}" alt="aircraft status image" />
                 </td>
                 <td>${events[i].aircraft.tailNumber}</td>
                 <td>${events[i].reasonString}</td>
-                <td>${formatZuluTime(events[i].nextUpdate)}</td>
+                <td>${formatTime(events[i].nextUpdate)}</td>
                 <td>${events[i].remark}</td>
                 <td>
-                    <input type="checkbox" id="backInService-${eventId}"/>
+                    <button class="btn btn-primary border-0" id="backInService-${eventId}">Set</button>
                 </td>
                 <td>
-                    <button class="btn btn-primary" id="editEvent-${eventId}">Edit</button>
+                    <button class="btn btn-primary border-0" id="editEvent-${eventId}">Edit</button>
                 </td>
             </tr>
         `;
