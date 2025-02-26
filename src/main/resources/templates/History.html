@@ -54,11 +54,13 @@
           <input type="datetime-local" id="endTime" class="form-control">
         </div>
       </div>
-      <div class="row mt-2 text-end">
+      <div class="row mt-2">
         <div class="col">
           <button class="btn btn-primary border-0 me-2" onclick="getEventHistory()">Filter</button>
-          <button type="button" class="btn btn-secondary border-0 me-2" onclick="exportDowntimeReport()">Aircraft Down Time Report</button>
-          <button type="button" class="btn btn-success border-0" onclick="exportData()">Export</button>
+        </div>
+        <div class="col text-end">
+          <button type="button" class="btn btn-primary border-0 me-2" onclick="exportDowntimeReport()">Aircraft Down Time Report</button>
+          <button type="button" class="btn btn-primary border-0" onclick="exportData()">Export</button>
         </div>
       </div>
     </div>
