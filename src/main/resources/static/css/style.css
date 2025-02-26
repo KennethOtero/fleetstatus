@@ -92,6 +92,11 @@ body {
 	color: white;
 }
 
+.dark-modal-content select[multiple] option:checked {
+	background-color: var(--bg-color);
+	color: white;
+}
+
 .modal-close-white {
 	filter: invert(1); /* Invert the color to make it white */
 }
