@@ -25,6 +25,11 @@
 	background-color: var(--red) !important;
 }
 
+.card-img-top {
+	height: 200px !important;
+	object-fit: contain !important;
+}
+
 /* Custom CSS */
 .PageTitle {
 	padding-top: 100px;
