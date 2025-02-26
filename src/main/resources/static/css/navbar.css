@@ -23,8 +23,8 @@
     left: 0;
     width: var(--nav-width);
     height: 100vh;
-    background-color: var(--bg-color);
-    color: var(--white-color);
+    background-color: var(--light-gray);
+    color: var(--white);
     padding: 1.5rem 1.5rem 2rem;
     transition: .5s;
     z-index: var(--z-fixed);
@@ -54,7 +54,7 @@
 }
 
 #sideMenu .nav__logo {
-    color: var(--white-color);
+    color: var(--white);
     font-weight: 600;
 }
 
@@ -64,7 +64,7 @@
     align-items: center;
     column-gap: .75rem;
     padding: .75rem;
-    color: var(--white-color);
+    color: var(--white);
     border-radius: .5rem;
     margin-bottom: 1rem;
     transition: .3s;
@@ -72,8 +72,8 @@
 }
 
 #sideMenu .nav__link:hover {
-    background-color: var(--first-color);
-    color: var(--white-color);
+    background-color: var(--red);
+    color: var(--white);
 }
 
 #sideMenu .nav__icon {
@@ -96,7 +96,7 @@
 
 /*Active links menu*/
 #sideMenu .active {
-    background-color: var(--first-color);
+    background-color: var(--red);
 }
 
 /*===== COLLAPSE =====*/
@@ -115,12 +115,12 @@
 }
 
 #sideMenu .collapse__sublink {
-    color: var(--sub-color);
+    color: var(--dark-gray);
     font-size: var(--small-font-size);
 }
 
 #sideMenu .collapse__sublink:hover {
-    color: var(--white-color);
+    color: var(--white);
 }
 
 /*Show collapse*/

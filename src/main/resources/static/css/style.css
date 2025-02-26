@@ -4,10 +4,10 @@
 :root {
 	--nav-width: 92px;
 
-	--first-color: #d40511;
-	--bg-color: #363434;
-	--sub-color: rgb(31, 31, 31);
-	--white-color: #FFF;
+	--red: #d40511;
+	--light-gray: #363434;
+	--dark-gray: rgb(31, 31, 31);
+	--white: #FFF;
 
 	--body-font: 'Poppins', sans-serif;
 	--normal-font-size: 1rem;
@@ -18,11 +18,11 @@
 
 /* Override Bootstrap defaults */
 .bg-dark {
-	background-color: var(--bg-color) !important;
+	background-color: var(--light-gray) !important;
 }
 
 .btn-primary {
-	background-color: var(--first-color) !important;
+	background-color: var(--red) !important;
 }
 
 /* Custom CSS */
@@ -34,7 +34,7 @@
 }
 
 body {
-	background: var(--sub-color);
+	background: var(--dark-gray);
 	color: #fff;
 	font-family: 'Poppins', Helvetica, Arial, sans-serif;
 	font-size: 18px;
@@ -57,44 +57,44 @@ body {
 }
 
 .dark-modal-content {
-	background-color: var(--bg-color);
+	background-color: var(--light-gray);
 }
 
 .dark-modal-content select,
 .dark-modal-content input[type="text"],
 .dark-modal-content input[type="datetime-local"]{
-	background-color: var(--sub-color);
+	background-color: var(--dark-gray);
 	border: 0;
-	color: white;
+	color: var(--white);
 }
 
 /* For select dropdowns */
 .dark-modal-content select option {
-	background-color: var(--sub-color);
-	color: white;
+	background-color: var(--dark-gray);
+	color: var(--white);
 }
 
 /* For multi-select dropdowns */
 .dark-modal-content select[multiple] option {
-	background-color: var(--sub-color);
-	color: white;
+	background-color: var(--dark-gray);
+	color: var(--white);
 }
 
 /* Ensure the select box remains dark when clicked */
 .dark-modal-content select:focus {
-	background-color: var(--sub-color);
-	color: white;
+	background-color: var(--dark-gray);
+	color: var(--white);
 }
 
 /* Ensure the multi-select dropdown remains dark when selecting */
 .dark-modal-content select[multiple]:focus {
-	background-color: var(--sub-color);
-	color: white;
+	background-color: var(--dark-gray);
+	color: var(--white);
 }
 
 .dark-modal-content select[multiple] option:checked {
-	background-color: var(--bg-color);
-	color: white;
+	background-color: var(--light-gray);
+	color: var(--white);
 }
 
 .modal-close-white {
