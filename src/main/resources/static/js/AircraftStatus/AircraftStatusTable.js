@@ -74,7 +74,7 @@ function displayAircraftStatusTable(events) {
                 <td>${formatTime(events[i].nextUpdate)}</td>
                 <td>${events[i].remark}</td>
                 <td>
-                    <input class="form-check-input" type="checkbox" id="backInService-${eventId}"/>
+                    <button class="btn btn-primary border-0" id="backInService-${eventId}">Set</button>
                 </td>
                 <td>
                     <button class="btn btn-primary border-0" id="editEvent-${eventId}">Edit</button>
