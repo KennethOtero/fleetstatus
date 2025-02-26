@@ -56,7 +56,7 @@ function toDateTimeLocalString(date) {
 }
 
 /**
- * Format the nextUpdate DATETIME variable to YYYY-MM-DD HH:MMZ
+ * Format the nextUpdate DATETIME variable to MM-DD-YYYY HH:MMZ
  * @param date
  * @returns {null|string}
  */
@@ -70,7 +70,7 @@ function formatTime(date) {
     const hours = String(newDate.getUTCHours()).padStart(2, '0');
     const minutes = String(newDate.getUTCMinutes()).padStart(2, '0');
 
-    return `${year}-${month}-${day} ${hours}:${minutes}Z`;
+    return `${month}/${day}/${year} ${hours}:${minutes}Z`;
 }
 
 /**
