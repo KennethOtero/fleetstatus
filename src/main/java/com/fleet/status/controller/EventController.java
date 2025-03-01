@@ -35,7 +35,7 @@ public class EventController {
     @ResponseBody
     public ResponseEntity<List<Event>> getHomepageEvents() {
         try {
-            return new ResponseEntity<>(eventService.getHomepageAircraft(), HttpStatus.OK);
+            return new ResponseEntity<>(eventService.getHomepageEvents(), HttpStatus.OK);
         } catch(Exception e) {
             log.error("Failed to fetch aircraft: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -46,7 +46,7 @@ public class EventController {
     @ResponseBody
     public ResponseEntity<List<Event>> getOutOfServiceEvents() {
         try {
-            return new ResponseEntity<>(eventService.getOutOfServiceAircraft(), HttpStatus.OK);
+            return new ResponseEntity<>(eventService.getOutOfServiceEvents(), HttpStatus.OK);
         } catch(Exception e) {
             log.error("Failed to fetch out-of-service aircraft: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
