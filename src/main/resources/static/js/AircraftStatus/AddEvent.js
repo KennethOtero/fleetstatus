@@ -1,10 +1,10 @@
-// Save aircraft on button click or display errors
-function saveAircraft() {
+// Save event on button click or display errors
+function saveEvent() {
     // Remove old highlighted errors
     removeErrorHighlights();
 
-    if (validateAircraft()) {
-        postEvent();
+    if (validateEvent()) {
+        createEvent();
     }
 }
 
@@ -16,7 +16,7 @@ function removeErrorHighlights() {
 }
 
 // Form Validation
-function validateAircraft() {
+function validateEvent() {
     // Get inputs
     let inputs = getInputs();
 
@@ -33,8 +33,7 @@ function validateAircraft() {
     return result;
 }
 
-// Post to /addAircraftEvent
-function postEvent() {
+function createEvent() {
     let inputs = getInputs();
 
     // Convert the selected reasonId to an array of Reason objects

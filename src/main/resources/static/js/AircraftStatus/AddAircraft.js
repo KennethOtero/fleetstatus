@@ -2,7 +2,7 @@ function addAircraft() {
     removeAddAircraftErrors();
 
     if (validateAddAircraft()) {
-        postAddAircraft();
+        createAircraft();
     }
 }
 
@@ -28,7 +28,7 @@ function validateAddAircraft() {
     return result;
 }
 
-function postAddAircraft() {
+function createAircraft() {
     let inputs = getAddAircraftInputs();
 
     const aircraft = {

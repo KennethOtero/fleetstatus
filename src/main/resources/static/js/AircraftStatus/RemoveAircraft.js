@@ -5,7 +5,7 @@ $("#removeAircraft").on("show.bs.modal", () => {
 
 function removeAircraft() {
     if (validateRemove()) {
-        postRemoveAircraft();
+        deleteAircraft();
     }
 }
 
@@ -20,7 +20,7 @@ function validateRemove() {
     return true;
 }
 
-function postRemoveAircraft() {
+function deleteAircraft() {
     let aircraftId = document.getElementById("allTails").value;
 
     $.ajax({
