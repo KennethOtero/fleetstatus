@@ -104,25 +104,6 @@ function getInputs() {
 
 // Get updated list of carriers, types, and reasons when modal is opened
 $("#addTailEvent").on("show.bs.modal", () => {
-    fetchReasons();
-    fetchAircraft("tailNumberSelect");
+    getReasons("reason");
+    getAircraft("tailNumberSelect");
 });
-
-function fetchReasons() {
-    fetch(URI_REASON)
-        .then(response => response.json())
-        .then(data => {
-            const reasonSelect = document.getElementById('reason');
-
-            // clear exist choices
-            reasonSelect.innerHTML = '';
-            data.forEach(reason => {
-                const option = document.createElement('option');
-                option.value = reason.reasonId;  // 使用 reasonId 作为 value
-                option.textContent = reason.reason;
-                reasonSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching reasons:', error));
-}
-

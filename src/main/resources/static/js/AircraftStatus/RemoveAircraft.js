@@ -1,6 +1,6 @@
 // Get updated list of aircraft when modal is opened
 $("#removeAircraft").on("show.bs.modal", () => {
-    fetchAircraft("allTails");
+    getAircraft("deleteTail");
 });
 
 function removeAircraft() {
@@ -10,7 +10,7 @@ function removeAircraft() {
 }
 
 function validateRemove() {
-    let aircraftId = document.getElementById("allTails").value;
+    let aircraftId = document.getElementById("deleteTail").value;
 
     if (aircraftId === "0") {
         displayResult("removeAircraftAlert", "Please select a tail to remove.");
@@ -21,7 +21,7 @@ function validateRemove() {
 }
 
 function deleteAircraft() {
-    let aircraftId = document.getElementById("allTails").value;
+    let aircraftId = document.getElementById("deleteTail").value;
 
     $.ajax({
         type: "DELETE",
@@ -40,29 +40,4 @@ function deleteAircraft() {
             }
         }
     });
-}
-
-function fetchAircraft(selectId) {
-    fetch(URI_AIRCRAFT)
-        .then(response => response.json())
-        .then(data => {
-            const allAircraft = document.getElementById(selectId);
-
-            // Clear old results
-            allAircraft.innerHTML = "";
-
-            // Add default choice
-            const defaultOption = document.createElement("option");
-            defaultOption.value = 0;
-            defaultOption.textContent = "Select Tail";
-            allAircraft.appendChild(defaultOption);
-
-            data.forEach(aircraft => {
-                const option = document.createElement('option');
-                option.value = aircraft.aircraftId;
-                option.textContent = aircraft.tailNumber;
-                allAircraft.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching aircraft:', error));
 }

@@ -12,62 +12,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 window.onload = function() {
-    loadCarriers();
-    loadTypes();
-    loadReasons();
-    loadAircrafts();
+    getCarriers("carrierSelect");
+    getTypes("typeSelect");
+    getReasons("reasonIds");
+    getEventHistoryAircraft();
 };
 
-// Loading carrier list
-function loadCarriers() {
-    fetch(URI_CARRIER)
-        .then(response => response.json())
-        .then(data => {
-            const carrierSelect = document.getElementById("carrierSelect");
-            data.forEach(carrier => {
-                const option = document.createElement("option");
-                option.value = carrier.carrierId;
-                option.text = carrier.carrierName;
-                carrierSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error("Error loading carriers:", error));
-}
-
-// Load Type List
-function loadTypes() {
-    fetch(URI_TYPE)
-        .then(response => response.json())
-        .then(data => {
-            const typeSelect = document.getElementById("typeSelect");
-            data.forEach(type => {
-                const option = document.createElement("option");
-                option.value = type.typeId;
-                option.text = type.typeName;
-                typeSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error("Error loading types:", error));
-}
-
-// Loading Reason List
-function loadReasons() {
-    fetch(URI_REASON)
-        .then(response => response.json())
-        .then(data => {
-            const reasonSelect = document.getElementById("reasonIds");
-            data.forEach(reason => {
-                const option = document.createElement("option");
-                option.value = reason.reasonId;
-                option.text = reason.reason;
-                reasonSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error("Error loading reasons:", error));
-}
-
-// Load aircraft list (tail numbers)
-function loadAircrafts() {
+function getEventHistoryAircraft() {
     fetch(URI_AIRCRAFT)
         .then(response => response.json())
         .then(data => {
@@ -79,7 +30,7 @@ function loadAircrafts() {
                 tailSelect.appendChild(option);
             });
         })
-        .catch(error => console.error("Error loading aircrafts:", error));
+        .catch(error => console.error("Error loading aircraft:", error));
 }
 
 function filterEventHistory(baseUrl){
@@ -159,17 +110,11 @@ function displayEventHistory(events) {
     });
 }
 
-function generateReport() {
-    // Placeholder for generating report functionality
-    alert("Generating aircraft down time report...");
-}
-
 function exportData() {
-        const url = filterEventHistory(URI_CSV);
-        const link = document.createElement('a');
-        link.href = url.toString();  // The endpoint for exporting CSV
-        link.click();
-    alert("Exporting data...");
+    const url = filterEventHistory(URI_CSV);
+    const link = document.createElement('a');
+    link.href = url.toString();  // The endpoint for exporting CSV
+    link.click();
 }
 
 function exportDowntimeReport() {
@@ -177,5 +122,4 @@ function exportDowntimeReport() {
     const link = document.createElement('a');
     link.href = url.toString();  // The endpoint for exporting CSV
     link.click();
-    alert("Exporting data...");
 }

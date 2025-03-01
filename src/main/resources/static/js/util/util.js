@@ -116,3 +116,75 @@ function convertDateToSQL(datetime) {
     // Convert local timezone to UTC
     return new Date(datetime).toISOString();
 }
+
+/**
+ * Get all aircraft
+ */
+function getAircraft(tailSelectId) {
+    fetch(URI_AIRCRAFT)
+        .then(response => response.json())
+        .then(data => {
+            const tailSelect = document.getElementById(tailSelectId);
+            data.forEach(aircraft => {
+                const option = document.createElement("option");
+                option.value = aircraft.aircraftId;
+                option.text = aircraft.tailNumber;
+                tailSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error loading aircraft:", error));
+}
+
+/**
+ * Get all reasons
+ */
+function getReasons(reasonSelectId) {
+    fetch(URI_REASON)
+        .then(response => response.json())
+        .then(data => {
+            const reasonSelect = document.getElementById(reasonSelectId);
+            data.forEach(reason => {
+                const option = document.createElement("option");
+                option.value = reason.reasonId;
+                option.text = reason.reason;
+                reasonSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error loading reasons:", error));
+}
+
+/**
+ * Get all types
+ */
+function getTypes(typeSelectId) {
+    fetch(URI_TYPE)
+        .then(response => response.json())
+        .then(data => {
+            const typeSelect = document.getElementById(typeSelectId);
+            data.forEach(type => {
+                const option = document.createElement("option");
+                option.value = type.typeId;
+                option.text = type.typeName;
+                typeSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error loading types:", error));
+}
+
+/**
+ * Get all carriers
+ */
+function getCarriers(carrierSelectId) {
+    fetch(URI_CARRIER)
+        .then(response => response.json())
+        .then(data => {
+            const carrierSelect = document.getElementById(carrierSelectId);
+            data.forEach(carrier => {
+                const option = document.createElement("option");
+                option.value = carrier.carrierId;
+                option.text = carrier.carrierName;
+                carrierSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error loading carriers:", error));
+}

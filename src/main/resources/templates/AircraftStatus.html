@@ -58,11 +58,11 @@
                     <label for="addAircraftTailNumber">Enter Tail Number</label>
                     <input type="text" class="form-control" id="addAircraftTailNumber" placeholder="e.g. N123XY">
                     <label for="addAircraftCarrier">Select Carrier</label>
-                    <select id="addAircraftCarrier" class="carrierSelect form-select lg-mb-3">
+                    <select id="addAircraftCarrier" class="form-select lg-mb-3">
                         <!-- Options will be populated dynamically -->
                     </select>
                     <label for="addAircraftType">Select Type</label>
-                    <select id="addAircraftType" class="typeSelect form-select lg-mb-3">
+                    <select id="addAircraftType" class="form-select lg-mb-3">
                         <!-- Options will be populated dynamically -->
                     </select>
                 </div>
@@ -84,8 +84,9 @@
                     <div class="alert alert-danger d-none" id="removeAircraftAlert" role="alert">
                         This is a danger alert - check it out!
                     </div>
-                    <label for="allTails">Select Tail to Remove:</label>
-                    <select id="allTails" class="form-select lg-mb-3">
+                    <label for="deleteTail">Select Tail to Remove:</label>
+                    <select id="deleteTail" class="form-select lg-mb-3">
+                        <option value="0" selected>Select Tail</option>
                         <!-- Options will be populated dynamically -->
                     </select>
                 </div>
@@ -109,6 +110,7 @@
                     </div>
                     <label for="tailNumberSelect">Select Tail Number</label>
                     <select id="tailNumberSelect" class="form-control">
+                        <option value="0" selected>Select Tail</option>
                         <!-- Options will be populated dynamically -->
                     </select>
 
