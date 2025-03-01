@@ -57,7 +57,7 @@ async function validateBackInServiceDate(eventID, dateInput) {
     if (dateInput === "") return false;
 
     try {
-        const response = await fetch("/v1/findEvent/" + eventID);
+        const response = await fetch("/v1/events/" + eventID);
 
         if (!response.ok) {
             displayResult("backInServiceAlert", "An error occurred saving the date.");

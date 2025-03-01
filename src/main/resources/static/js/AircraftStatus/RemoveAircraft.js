@@ -24,10 +24,8 @@ function postRemoveAircraft() {
     let aircraftId = document.getElementById("allTails").value;
 
     $.ajax({
-        type: "POST",
-        url: "/v1/removeAircraft",
-        data: aircraftId,
-        contentType: "application/json",
+        type: "DELETE",
+        url: "/v1/aircraft?aircraftId=" + aircraftId,
         statusCode: {
             200: function() {
                 // Close modal and reload table
@@ -45,7 +43,7 @@ function postRemoveAircraft() {
 }
 
 function fetchAircraft(selectId) {
-    fetch('/v1/findAllAircraft')
+    fetch('/v1/aircraft')
         .then(response => response.json())
         .then(data => {
             const allAircraft = document.getElementById(selectId);

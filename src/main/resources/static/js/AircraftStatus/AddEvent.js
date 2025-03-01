@@ -62,7 +62,7 @@ function postEvent() {
 
     $.ajax({
         type: "POST",
-        url: "/v1/saveEvent",
+        url: "/v1/events",
         data: JSON.stringify(event),
         contentType: "application/json",
         statusCode: {
@@ -110,7 +110,7 @@ $("#addTailEvent").on("show.bs.modal", () => {
 });
 
 function fetchReasons() {
-    fetch('/v1/getAllReason')
+    fetch('/v1/reason')
         .then(response => response.json())
         .then(data => {
             const reasonSelect = document.getElementById('reason');

@@ -1,5 +1,6 @@
 package com.fleet.status.controller;
 
+import com.fleet.status.config.UriConstants;
 import com.fleet.status.entity.Event;
 import com.fleet.status.entity.Reason;
 import com.fleet.status.service.EventService;
@@ -13,6 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,22 +22,18 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * All Event related endpoints
- */
 @RestController
 @Slf4j
 @Profile("dev")
 @RequiredArgsConstructor
-@RequestMapping("/v1")
 public class EventController {
 
     private final EventService eventService;
     private final ReasonService reasonService;
 
-    @GetMapping("/getAllAircraft")
+    @GetMapping(UriConstants.URI_EVENTS)
     @ResponseBody
-    public ResponseEntity<List<Event>> getHomepageAircraft() {
+    public ResponseEntity<List<Event>> getHomepageEvents() {
         try {
             return new ResponseEntity<>(eventService.getHomepageAircraft(), HttpStatus.OK);
         } catch(Exception e) {
@@ -44,9 +42,9 @@ public class EventController {
         }
     }
 
-    @GetMapping("/getOutOfServiceAircraft")
+    @GetMapping(UriConstants.URI_OOS_EVENTS)
     @ResponseBody
-    public ResponseEntity<List<Event>> getOutOfServiceAircraft() {
+    public ResponseEntity<List<Event>> getOutOfServiceEvents() {
         try {
             return new ResponseEntity<>(eventService.getOutOfServiceAircraft(), HttpStatus.OK);
         } catch(Exception e) {
@@ -55,7 +53,7 @@ public class EventController {
         }
     }
 
-    @GetMapping("/getHistory")
+    @GetMapping(UriConstants.URI_EVENT_HISTORY)
     @ResponseBody
     public ResponseEntity<List<Event>> getHistory(
             @RequestParam(required = false) Integer carrierId,
@@ -74,8 +72,7 @@ public class EventController {
         }
     }
 
-
-    @PostMapping(value="/saveEvent", consumes = "application/json", produces = "application/json")
+    @PostMapping(value=UriConstants.URI_EVENTS, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> submitEvent(@RequestBody Event event) {
         try {
@@ -90,7 +87,7 @@ public class EventController {
     }
 
     @Transactional
-    @RequestMapping(value="/showBackInService/{eventId}", method = RequestMethod.PUT)
+    @PutMapping(value=UriConstants.URI_SHOW_BACK_IN_SERVICE)
     public ResponseEntity<String> showBackInService (@PathVariable int eventId, @RequestBody String backInServiceDate) {
         try {
             eventService.showBackInService(eventId, Instant.parse(backInServiceDate));
@@ -101,14 +98,14 @@ public class EventController {
         }
     }
 
-    @GetMapping("/findEvent/{eventId}")
+    @GetMapping(UriConstants.URI_EVENTS_EVENT_ID)
     @ResponseBody
     public Event findEvent(@PathVariable int eventId) {
         return eventService.findById(eventId);
     }
 
     @Transactional
-    @PatchMapping(value = "/editEvent/{eventId}", consumes = "application/json")
+    @PatchMapping(value = UriConstants.URI_EVENTS_EVENT_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> editEvent(@PathVariable String eventId, @RequestBody JsonPatch patch) {
         try {
             eventService.updateEvent(patch, eventId);
@@ -119,13 +116,13 @@ public class EventController {
         }
     }
 
-    @GetMapping("/getAllReason")
+    @GetMapping(UriConstants.URI_REASON)
     @ResponseBody
     public List<Reason> getReasons() {
         return reasonService.getAllReason();
     }
 
-    @GetMapping("/csv")
+    @GetMapping(UriConstants.URI_CSV)
     public ResponseEntity<byte[]> exportCsv(@RequestParam(required = false) Integer carrierId,
                                             @RequestParam(required = false) Integer typeId,
                                             @RequestParam(required = false) String tailNumber,
@@ -145,8 +142,9 @@ public class EventController {
                 .body(csvData);
     }
 
-    @GetMapping("/getDowntimeReport")
-    public ResponseEntity<byte[]> getDowntimeReport(@RequestParam(required = false) Integer carrierId,
+    @GetMapping(UriConstants.URI_DOWNTIME_REPORT)
+    public ResponseEntity<byte[]> getDowntimeReport(
+                                            @RequestParam(required = false) Integer carrierId,
                                             @RequestParam(required = false) Integer typeId,
                                             @RequestParam(required = false) String tailNumber,
                                             @RequestParam(required = false) List<Integer> reasonIds,
