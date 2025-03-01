@@ -125,6 +125,7 @@ function getAircraft(tailSelectId) {
         .then(response => response.json())
         .then(data => {
             const tailSelect = document.getElementById(tailSelectId);
+            tailSelect.innerText = ''; // Clear old options
             data.forEach(aircraft => {
                 const option = document.createElement("option");
                 option.value = aircraft.aircraftId;
@@ -143,6 +144,7 @@ function getReasons(reasonSelectId) {
         .then(response => response.json())
         .then(data => {
             const reasonSelect = document.getElementById(reasonSelectId);
+            reasonSelect.innerText = ''; // Clear old options
             data.forEach(reason => {
                 const option = document.createElement("option");
                 option.value = reason.reasonId;
@@ -161,6 +163,7 @@ function getTypes(typeSelectId) {
         .then(response => response.json())
         .then(data => {
             const typeSelect = document.getElementById(typeSelectId);
+            typeSelect.innerText = ''; // Clear old options
             data.forEach(type => {
                 const option = document.createElement("option");
                 option.value = type.typeId;
@@ -179,6 +182,7 @@ function getCarriers(carrierSelectId) {
         .then(response => response.json())
         .then(data => {
             const carrierSelect = document.getElementById(carrierSelectId);
+            carrierSelect.innerText = ''; // Clear old options
             data.forEach(carrier => {
                 const option = document.createElement("option");
                 option.value = carrier.carrierId;
