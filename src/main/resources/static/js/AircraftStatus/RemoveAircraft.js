@@ -25,7 +25,7 @@ function postRemoveAircraft() {
 
     $.ajax({
         type: "DELETE",
-        url: "/v1/aircraft?aircraftId=" + aircraftId,
+        url: URI_AIRCRAFT + "?aircraftId=" + aircraftId,
         statusCode: {
             200: function() {
                 // Close modal and reload table
@@ -43,7 +43,7 @@ function postRemoveAircraft() {
 }
 
 function fetchAircraft(selectId) {
-    fetch('/v1/aircraft')
+    fetch(URI_AIRCRAFT)
         .then(response => response.json())
         .then(data => {
             const allAircraft = document.getElementById(selectId);

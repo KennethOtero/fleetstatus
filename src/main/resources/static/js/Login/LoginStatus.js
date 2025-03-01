@@ -1,6 +1,6 @@
 async function checkLoginStatus() {
     try {
-        const response = await fetch('/v1/auth/status');
+        const response = await fetch(URI_AUTH_STATUS);
         const data = await response.json();
         const aircraftStatusPage = document.getElementById("aircraftStatusPage");
 

@@ -6,7 +6,7 @@ async function editEvent(eventId) {
         modal.show();
 
         // Get current event with ID
-        const response = await fetch("/v1/events/" + eventId);
+        const response = await fetch(URI_EVENTS + "/" + eventId);
         const event = await response.json();
         await loadEditFields(event);
 
@@ -44,7 +44,7 @@ async function sendUpdateEvent(event) {
             ];
 
             // Send update call
-            let response = await fetch("/v1/events/" + event.eventId, {
+            let response = await fetch(URI_EVENTS + "/" + event.eventId, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ async function loadEditFields(event) {
         let fields = getEditFields();
 
         // Get all reasons
-        let response = await fetch("/v1/reason");
+        let response = await fetch(URI_REASON);
 
         let json = await response.json();
 
