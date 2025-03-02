@@ -147,16 +147,9 @@ function getReasons(reasonSelectId) {
         .then(response => response.json())
         .then(data => {
             const reasonSelect = document.getElementById(reasonSelectId);
-
-            // Clear old options and add default
-            addDefaultSelectOption(reasonSelect, "Select Reason");
-
-            data.forEach(reason => {
-                const option = document.createElement("option");
-                option.value = reason.reasonId;
-                option.text = reason.reason;
-                reasonSelect.appendChild(option);
-            });
+            reasonSelect.innerText = "";
+            reasonSelect.innerHTML = data.map( reason => `<option value="`+ reason.reasonId + `">` + reason.reason + `</option>`);
+            reasonSelect.loadOptions();
         })
         .catch(error => console.error("Error loading reasons:", error));
 }
