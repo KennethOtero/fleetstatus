@@ -2,7 +2,7 @@ function MultiselectDropdown(options) {
     let config = {
         search: true,
         height: '15rem',
-        placeholder: 'select',
+        placeholder: null,
         txtSelected: 'selected',
         txtAll: 'All',
         txtRemove: 'Remove',
