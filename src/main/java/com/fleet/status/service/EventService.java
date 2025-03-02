@@ -23,7 +23,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -36,6 +35,7 @@ public class EventService {
 
     public void save(Event event) {
         eventDAO.save(event);
+        log.info("Saved Event with Aircraft Id: {}", event.getAircraft().getAircraftId());
     }
 
     public Event findById(int id) {
@@ -43,35 +43,13 @@ public class EventService {
     }
 
     @Transactional
-    public List<Event> getHomepageAircraft() {
-        return eventDAO.getHomepageAircraft();
+    public List<Event> getHomepageEvents() {
+        return eventDAO.getHomepageEvents();
     }
 
     @Transactional
-    public List<Event> getOutOfServiceAircraft() {
-        return eventDAO.getOutOfServiceAircraft();
-    }
-
-    public long calculateDownTime(String startTime, String endTime) {
-        // SQL may return decimal point after seconds. Remove if needed.
-        if (startTime.contains(".")) {
-            int period = startTime.indexOf(".");
-            startTime = startTime.substring(0, period);
-        }
-
-        if (endTime.contains(".")) {
-            int period = endTime.indexOf(".");
-            endTime = endTime.substring(0, period);
-        }
-
-        String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-        LocalDateTime start = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
-        LocalDateTime end = LocalDateTime.parse(endTime, DateTimeFormatter.ofPattern(DATE_FORMAT));
-
-        Duration duration = Duration.between(start, end);
-
-        return Math.abs(duration.toHours());
+    public List<Event> getOutOfServiceEvents() {
+        return eventDAO.getOutOfServiceEvents();
     }
 
     public void showBackInService(int eventId, Instant backInServiceDate) {
@@ -80,6 +58,7 @@ public class EventService {
             event.setEndTime(backInServiceDate);
             event.setBackInService(1);
             eventDAO.save(event);
+            log.info("Set Event with Id: {} back in service", eventId);
         }
     }
 
@@ -88,6 +67,7 @@ public class EventService {
         if (eventToUpdate != null) {
             Event patchedEvent = patchEvent(patch, eventToUpdate);
             eventDAO.save(patchedEvent);
+            log.info("Updated Event with Id: {}", eventId);
         } else {
             log.error("Event not found for ID: {}", eventId);
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Event not found for Id: " + eventId);

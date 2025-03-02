@@ -1,18 +1,18 @@
 // Get updated list of aircraft when modal is opened
 $("#removeAircraft").on("show.bs.modal", () => {
-    fetchAircraft("allTails");
+    getAircraft("deleteTail");
 });
 
 function removeAircraft() {
     if (validateRemove()) {
-        postRemoveAircraft();
+        deleteAircraft();
     }
 }
 
 function validateRemove() {
-    let aircraftId = document.getElementById("allTails").value;
+    let aircraftId = document.getElementById("deleteTail").value;
 
-    if (aircraftId === "0") {
+    if (aircraftId === "0" || aircraftId === "") {
         displayResult("removeAircraftAlert", "Please select a tail to remove.");
         return false;
     }
@@ -20,14 +20,12 @@ function validateRemove() {
     return true;
 }
 
-function postRemoveAircraft() {
-    let aircraftId = document.getElementById("allTails").value;
+function deleteAircraft() {
+    let aircraftId = document.getElementById("deleteTail").value;
 
     $.ajax({
-        type: "POST",
-        url: "/v1/removeAircraft",
-        data: aircraftId,
-        contentType: "application/json",
+        type: "DELETE",
+        url: URI_AIRCRAFT + "?aircraftId=" + aircraftId,
         statusCode: {
             200: function() {
                 // Close modal and reload table
@@ -42,29 +40,4 @@ function postRemoveAircraft() {
             }
         }
     });
-}
-
-function fetchAircraft(selectId) {
-    fetch('/v1/findAllAircraft')
-        .then(response => response.json())
-        .then(data => {
-            const allAircraft = document.getElementById(selectId);
-
-            // Clear old results
-            allAircraft.innerHTML = "";
-
-            // Add default choice
-            const defaultOption = document.createElement("option");
-            defaultOption.value = 0;
-            defaultOption.textContent = "Select Tail";
-            allAircraft.appendChild(defaultOption);
-
-            data.forEach(aircraft => {
-                const option = document.createElement('option');
-                option.value = aircraft.aircraftId;
-                option.textContent = aircraft.tailNumber;
-                allAircraft.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching aircraft:', error));
 }

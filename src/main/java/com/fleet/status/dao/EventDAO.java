@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @Profile("dev")
@@ -38,11 +37,11 @@ public class EventDAO {
         return eventRepository.findById(id).orElse(null);
     }
 
-    public List<Event> getHomepageAircraft() {
+    public List<Event> getHomepageEvents() {
         return eventRepository.getHomepageAircraft();
     }
 
-    public List<Event> getOutOfServiceAircraft() {
+    public List<Event> getOutOfServiceEvents() {
         return eventRepository.getOutOfServiceAircraft();
     }
 

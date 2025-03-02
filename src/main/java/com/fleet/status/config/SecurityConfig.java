@@ -32,7 +32,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests.requestMatchers(
                             "/",
-                            "/start",
                             "/History",
                             "/css/**",
                             "/js/**",
