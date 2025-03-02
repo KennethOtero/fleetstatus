@@ -146,6 +146,9 @@ async function loadEditFields(event) {
                 }
             }
 
+            // Update multi-select options
+            fields[0].loadOptions();
+
             // Populate other fields
             fields[1].value = convertToDateTimeLocal(event.nextUpdate);
             fields[2].value = event.remark;
