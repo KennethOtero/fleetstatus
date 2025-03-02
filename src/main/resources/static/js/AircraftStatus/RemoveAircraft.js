@@ -12,7 +12,7 @@ function removeAircraft() {
 function validateRemove() {
     let aircraftId = document.getElementById("deleteTail").value;
 
-    if (aircraftId === "0") {
+    if (aircraftId === "0" || aircraftId === "") {
         displayResult("removeAircraftAlert", "Please select a tail to remove.");
         return false;
     }

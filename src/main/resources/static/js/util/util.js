@@ -125,7 +125,10 @@ function getAircraft(tailSelectId) {
         .then(response => response.json())
         .then(data => {
             const tailSelect = document.getElementById(tailSelectId);
-            tailSelect.innerText = ''; // Clear old options
+
+            // Clear old options and add default
+            addDefaultSelectOption(tailSelect, "Select Tail");
+
             data.forEach(aircraft => {
                 const option = document.createElement("option");
                 option.value = aircraft.aircraftId;
@@ -144,7 +147,10 @@ function getReasons(reasonSelectId) {
         .then(response => response.json())
         .then(data => {
             const reasonSelect = document.getElementById(reasonSelectId);
-            reasonSelect.innerText = ''; // Clear old options
+
+            // Clear old options and add default
+            addDefaultSelectOption(reasonSelect, "Select Reason");
+
             data.forEach(reason => {
                 const option = document.createElement("option");
                 option.value = reason.reasonId;
@@ -163,7 +169,10 @@ function getTypes(typeSelectId) {
         .then(response => response.json())
         .then(data => {
             const typeSelect = document.getElementById(typeSelectId);
-            typeSelect.innerText = ''; // Clear old options
+
+            // Clear old options and add default
+            addDefaultSelectOption(typeSelect, "Select Type");
+
             data.forEach(type => {
                 const option = document.createElement("option");
                 option.value = type.typeId;
@@ -182,7 +191,10 @@ function getCarriers(carrierSelectId) {
         .then(response => response.json())
         .then(data => {
             const carrierSelect = document.getElementById(carrierSelectId);
-            carrierSelect.innerText = ''; // Clear old options
+
+            // Clear old options and add default
+            addDefaultSelectOption(carrierSelect, "Select Carrier");
+
             data.forEach(carrier => {
                 const option = document.createElement("option");
                 option.value = carrier.carrierId;
@@ -191,4 +203,17 @@ function getCarriers(carrierSelectId) {
             });
         })
         .catch(error => console.error("Error loading carriers:", error));
+}
+
+function addDefaultSelectOption(element, text) {
+    // Clear existing options
+    element.innerText = "";
+
+    // Add default option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.text = text;
+    element.appendChild(defaultOption);
+
+    return element;
 }
