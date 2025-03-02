@@ -23,6 +23,10 @@ function getEventHistoryAircraft() {
         .then(response => response.json())
         .then(data => {
             const tailSelect = document.getElementById("tailSelect");
+
+            // Clear old options and add default
+            addDefaultSelectOption(tailSelect, "Select Tail");
+
             data.forEach(aircraft => {
                 const option = document.createElement("option");
                 option.value = aircraft.tailNumber; //Preparing for fuzzy search
