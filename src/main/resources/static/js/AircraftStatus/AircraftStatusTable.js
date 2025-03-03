@@ -26,7 +26,7 @@ setInterval(() => {
 
 // Update every 10 seconds
 function getAircraftStatusTable() {
-    fetch("/v1/getOutOfServiceAircraft")
+    fetch(URI_OOS_EVENTS)
         .then(response => response.json())
         .then(data => {
             try {

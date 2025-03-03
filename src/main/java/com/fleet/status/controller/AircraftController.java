@@ -1,5 +1,6 @@
 package com.fleet.status.controller;
 
+import com.fleet.status.config.UriConstants;
 import com.fleet.status.entity.Aircraft;
 import com.fleet.status.entity.Carrier;
 import com.fleet.status.entity.Type;
@@ -11,28 +12,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * All Aircraft related endpoints
- */
 @RestController
 @Slf4j
 @Profile("dev")
 @RequiredArgsConstructor
-@RequestMapping("/v1")
 public class AircraftController {
 
     private final AircraftService aircraftService;
     private final CarrierService carrierService;
     private final TypeService typeService;
 
-    @PostMapping(value = "/removeAircraft", consumes = "application/json", produces = "application/json")
+    @DeleteMapping(value = UriConstants.URI_AIRCRAFT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> removeAircraft(@RequestBody int aircraftId) {
+    public ResponseEntity<String> removeAircraft(@RequestParam int aircraftId) {
         try {
             aircraftService.deleteAircraft(aircraftId);
             return new ResponseEntity<>("Aircraft deleted.", HttpStatus.OK);
@@ -42,13 +40,13 @@ public class AircraftController {
         }
     }
 
-    @GetMapping("/findAllAircraft")
+    @GetMapping(UriConstants.URI_AIRCRAFT)
     @ResponseBody
     public List<Aircraft> getAllAircraft() {
         return aircraftService.findAll();
     }
 
-    @PostMapping(value = "/saveAircraft", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = UriConstants.URI_AIRCRAFT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> saveAircraft(@RequestBody Aircraft aircraft) {
         try {
@@ -62,13 +60,13 @@ public class AircraftController {
         }
     }
 
-    @GetMapping("/getAllCarrier")
+    @GetMapping(UriConstants.URI_CARRIER)
     @ResponseBody
     public List<Carrier> getAllCarriers() {
         return carrierService.getAllCarrier();
     }
 
-    @GetMapping("/getAllTypes")
+    @GetMapping(UriConstants.URI_TYPE)
     @ResponseBody
     public List<Type> getAllTypes() {
         return typeService.findAll();

@@ -38,7 +38,7 @@ async function submitBackInService() {
     }
 
     $.ajax({
-        url: '/v1/showBackInService/' + eventID,
+        url: URI_SHOW_BACK_IN_SERVICE + '/' + eventID,
         data: new Date(dateString).toISOString(),
         contentType: "application/json",
         type: 'PUT',
@@ -57,7 +57,7 @@ async function validateBackInServiceDate(eventID, dateInput) {
     if (dateInput === "") return false;
 
     try {
-        const response = await fetch("/v1/findEvent/" + eventID);
+        const response = await fetch(URI_EVENTS + "/" + eventID);
 
         if (!response.ok) {
             displayResult("backInServiceAlert", "An error occurred saving the date.");

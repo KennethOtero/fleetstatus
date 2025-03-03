@@ -12,66 +12,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 window.onload = function() {
-    loadCarriers();
-    loadTypes();
-    loadReasons();
-    loadAircrafts();
+    getCarriers("carrierSelect");
+    getTypes("typeSelect");
+    getReasons("reasonIds");
+    getEventHistoryAircraft();
 };
 
-// Loading carrier list
-function loadCarriers() {
-    fetch("/v1/getAllCarrier")
-        .then(response => response.json())
-        .then(data => {
-            const carrierSelect = document.getElementById("carrierSelect");
-            data.forEach(carrier => {
-                const option = document.createElement("option");
-                option.value = carrier.carrierId;
-                option.text = carrier.carrierName;
-                carrierSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error("Error loading carriers:", error));
-}
-
-// Load Type List
-function loadTypes() {
-    fetch("/v1/getAllTypes")
-        .then(response => response.json())
-        .then(data => {
-            const typeSelect = document.getElementById("typeSelect");
-            data.forEach(type => {
-                const option = document.createElement("option");
-                option.value = type.typeId;
-                option.text = type.typeName;
-                typeSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error("Error loading types:", error));
-}
-
-// Loading Reason List
-function loadReasons() {
-    fetch("/v1/getAllReason")
-        .then(response => response.json())
-        .then(data => {
-            const reasonSelect = document.getElementById("reasonIds");
-            data.forEach(reason => {
-                const option = document.createElement("option");
-                option.value = reason.reasonId;
-                option.text = reason.reason;
-                reasonSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error("Error loading reasons:", error));
-}
-
-// Load aircraft list (tail numbers)
-function loadAircrafts() {
-    fetch("/v1/findAllAircraft")
+function getEventHistoryAircraft() {
+    fetch(URI_AIRCRAFT)
         .then(response => response.json())
         .then(data => {
             const tailSelect = document.getElementById("tailSelect");
+
+            // Clear old options and add default
+            addDefaultSelectOption(tailSelect, "Select Tail");
+
             data.forEach(aircraft => {
                 const option = document.createElement("option");
                 option.value = aircraft.tailNumber; //Preparing for fuzzy search
@@ -79,7 +34,7 @@ function loadAircrafts() {
                 tailSelect.appendChild(option);
             });
         })
-        .catch(error => console.error("Error loading aircrafts:", error));
+        .catch(error => console.error("Error loading aircraft:", error));
 }
 
 function filterEventHistory(baseUrl){
@@ -121,7 +76,7 @@ function filterEventHistory(baseUrl){
 
 function getEventHistory() {
 
-    const url =filterEventHistory("/v1/getHistory");
+    const url = filterEventHistory(URI_EVENT_HISTORY);
 
     // Send a request to get data
     fetch(url)
@@ -159,23 +114,16 @@ function displayEventHistory(events) {
     });
 }
 
-function generateReport() {
-    // Placeholder for generating report functionality
-    alert("Generating aircraft down time report...");
-}
-
 function exportData() {
-        const url = filterEventHistory('/v1/csv');
-        const link = document.createElement('a');
-        link.href = url.toString();  // The endpoint for exporting CSV
-        link.click();
-    alert("Exporting data...");
-}
-
-function exportDowntimeReport() {
-    const url = filterEventHistory('/v1/getDowntimeReport');
+    const url = filterEventHistory(URI_CSV);
     const link = document.createElement('a');
     link.href = url.toString();  // The endpoint for exporting CSV
     link.click();
-    alert("Exporting data...");
+}
+
+function exportDowntimeReport() {
+    const url = filterEventHistory(URI_DOWNTIME_REPORT);
+    const link = document.createElement('a');
+    link.href = url.toString();  // The endpoint for exporting CSV
+    link.click();
 }

@@ -1,6 +1,22 @@
-/*
- * Contains methods to reuse across multiple pages
+/**
+ * Endpoint constants
  */
+// Aircraft endpoints
+const URI_AIRCRAFT             = "/v1/aircraft";
+const URI_CARRIER              = "/v1/carrier";
+const URI_TYPE                 = "/v1/type";
+
+// Event endpoints
+const URI_EVENTS               = "/v1/events";
+const URI_OOS_EVENTS           = "/v1/OutOfServiceEvents";
+const URI_EVENT_HISTORY        = "/v1/EventHistory";
+const URI_SHOW_BACK_IN_SERVICE = "/v1/showBackInService";
+const URI_REASON               = "/v1/reason";
+const URI_CSV                  = "/v1/csv";
+const URI_DOWNTIME_REPORT      = "/v1/DownTimeReport";
+
+// User endpoints
+const URI_AUTH_STATUS          = "/v1/auth/status";
 
 /**
  * Catch-all to convert both T-SQL DATETIME and ISO formats to datetime-local
@@ -99,4 +115,98 @@ function displayResult(alertBoxName, message) {
 function convertDateToSQL(datetime) {
     // Convert local timezone to UTC
     return new Date(datetime).toISOString();
+}
+
+/**
+ * Get all aircraft
+ */
+function getAircraft(tailSelectId) {
+    fetch(URI_AIRCRAFT)
+        .then(response => response.json())
+        .then(data => {
+            const tailSelect = document.getElementById(tailSelectId);
+
+            // Clear old options and add default
+            addDefaultSelectOption(tailSelect, "Select Tail");
+
+            data.forEach(aircraft => {
+                const option = document.createElement("option");
+                option.value = aircraft.aircraftId;
+                option.text = aircraft.tailNumber;
+                tailSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error loading aircraft:", error));
+}
+
+/**
+ * Get all reasons
+ */
+function getReasons(reasonSelectId) {
+    fetch(URI_REASON)
+        .then(response => response.json())
+        .then(data => {
+            const reasonSelect = document.getElementById(reasonSelectId);
+            reasonSelect.innerText = "";
+            reasonSelect.innerHTML = data.map( reason => `<option value="`+ reason.reasonId + `">` + reason.reason + `</option>`);
+            reasonSelect.loadOptions();
+        })
+        .catch(error => console.error("Error loading reasons:", error));
+}
+
+/**
+ * Get all types
+ */
+function getTypes(typeSelectId) {
+    fetch(URI_TYPE)
+        .then(response => response.json())
+        .then(data => {
+            const typeSelect = document.getElementById(typeSelectId);
+
+            // Clear old options and add default
+            addDefaultSelectOption(typeSelect, "Select Type");
+
+            data.forEach(type => {
+                const option = document.createElement("option");
+                option.value = type.typeId;
+                option.text = type.typeName;
+                typeSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error loading types:", error));
+}
+
+/**
+ * Get all carriers
+ */
+function getCarriers(carrierSelectId) {
+    fetch(URI_CARRIER)
+        .then(response => response.json())
+        .then(data => {
+            const carrierSelect = document.getElementById(carrierSelectId);
+
+            // Clear old options and add default
+            addDefaultSelectOption(carrierSelect, "Select Carrier");
+
+            data.forEach(carrier => {
+                const option = document.createElement("option");
+                option.value = carrier.carrierId;
+                option.text = carrier.carrierName;
+                carrierSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error loading carriers:", error));
+}
+
+function addDefaultSelectOption(element, text) {
+    // Clear existing options
+    element.innerText = "";
+
+    // Add default option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.text = text;
+    element.appendChild(defaultOption);
+
+    return element;
 }

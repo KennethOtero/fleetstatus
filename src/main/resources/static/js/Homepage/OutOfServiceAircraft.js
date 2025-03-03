@@ -7,7 +7,7 @@ setInterval(() => {
 }, 10000);
 
 function getAllAircraft() {
-    fetch("/v1/getAllAircraft")
+    fetch(URI_EVENTS)
         .then(response => response.json())
         .then((data) => {
             // Remove old data

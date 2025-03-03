@@ -1,10 +1,10 @@
-// Save aircraft on button click or display errors
-function saveAircraft() {
+// Save event on button click or display errors
+function saveEvent() {
     // Remove old highlighted errors
     removeErrorHighlights();
 
-    if (validateAircraft()) {
-        postEvent();
+    if (validateEvent()) {
+        createEvent();
     }
 }
 
@@ -16,7 +16,7 @@ function removeErrorHighlights() {
 }
 
 // Form Validation
-function validateAircraft() {
+function validateEvent() {
     // Get inputs
     let inputs = getInputs();
 
@@ -33,8 +33,7 @@ function validateAircraft() {
     return result;
 }
 
-// Post to /addAircraftEvent
-function postEvent() {
+function createEvent() {
     let inputs = getInputs();
 
     // Convert the selected reasonId to an array of Reason objects
@@ -62,7 +61,7 @@ function postEvent() {
 
     $.ajax({
         type: "POST",
-        url: "/v1/saveEvent",
+        url: URI_EVENTS,
         data: JSON.stringify(event),
         contentType: "application/json",
         statusCode: {
@@ -105,25 +104,6 @@ function getInputs() {
 
 // Get updated list of carriers, types, and reasons when modal is opened
 $("#addTailEvent").on("show.bs.modal", () => {
-    fetchReasons();
-    fetchAircraft("tailNumberSelect");
+    getReasons("reason");
+    getAircraft("tailNumberSelect");
 });
-
-function fetchReasons() {
-    fetch('/v1/getAllReason')
-        .then(response => response.json())
-        .then(data => {
-            const reasonSelect = document.getElementById('reason');
-
-            // clear exist choices
-            reasonSelect.innerHTML = '';
-            data.forEach(reason => {
-                const option = document.createElement('option');
-                option.value = reason.reasonId;  // 使用 reasonId 作为 value
-                option.textContent = reason.reason;
-                reasonSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching reasons:', error));
-}
-
