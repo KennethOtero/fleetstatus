@@ -1,0 +1,138 @@
+/*===== BASE =====*/
+#sideMenu *, ::before, ::after {
+    box-sizing: border-box;
+}
+
+#sideMenu body {
+    position: relative;
+    margin: 0;
+    padding: 2rem 0 0 6.75rem;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
+}
+
+#sideMenu a {
+    text-decoration: none;
+}
+
+/*===== l NAV =====*/
+#sideMenu .l-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--nav-width);
+    height: 100vh;
+    background-color: var(--light-gray);
+    color: var(--white);
+    padding: 1.5rem 1.5rem 2rem;
+    transition: .5s;
+    z-index: var(--z-fixed);
+}
+
+/*===== NAV =====*/
+#sideMenu .nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+#sideMenu .nav__brand {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+#sideMenu .nav__toggle {
+    font-size: 1.25rem;
+    padding: .75rem;
+    cursor: pointer;
+}
+
+#sideMenu .nav__logo {
+    color: var(--white);
+    font-weight: 600;
+}
+
+#sideMenu .nav__link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: .75rem;
+    padding: .75rem;
+    color: var(--white);
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    transition: .3s;
+    cursor: pointer;
+}
+
+#sideMenu .nav__link:hover {
+    background-color: var(--red);
+    color: var(--white);
+}
+
+#sideMenu .nav__icon {
+    font-size: 1.25rem;
+}
+
+#sideMenu .nav__name {
+    font-size: var(--small-font-size);
+}
+
+/*Expander menu*/
+#sideMenu .expander {
+    width: calc(var(--nav-width) + 9.25rem);
+}
+
+/*Add padding body*/
+#sideMenu .body-pd {
+    padding: 2rem 0 0 16rem;
+}
+
+/*Active links menu*/
+#sideMenu .active {
+    background-color: var(--red);
+}
+
+/*===== COLLAPSE =====*/
+#sideMenu .collapse {
+    grid-template-columns: 20px max-content 1fr;
+}
+
+#sideMenu .collapse__link {
+    justify-self: flex-end;
+    transition: .5s;
+}
+
+#sideMenu .collapse__menu {
+    display: none;
+    padding: .75rem 2.25rem;
+}
+
+#sideMenu .collapse__sublink {
+    color: var(--dark-gray);
+    font-size: var(--small-font-size);
+}
+
+#sideMenu .collapse__sublink:hover {
+    color: var(--white);
+}
+
+/*Show collapse*/
+#sideMenu .showCollapse {
+    display: block;
+}
+
+/*Rotate icon*/
+#sideMenu .rotate {
+    transform: rotate(180deg);
+}
+
+#sideMenu .hidden {
+    display: none;
+}

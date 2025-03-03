@@ -148,13 +148,12 @@ function displayEventHistory(events) {
 
     events.forEach(event => {
         const row = document.createElement('tr');
-        row.classList.add("text-white", "bg-dark");
         row.innerHTML = `
             <td>${new Date(event.startTime).toLocaleDateString()}</td>
             <td>${event.aircraft.tailNumber}</td>
             <td>${event.reasonString}</td>
             <td>${event.remark}</td>
-            <td>${formatZuluTime(event.downTime)}</td>
+            <td>${event.downTime}</td>
         `;
         tableBody.appendChild(row);
     });
