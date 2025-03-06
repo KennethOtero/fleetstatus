@@ -18,6 +18,8 @@ const URI_DOWNTIME_REPORT      = "/v1/DownTimeReport";
 // User endpoints
 const URI_AUTH_STATUS          = "/v1/auth/status";
 
+const URI_CALENDER_EVENT_HISTORY= "/v1/CalenderEventHistory";
+
 /**
  * Catch-all to convert both T-SQL DATETIME and ISO formats to datetime-local
  * @param inputDate

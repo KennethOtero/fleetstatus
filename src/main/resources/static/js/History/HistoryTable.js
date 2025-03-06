@@ -1,3 +1,6 @@
+
+var calendar; // **定义全局变量**
+
 document.addEventListener("DOMContentLoaded", function() {
     // Get elements
     const startTimeInput = document.getElementById("startTime");
@@ -9,6 +12,36 @@ document.addEventListener("DOMContentLoaded", function() {
     startTimeInput.value = formattedDate;
     endTimeInput.value = formattedDate;
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        height: 'auto',
+        contentHeight: 500,
+        aspectRatio: 2,
+        eventOverlap: true,  // 允许同一天多个事件
+        slotEventOverlap: false,  // 让事件不会重叠
+
+        events: function(fetchInfo, successCallback, failureCallback) {
+            fetch(URI_EVENT_HISTORY)
+                .then(response => response.json())
+                .then(events => {
+                    const formattedEvents = events.map(event => ({
+                        title: `${event.tailNumber} (${event.reason})`,
+                        start: event.start,
+                        end: event.end || event.start,
+                        color: event.color || getRandomColor(),
+                        display: 'block'
+                    }));
+                    successCallback(formattedEvents);
+                })
+                .catch(error => failureCallback(error));
+        }
+    });
+    calendar.render();
+});
+
 
 
 window.onload = function() {
@@ -75,15 +108,15 @@ function filterEventHistory(baseUrl){
 }
 
 function getEventHistory() {
+    const urlTable = filterEventHistory(URI_EVENT_HISTORY);  // 表格数据
+    const urlCalendar = filterEventHistory(URI_CALENDER_EVENT_HISTORY);  // 日历数据
 
-    const url = filterEventHistory(URI_EVENT_HISTORY);
-
-    // Send a request to get data
-    fetch(url)
+    // 请求表格数据
+    fetch(urlTable)
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById("statusDisplay");
-            tableBody.innerHTML = '';  // Clear previous data
+            tableBody.innerHTML = '';  // 清除旧数据
 
             if (data.length === 0) {
                 tableBody.innerHTML = `
@@ -93,10 +126,37 @@ function getEventHistory() {
                 return;
             }
 
-            displayEventHistory(data);
+            displayEventHistory(data);  // 更新表格
         })
         .catch(error => console.log("Error fetching event history:", error));
+
+    // 请求日历数据
+    fetch(urlCalendar)
+        .then(response => response.json())
+        .then(data => {
+            updateCalendarEvents(data);  // 更新日历
+        })
+        .catch(error => console.log("Error fetching calendar events:", error));
 }
+
+
+function updateCalendarEvents(eventData) {
+    // 清除现有的日历事件
+    calendar.getEvents().forEach(event => event.remove());
+
+    // 重新添加新的事件
+    eventData.forEach(event => {
+        calendar.addEvent({
+            title: `${event.title}`,
+            start: event.start,
+            end: event.end || event.start,
+            color: event.color,  // 颜色自动分配
+            display: 'block'  // 让事件填满日历格子
+        });
+    });
+}
+
+
 
 function displayEventHistory(events) {
     const tableBody = document.getElementById("statusDisplay");
