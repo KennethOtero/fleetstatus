@@ -177,20 +177,20 @@ public class EventController {
             List<Event> events = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
             List<Map<String, Object>> calendarEvents = new ArrayList<>();
 
-            // 颜色映射：用于存储 Tail Number 对应的颜色
+            // Color map: used to store the color corresponding to the Tail Number
             Map<String, String> colorMap = new HashMap<>();
 
             for (Event event : events) {
                 String tailNum = event.getAircraft().getTailNumber();
 
-                // 如果 Tail Number 没有颜色，随机生成一个
+                // If Tail Number has no color, randomly generate one
                 colorMap.putIfAbsent(tailNum, generateRandomColor());
 
                 Map<String, Object> eventData = new HashMap<>();
                 eventData.put("title", tailNum + " (" + event.getReasonString() + ")");
                 eventData.put("start", event.getStartTime().toString());
                 eventData.put("end", event.getEndTime() != null ? event.getEndTime().toString() : event.getStartTime().toString());
-                eventData.put("color", colorMap.get(tailNum)); // 使用自动分配的颜色
+                eventData.put("color", colorMap.get(tailNum)); // Use automatically assigned colors
 
                 calendarEvents.add(eventData);
             }
@@ -203,7 +203,7 @@ public class EventController {
     }
 
     /**
-     * 生成随机颜色（HEX 格式）
+     * Generate random colors (HEX format)
      */
     private String generateRandomColor() {
         Random random = new Random();

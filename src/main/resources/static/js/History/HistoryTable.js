@@ -1,5 +1,5 @@
 
-var calendar; // **定义全局变量**
+var calendar; // Defining global variables
 
 document.addEventListener("DOMContentLoaded", function() {
     // Get elements
@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
         height: 'auto',
         contentHeight: 500,
         aspectRatio: 2,
-        eventOverlap: true,  // 允许同一天多个事件
-        slotEventOverlap: false,  // 让事件不会重叠
+        eventOverlap: true,  // Allow multiple events on the same day
+        slotEventOverlap: false,  // Prevent events from overlapping
 
         events: function(fetchInfo, successCallback, failureCallback) {
             fetch(URI_EVENT_HISTORY)
@@ -108,15 +108,15 @@ function filterEventHistory(baseUrl){
 }
 
 function getEventHistory() {
-    const urlTable = filterEventHistory(URI_EVENT_HISTORY);  // 表格数据
-    const urlCalendar = filterEventHistory(URI_CALENDER_EVENT_HISTORY);  // 日历数据
+    const urlTable = filterEventHistory(URI_EVENT_HISTORY);  // Tabular Data
+    const urlCalendar = filterEventHistory(URI_CALENDER_EVENT_HISTORY);  // Calendar data
 
     // 请求表格数据
     fetch(urlTable)
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById("statusDisplay");
-            tableBody.innerHTML = '';  // 清除旧数据
+            tableBody.innerHTML = '';  // Clear old data
 
             if (data.length === 0) {
                 tableBody.innerHTML = `
@@ -126,7 +126,7 @@ function getEventHistory() {
                 return;
             }
 
-            displayEventHistory(data);  // 更新表格
+            displayEventHistory(data);  // Update table
         })
         .catch(error => console.log("Error fetching event history:", error));
 
@@ -134,24 +134,24 @@ function getEventHistory() {
     fetch(urlCalendar)
         .then(response => response.json())
         .then(data => {
-            updateCalendarEvents(data);  // 更新日历
+            updateCalendarEvents(data);  // Update Calendar
         })
         .catch(error => console.log("Error fetching calendar events:", error));
 }
 
 
 function updateCalendarEvents(eventData) {
-    // 清除现有的日历事件
+    // Clear existing calendar events
     calendar.getEvents().forEach(event => event.remove());
 
-    // 重新添加新的事件
+    // Re-add new events
     eventData.forEach(event => {
         calendar.addEvent({
             title: `${event.title}`,
             start: event.start,
             end: event.end || event.start,
-            color: event.color,  // 颜色自动分配
-            display: 'block'  // 让事件填满日历格子
+            color: event.color,
+            display: 'block'  // Fill the calendar grid with events
         });
     });
 }

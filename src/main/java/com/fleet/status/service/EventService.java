@@ -108,7 +108,7 @@ public class EventService {
         try {
             List<Event> data = getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
 
-            // 计算每个 Tail Number 的总停机时间
+            // Calculate the total downtime for each Tail Number
             Map<String, Long> tailNumberDowntimeMap = new HashMap<>();
 
             for (Event event : data) {
@@ -154,16 +154,16 @@ public class EventService {
             }
 
 
-            // 生成 CSV 文件
+            // Generate CSV file
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(outputStream);
             CSVWriter csvWriter = new CSVWriter(writer);
 
-            // 自定义 CSV 头部
+            // Custom CSV Header
             String[] header = {"Tail #", "Event Date", "End Time", "Downtime", "Reason", "Remark", "Back in Service", "Next Update"};
             csvWriter.writeNext(header);
 
-            // 写入数据
+            // Writing Data
             for (Event event : data) {
                 String[] rowData = new String[]{
                         event.getAircraft().getTailNumber(),
@@ -178,7 +178,7 @@ public class EventService {
                 csvWriter.writeNext(rowData);
             }
 
-            // 在 CSV 末尾添加每个 Tail Number 的总停机时间
+            // Add the total downtime for each Tail Number at the end of the CSV
             csvWriter.writeNext(new String[]{"", "", "", "", "", "", "", ""});
             csvWriter.writeNext(new String[]{"Tail Number", "Total Downtime"});
 
