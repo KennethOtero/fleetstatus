@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @Slf4j
@@ -162,5 +162,56 @@ public class EventController {
                 .headers(headers)
                 .body(csvData);
     }
+
+    @GetMapping(UriConstants.URI_CALENDER_EVENT_HISTORY)
+    @ResponseBody
+    public ResponseEntity<List<Map<String, Object>>> getHistoryForCalender(
+            @RequestParam(required = false) Integer carrierId,
+            @RequestParam(required = false) Integer typeId,
+            @RequestParam(required = false) String tailNumber,
+            @RequestParam(required = false) List<Integer> reasonIds,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+    ) {
+        try {
+            List<Event> events = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
+            List<Map<String, Object>> calendarEvents = new ArrayList<>();
+
+            // Color map: used to store the color corresponding to the Tail Number
+            Map<String, String> colorMap = new HashMap<>();
+
+            for (Event event : events) {
+                String tailNum = event.getAircraft().getTailNumber();
+
+                // If Tail Number has no color, randomly generate one
+                colorMap.putIfAbsent(tailNum, generateRandomColor());
+
+                Map<String, Object> eventData = new HashMap<>();
+                eventData.put("title", tailNum + " (" + event.getReasonString() + ")");
+                eventData.put("start", event.getStartTime().toString());
+                eventData.put("end", event.getEndTime() != null ? event.getEndTime().toString() : event.getStartTime().toString());
+                eventData.put("color", colorMap.get(tailNum)); // Use automatically assigned colors
+
+                calendarEvents.add(eventData);
+            }
+
+            return new ResponseEntity<>(calendarEvents, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Failed to get history: {}", e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Generate random colors (HEX format)
+     */
+    private String generateRandomColor() {
+        Random random = new Random();
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        return String.format("#%02x%02x%02x", r, g, b);
+    }
+
 
 }

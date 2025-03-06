@@ -1,3 +1,6 @@
+
+var calendar; // Defining global variables
+
 document.addEventListener("DOMContentLoaded", function() {
     // Get elements
     const startTimeInput = document.getElementById("startTime");
@@ -9,6 +12,36 @@ document.addEventListener("DOMContentLoaded", function() {
     startTimeInput.value = formattedDate;
     endTimeInput.value = formattedDate;
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        height: 'auto',
+        contentHeight: 500,
+        aspectRatio: 2,
+        eventOverlap: true,  // Allow multiple events on the same day
+        slotEventOverlap: false,  // Prevent events from overlapping
+
+        events: function(fetchInfo, successCallback, failureCallback) {
+            fetch(URI_EVENT_HISTORY)
+                .then(response => response.json())
+                .then(events => {
+                    const formattedEvents = events.map(event => ({
+                        title: `${event.tailNumber} (${event.reason})`,
+                        start: event.start,
+                        end: event.end || event.start,
+                        color: event.color || getRandomColor(),
+                        display: 'block'
+                    }));
+                    successCallback(formattedEvents);
+                })
+                .catch(error => failureCallback(error));
+        }
+    });
+    calendar.render();
+});
+
 
 
 window.onload = function() {
@@ -75,15 +108,15 @@ function filterEventHistory(baseUrl){
 }
 
 function getEventHistory() {
+    const urlTable = filterEventHistory(URI_EVENT_HISTORY);  // Tabular Data
+    const urlCalendar = filterEventHistory(URI_CALENDER_EVENT_HISTORY);  // Calendar data
 
-    const url = filterEventHistory(URI_EVENT_HISTORY);
-
-    // Send a request to get data
-    fetch(url)
+    // request information for table
+    fetch(urlTable)
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById("statusDisplay");
-            tableBody.innerHTML = '';  // Clear previous data
+            tableBody.innerHTML = '';  // Clear old data
 
             if (data.length === 0) {
                 tableBody.innerHTML = `
@@ -93,10 +126,37 @@ function getEventHistory() {
                 return;
             }
 
-            displayEventHistory(data);
+            displayEventHistory(data);  // Update table
         })
         .catch(error => console.log("Error fetching event history:", error));
+
+    // request information for calender
+    fetch(urlCalendar)
+        .then(response => response.json())
+        .then(data => {
+            updateCalendarEvents(data);  // Update Calendar
+        })
+        .catch(error => console.log("Error fetching calendar events:", error));
 }
+
+
+function updateCalendarEvents(eventData) {
+    // Clear existing calendar events
+    calendar.getEvents().forEach(event => event.remove());
+
+    // Re-add new events
+    eventData.forEach(event => {
+        calendar.addEvent({
+            title: `${event.title}`,
+            start: event.start,
+            end: event.end || event.start,
+            color: event.color,
+            display: 'block'  // Fill the calendar grid with events
+        });
+    });
+}
+
+
 
 function displayEventHistory(events) {
     const tableBody = document.getElementById("statusDisplay");

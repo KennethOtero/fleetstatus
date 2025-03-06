@@ -25,4 +25,5 @@ public class UriConstants
 
     // User endpoints
     public static final String URI_AUTH_STATUS          = "/v1/auth/status";
+    public static final String URI_CALENDER_EVENT_HISTORY = "/v1/CalenderEventHistory";
 }
