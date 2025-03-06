@@ -111,7 +111,7 @@ function getEventHistory() {
     const urlTable = filterEventHistory(URI_EVENT_HISTORY);  // Tabular Data
     const urlCalendar = filterEventHistory(URI_CALENDER_EVENT_HISTORY);  // Calendar data
 
-    // 请求表格数据
+    // request information for table
     fetch(urlTable)
         .then(response => response.json())
         .then(data => {
@@ -130,7 +130,7 @@ function getEventHistory() {
         })
         .catch(error => console.log("Error fetching event history:", error));
 
-    // 请求日历数据
+    // request information for calender
     fetch(urlCalendar)
         .then(response => response.json())
         .then(data => {
