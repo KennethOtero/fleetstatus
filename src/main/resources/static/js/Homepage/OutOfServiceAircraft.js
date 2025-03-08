@@ -25,7 +25,12 @@ function displayOutOfServiceAircraft(events) {
 
     for (let i = 0; i < events.length; i++) {
         const card = document.createElement("div");
-        card.classList.add("col-3");
+        card.classList.add("card-identifier");
+        if (isFullscreen()) {
+            card.classList.add("col-2");
+        } else {
+            card.classList.add("col-3");
+        }
 
         // Get correct aircraft image
         let imagePath = "";
@@ -37,16 +42,12 @@ function displayOutOfServiceAircraft(events) {
 
         // Display card
         card.innerHTML = `
-        <div class="card text-white bg-dark mb-3">
+        <div class="card text-white mb-3 ${isFullscreen() ? "bg-black" : "bg-dark"}">
             <img src="${imagePath}" alt="aircraft status image" class="card-img-top"/>
-            <hr>
             <div class="card-body">
                 <p class="card-title">${events[i].aircraft.tailNumber}</p>
-                <hr>
                 <p class="card-text">${events[i].reasonString}</p>
-                <hr>
                 <p class="card-text">${truncateText(events[i].remark)}</p>
-                <hr>
                 <p>${events[i].backInService === 0 ? "Next Update:" : "Down Time:"}</p>
                 <p class="card-text">${events[i].backInService === 0 ? formatTime(events[i].nextUpdate) : events[i].downTime}</p>
             </div>

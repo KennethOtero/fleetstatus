@@ -2,26 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1"/>
-<title>Fleet Status</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/style.css">
+    <title>Fleet Status</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/Homepage.css">
 </head>
 <body class="p-3 mb-2 text-white">
 
     <div th:replace="~{fragments/navbar :: sideMenu}"></div>
 
-    <div class="container">
+    <div class="fullscreen-checkbox form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="fullscreenCheckbox">
+    </div>
+
+    <div class="container d-block" id="titleContainer">
         <div>
             <h2 class="PageTitle">Fleet Status</h2>
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="aircraftContainer">
         <div class="row justify-content-center" id="outOfServiceAircraft">
             <!-- Cards will be populated automatically -->
         </div>
     </div>
 
     <script src="/js/Homepage/OutOfServiceAircraft.js"></script>
+    <script src="/js/Homepage/Fullscreen.js"></script>
 </body>
 </html>
