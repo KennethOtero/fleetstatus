@@ -3,20 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- Controls Spring Boot version -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.4</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
-	<!-- Project Information-->
 	<groupId>com.fleet</groupId>
 	<artifactId>fleet-status</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Fleet Status</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Senior Design Capstone Project</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -31,19 +29,15 @@
 		<url/>
 	</scm>
 
-	<!-- Java Version -->
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 
-	<!-- Global Dependencies -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
-		<!-- Imported Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -76,8 +70,6 @@
 			<artifactId>opencsv</artifactId>
 			<version>5.10</version>
 		</dependency>
-
-		<!-- Additional Dependencies -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -99,7 +91,6 @@
         </dependency>
     </dependencies>
 
-	<!-- Build Information and Plugins -->
 	<build>
 		<plugins>
 			<plugin>

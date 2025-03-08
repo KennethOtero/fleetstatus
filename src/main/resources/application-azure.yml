@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: azure
+  datasource:
+    url: jdbc:sqlserver://dhlfleetstatus.database.windows.net;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
+    username: fleetstatus_admin
+    password: P@$$w0rd2!

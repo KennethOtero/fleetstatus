@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@Profile("dev")
+@Profile("!test")
 public class UserController {
 
     @GetMapping(UriConstants.URI_AUTH_STATUS)

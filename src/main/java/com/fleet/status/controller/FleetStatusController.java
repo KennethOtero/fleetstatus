@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@Profile("dev")
+@Profile("!test")
 public class FleetStatusController {
 
     @GetMapping(UriConstants.URI_HOME)

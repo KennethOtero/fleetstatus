@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@Profile("dev")
+@Profile("!test")
 public class SecurityConfig {
 
     private final UserService userDetailsService;

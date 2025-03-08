@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Profile("dev")
+@Profile("!test")
 public class UserPrincipal implements UserDetails {
 
     private final User user;

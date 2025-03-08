@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile("dev")
+@Profile("!test")
 public class DatabaseInitializer {
 
     /**
