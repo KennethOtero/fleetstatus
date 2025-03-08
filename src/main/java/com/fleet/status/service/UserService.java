@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Profile("dev")
+@Profile("!test")
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;

@@ -29,7 +29,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-@Profile("dev")
+@Profile("!test")
 @RequiredArgsConstructor
 public class EventService {
 

@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@Profile("dev")
+@Profile("!test")
 @RequiredArgsConstructor
 public class AircraftController {
 

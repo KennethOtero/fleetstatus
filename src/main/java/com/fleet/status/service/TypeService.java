@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Profile("dev")
+@Profile("!test")
 @RequiredArgsConstructor
 public class TypeService {
 

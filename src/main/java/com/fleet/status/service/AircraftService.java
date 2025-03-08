@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Profile("dev")
+@Profile("!test")
 @RequiredArgsConstructor
 @Slf4j
 public class AircraftService {

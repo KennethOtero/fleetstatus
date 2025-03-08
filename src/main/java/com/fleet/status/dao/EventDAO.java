@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Repository
-@Profile("dev")
+@Profile("!test")
 @Slf4j
 @RequiredArgsConstructor
 public class EventDAO {

@@ -2,25 +2,15 @@ spring:
     application:
         name: Fleet Status
     profiles:
-        active: dev
+        active: local
     jpa:
         hibernate:
-            format_sql: true
             naming:
                 implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     datasource:
         hikari:
             connection-timeout: 30000
-        # Azure DB connection
-#        url: jdbc:sqlserver://dhlfleetstatus.database.windows.net;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
-#        username: fleetstatus_admin
-#        password: P@$$w0rd2!
-
-        # Local DB connection for testing
-        url: jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
-        username: sa
-        password: password
 
 server:
     error:
