@@ -2,7 +2,7 @@ spring:
     application:
         name: Fleet Status
     profiles:
-        active: dev
+        active: local
     jpa:
         hibernate:
             naming:
