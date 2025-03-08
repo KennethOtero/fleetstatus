@@ -6,7 +6,7 @@ name: Build and deploy WAR app to Azure Web App - fleetstatus
 on:
   push:
     branches:
-      - CICD
+      - main
   workflow_dispatch:
 
 jobs:
