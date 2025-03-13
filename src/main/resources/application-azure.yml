@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://dhlfleetstatus.database.windows.net;encrypt=true;trustServerCertificate=true;databaseName=dhl_fleetstatus
-    username: fleetstatus_admin
-    password: P@$$w0rd2!
+    url: ${ AZURE_DB_URL }
+    username: ${ AZURE_DB_USER }
+    password: ${ AZURE_DB_PASSWORD }

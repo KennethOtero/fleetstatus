@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SPRING_PROFILES_ACTIVE: azure
+      AZURE_DB_URL: ${{ secrets.AZURE_DB_URL }}
+      AZURE_DB_USER: ${{ secrets.AZURE_DB_USER }}
+      AZURE_DB_PASSWORD: ${{ secrets.AZURE_DB_PASSWORD }}
     permissions:
       contents: read
 
