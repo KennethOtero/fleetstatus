@@ -17,6 +17,10 @@
 }
 
 /* Override Bootstrap defaults */
+.container {
+	width: 80% !important;
+}
+
 .bg-dark {
 	background-color: var(--light-gray) !important;
 }
