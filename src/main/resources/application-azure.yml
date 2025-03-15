@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: ${ AZURE_DB_URL }
-    username: ${ AZURE_DB_USER }
-    password: ${ AZURE_DB_PASSWORD }
+    url: ${AZURE_DB_URL}
+    username: ${AZURE_DB_USER}
+    password: ${AZURE_DB_PASSWORD}
