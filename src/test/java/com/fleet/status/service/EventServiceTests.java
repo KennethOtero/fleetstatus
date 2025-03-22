@@ -67,4 +67,9 @@ public class EventServiceTests {
     void testGetFilteredEvents() {
 
     }
+
+    @Test
+    void testGenerateRandomColor() {
+
+    }
 }

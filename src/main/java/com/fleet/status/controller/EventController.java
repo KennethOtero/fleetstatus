@@ -182,7 +182,7 @@ public class EventController {
                 String tailNum = event.getAircraft().getTailNumber();
 
                 // If Tail Number has no color, randomly generate one
-                colorMap.putIfAbsent(tailNum, generateRandomColor());
+                colorMap.putIfAbsent(tailNum, eventService.generateRandomColor());
 
                 Map<String, Object> eventData = new HashMap<>();
                 eventData.put("title", tailNum + " (" + event.getReasonString() + ")");
@@ -199,17 +199,4 @@ public class EventController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    /**
-     * Generate random colors (HEX format)
-     */
-    private String generateRandomColor() {
-        Random random = new Random();
-        int r = random.nextInt(256);
-        int g = random.nextInt(256);
-        int b = random.nextInt(256);
-        return String.format("#%02x%02x%02x", r, g, b);
-    }
-
-
 }
