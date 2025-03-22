@@ -2,10 +2,11 @@ package com.fleet.status.service;
 
 import com.fleet.status.dao.repository.TypeRepository;
 import com.fleet.status.entity.Type;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
 public class TypeServiceTests {
 
     @InjectMocks
@@ -21,6 +21,11 @@ public class TypeServiceTests {
 
     @Mock
     public TypeRepository typeRepository;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void testFindAllTypes() {

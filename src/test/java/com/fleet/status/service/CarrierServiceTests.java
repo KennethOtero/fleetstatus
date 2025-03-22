@@ -5,23 +5,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.fleet.status.dao.repository.CarrierRepository;
 import com.fleet.status.entity.Carrier;
-import org.springframework.boot.test.context.SpringBootTest;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
 
-@SpringBootTest
 public class CarrierServiceTests {
+
+    @InjectMocks
+    private CarrierService carrierService;
 
     @Mock
     private CarrierRepository carrierRepository;
 
-    @InjectMocks
-    private CarrierService carrierService;
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void testGetAllCarrier() {

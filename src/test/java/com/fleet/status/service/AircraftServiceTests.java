@@ -2,18 +2,18 @@ package com.fleet.status.service;
 
 import com.fleet.status.dao.repository.AircraftRepository;
 import com.fleet.status.entity.Aircraft;
-import org.springframework.boot.test.context.SpringBootTest;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
 
-@SpringBootTest
 public class AircraftServiceTests {
 
     @InjectMocks
@@ -21,6 +21,11 @@ public class AircraftServiceTests {
 
     @Mock
     private AircraftRepository aircraftRepository;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testSave() {

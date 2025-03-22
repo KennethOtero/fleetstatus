@@ -2,18 +2,18 @@ package com.fleet.status.service;
 
 import com.fleet.status.dao.repository.UserRepository;
 import com.fleet.status.entity.User;
-import org.springframework.boot.test.context.SpringBootTest;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 public class UserServiceTests {
 
     @InjectMocks
@@ -21,6 +21,11 @@ public class UserServiceTests {
 
     @Mock
     private UserRepository userRepository;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void testLoadUserByUsername_UserFound() {
