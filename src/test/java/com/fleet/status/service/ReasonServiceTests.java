@@ -23,7 +23,7 @@ public class ReasonServiceTests {
     private ReasonRepository reasonRepository;
 
     @Test
-    void testGetAllCarrier() {
+    void testGetAllReasons() {
         Reason reason1 = new Reason();
         Reason reason2 = new Reason();
         List<Reason> reasons = Arrays.asList(reason1, reason2);
