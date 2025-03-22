@@ -105,7 +105,7 @@ public class AircraftControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"field\": \"value\"}")
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError());
+                        .andExpect(status().isInternalServerError());
     }
 
     @Test
