@@ -10,7 +10,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -20,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Repository
-@Profile("!test")
 @Slf4j
 @RequiredArgsConstructor
 public class EventDAO {

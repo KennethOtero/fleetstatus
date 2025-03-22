@@ -9,7 +9,6 @@ import com.github.fge.jsonpatch.JsonPatch;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +23,6 @@ import java.util.*;
 
 @RestController
 @Slf4j
-@Profile("!test")
 @RequiredArgsConstructor
 public class EventController {
 

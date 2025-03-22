@@ -9,7 +9,6 @@ import com.fleet.status.service.CarrierService;
 import com.fleet.status.service.TypeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,7 +19,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@Profile("!test")
 @RequiredArgsConstructor
 public class AircraftController {
 

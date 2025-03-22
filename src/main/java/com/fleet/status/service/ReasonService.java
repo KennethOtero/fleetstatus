@@ -3,12 +3,10 @@ package com.fleet.status.service;
 import com.fleet.status.dao.repository.ReasonRepository;
 import com.fleet.status.entity.Reason;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Profile("!test")
 @RequiredArgsConstructor
 public class ReasonService {
 
