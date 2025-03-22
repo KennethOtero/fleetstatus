@@ -1,15 +1,9 @@
+# Test environment specific properties if needed:
+# ===============================================
+
 spring:
-  datasource:
-    url: jdbc:h2:mem:public
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    defer-datasource-initialization: true
-  sql:
-    init:
-      mode: always
+  autoconfigure:
+    exclude:
+      # Disable database connectivity
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
