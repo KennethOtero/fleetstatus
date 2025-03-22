@@ -4,14 +4,12 @@ import com.fleet.status.dao.repository.AircraftRepository;
 import com.fleet.status.entity.Aircraft;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Profile("!test")
 @RequiredArgsConstructor
 @Slf4j
 public class AircraftService {

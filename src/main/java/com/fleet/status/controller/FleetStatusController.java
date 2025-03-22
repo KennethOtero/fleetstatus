@@ -1,12 +1,10 @@
 package com.fleet.status.controller;
 
 import com.fleet.status.config.UriConstants;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@Profile("!test")
 public class FleetStatusController {
 
     @GetMapping(UriConstants.URI_HOME)

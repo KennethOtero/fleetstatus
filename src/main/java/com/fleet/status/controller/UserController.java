@@ -1,7 +1,6 @@
 package com.fleet.status.controller;
 
 import com.fleet.status.config.UriConstants;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +14,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@Profile("!test")
 public class UserController {
 
     @GetMapping(UriConstants.URI_AUTH_STATUS)
