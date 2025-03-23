@@ -17,7 +17,9 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -183,5 +185,34 @@ public class EventServiceTests {
     void testGenerateRandomColor() {
         String result = eventService.generateRandomColor();
         assertNotNull(result);
+    }
+
+    @Test
+    public void testGetCalendarEvents() {
+        List<Event> events = new ArrayList<>();
+        Event event1 = mock(Event.class);
+        Event event2 = mock(Event.class);
+        Aircraft aircraft1 = mock(Aircraft.class);
+        Aircraft aircraft2 = mock(Aircraft.class);
+        Instant startTime = Instant.now();
+        Instant endTime = Instant.now();
+
+        when(event1.getAircraft()).thenReturn(aircraft1);
+        when(event2.getAircraft()).thenReturn(aircraft2);
+        when(aircraft1.getTailNumber()).thenReturn("N767AX");
+        when(aircraft2.getTailNumber()).thenReturn("N747AX");
+        when(event1.getReasonString()).thenReturn("Maintenance");
+        when(event2.getReasonString()).thenReturn("AOG");
+        when(event1.getStartTime()).thenReturn(startTime);
+        when(event2.getStartTime()).thenReturn(startTime);
+        when(event1.getEndTime()).thenReturn(endTime);
+        when(event2.getEndTime()).thenReturn(null);
+
+        events.add(event1);
+        events.add(event2);
+
+        List<Map<String, Object>> calendarEvents = eventService.getCalendarEvents(events);
+
+        assertEquals(2, calendarEvents.size());
     }
 }

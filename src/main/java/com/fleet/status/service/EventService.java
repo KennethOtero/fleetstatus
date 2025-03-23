@@ -22,10 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -254,5 +251,29 @@ public class EventService {
         int g = random.nextInt(256);
         int b = random.nextInt(256);
         return String.format("#%02x%02x%02x", r, g, b);
+    }
+
+    public List<Map<String, Object>> getCalendarEvents(List<Event> events) {
+        List<Map<String, Object>> calendarEvents = new ArrayList<>();
+
+        // Color map: used to store the color corresponding to the Tail Number
+        Map<String, String> colorMap = new HashMap<>();
+
+        for (Event event : events) {
+            String tailNum = event.getAircraft().getTailNumber();
+
+            // If Tail Number has no color, randomly generate one
+            colorMap.putIfAbsent(tailNum, generateRandomColor());
+
+            Map<String, Object> eventData = new HashMap<>();
+            eventData.put("title", tailNum + " (" + event.getReasonString() + ")");
+            eventData.put("start", event.getStartTime().toString());
+            eventData.put("end", event.getEndTime() != null ? event.getEndTime().toString() : event.getStartTime().toString());
+            eventData.put("color", colorMap.get(tailNum)); // Use automatically assigned colors
+
+            calendarEvents.add(eventData);
+        }
+
+        return calendarEvents;
     }
 }
