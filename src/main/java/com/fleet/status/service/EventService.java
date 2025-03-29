@@ -245,7 +245,7 @@ public class EventService {
     /**
      * Generate random colors (HEX format)
      */
-    public String generateRandomColor() {
+    private String generateRandomColor() {
         Random random = new Random();
         int r = random.nextInt(256);
         int g = random.nextInt(256);

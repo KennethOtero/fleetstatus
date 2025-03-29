@@ -182,12 +182,6 @@ public class EventServiceTests {
     }
 
     @Test
-    void testGenerateRandomColor() {
-        String result = eventService.generateRandomColor();
-        assertNotNull(result);
-    }
-
-    @Test
     public void testGetCalendarEvents() {
         List<Event> events = new ArrayList<>();
         Event event1 = mock(Event.class);
