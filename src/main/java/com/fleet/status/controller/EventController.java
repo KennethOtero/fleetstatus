@@ -9,7 +9,6 @@ import com.github.fge.jsonpatch.JsonPatch;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +23,6 @@ import java.util.*;
 
 @RestController
 @Slf4j
-@Profile("!test")
 @RequiredArgsConstructor
 public class EventController {
 
@@ -175,43 +173,11 @@ public class EventController {
     ) {
         try {
             List<Event> events = eventService.getFilteredEvents(carrierId, typeId, tailNumber, reasonIds, startDate, endDate);
-            List<Map<String, Object>> calendarEvents = new ArrayList<>();
-
-            // Color map: used to store the color corresponding to the Tail Number
-            Map<String, String> colorMap = new HashMap<>();
-
-            for (Event event : events) {
-                String tailNum = event.getAircraft().getTailNumber();
-
-                // If Tail Number has no color, randomly generate one
-                colorMap.putIfAbsent(tailNum, generateRandomColor());
-
-                Map<String, Object> eventData = new HashMap<>();
-                eventData.put("title", tailNum + " (" + event.getReasonString() + ")");
-                eventData.put("start", event.getStartTime().toString());
-                eventData.put("end", event.getEndTime() != null ? event.getEndTime().toString() : event.getStartTime().toString());
-                eventData.put("color", colorMap.get(tailNum)); // Use automatically assigned colors
-
-                calendarEvents.add(eventData);
-            }
-
+            List<Map<String, Object>> calendarEvents = eventService.getCalendarEvents(events);
             return new ResponseEntity<>(calendarEvents, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Failed to get history: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    /**
-     * Generate random colors (HEX format)
-     */
-    private String generateRandomColor() {
-        Random random = new Random();
-        int r = random.nextInt(256);
-        int g = random.nextInt(256);
-        int b = random.nextInt(256);
-        return String.format("#%02x%02x%02x", r, g, b);
-    }
-
-
 }

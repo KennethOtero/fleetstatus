@@ -13,7 +13,6 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,13 +22,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.time.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
-@Profile("!test")
 @RequiredArgsConstructor
 public class EventService {
 
@@ -244,5 +240,40 @@ public class EventService {
             log.error(e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Generate random colors (HEX format)
+     */
+    private String generateRandomColor() {
+        Random random = new Random();
+        int r = random.nextInt(256);
+        int g = random.nextInt(256);
+        int b = random.nextInt(256);
+        return String.format("#%02x%02x%02x", r, g, b);
+    }
+
+    public List<Map<String, Object>> getCalendarEvents(List<Event> events) {
+        List<Map<String, Object>> calendarEvents = new ArrayList<>();
+
+        // Color map: used to store the color corresponding to the Tail Number
+        Map<String, String> colorMap = new HashMap<>();
+
+        for (Event event : events) {
+            String tailNum = event.getAircraft().getTailNumber();
+
+            // If Tail Number has no color, randomly generate one
+            colorMap.putIfAbsent(tailNum, generateRandomColor());
+
+            Map<String, Object> eventData = new HashMap<>();
+            eventData.put("title", tailNum + " (" + event.getReasonString() + ")");
+            eventData.put("start", event.getStartTime().toString());
+            eventData.put("end", event.getEndTime() != null ? event.getEndTime().toString() : event.getStartTime().toString());
+            eventData.put("color", colorMap.get(tailNum)); // Use automatically assigned colors
+
+            calendarEvents.add(eventData);
+        }
+
+        return calendarEvents;
     }
 }
