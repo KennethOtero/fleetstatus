@@ -1,6 +1,7 @@
 package com.fleet.status.config;
 
 import com.fleet.status.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +27,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final UserService userDetailsService;
-    private final AuthenticationFailureHandler authenticationFailureHandler;
-    private final CustomLogoutSuccessHandler logoutSuccessHandler;
+    private final AuthenticationHandler authenticationHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -50,11 +50,12 @@ public class SecurityConfig {
                 .formLogin(form -> {
                     form.loginPage("/login");
                     form.loginProcessingUrl("/login");
-                    form.failureHandler(authenticationFailureHandler);
+                    form.successHandler(authenticationHandler);
+                    form.failureHandler(authenticationHandler);
                     form.permitAll();
                 })
                 .logout(logout -> {
-                    logout.logoutSuccessHandler(logoutSuccessHandler);
+                    logout.logoutSuccessHandler(authenticationHandler);
                     logout.permitAll();
                 })
                 .sessionManagement(session -> {
